@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EasyVariants - Design Automation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo" style="display: flex; align-items: center; gap: 8px; pointer-events: none; user-select: none;">
+        <div style="width: 80px; height: 80px; overflow: hidden; display: flex; align-items: center; justify-content: flex-start; margin-top: -10px;">
+          <img src="logo.png" alt="EasyVariants" style="height: 100px; width: auto; max-width: none; transform: scale(1.6); transform-origin: left center;" />
+        </div>
+        <span style="font-size: 26px; font-weight: 800; color: #ffffff; letter-spacing: -1px; margin-left: -5px;">EasyVariants</span>
+      </div>
+      <div class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#solution">Our Solution</a>
+        <a href="#how-it-works">How It Works</a>
+        <a href="#demos">Demo Videos</a>
+      </div>
+      <a href="contactus.html" class="nav-cta">Get Your Demo Today</a>
+
+      <!-- Hamburger for mobile -->
+      <button class="menu-toggle" aria-label="Toggle Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu">
+    <a href="#home">Home</a>
+    <a href="#solution">Our Solution</a>
+    <a href="#how-it-works">How It Works</a>
+    <a href="#demos">Demo Videos</a>
+    <a href="contactus.html" class="nav-cta-mobile">Get Your Demo Today</a>
+  </div>
+
+  <!-- HERO SECTION -->
+  <section id="home" class="hero hero-v2 no-scroll">
+    <div class="hero-bg">
+      <div class="orb orb-navy"
+        style="width: 800px; height: 800px; top: -100px; left: -200px; background: rgba(30,58,138,0.3);"></div>
+      <div class="orb orb-purple"
+        style="width: 600px; height: 600px; bottom: -200px; right: 10%; background: rgba(139,92,246,0.15);"></div>
+    </div>
+
+    <div class="container hero-container-v2">
+      <!-- Left 60% -->
+      <div class="hero-left">
+        <h1>
+          <span class="line line-gradient" style="background: linear-gradient(90deg, #3b82f6, #ffffff, #a855f7, #22d3ee); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Speed & Precision — 10× Amplified</span><br />
+          <span class="line line-white">Unleash Unlimited Creativity</span>
+        </h1>
+        <p class="hero-sub">Turn one design into thousands instantly. Automate variations like colors, logos, and styles
+          in minutes.</p>
+
+        <div class="hero-actions">
+          <a href="contactus.html" class="btn btn-primary">Request a Demo Today</a>
+          <a href="#demos" class="btn btn-ghost">Watch Explainer</a>
+        </div>
+      </div>
+
+      <!-- Right 40% -->
+      <div class="hero-right">
+        <img src="eg.jpg" alt="Product Variants Overview"
+          style="width: 100%; max-width: 550px; z-index: 10; animation: floatUp 5s ease-in-out infinite; border-radius: 12px;" />
+      </div>
+    </div>
+  </section>
+
+  <!-- MEET EASYVARIANTS SECTION -->
+  <section id="meet" class="meet-section section-scroll section-alt-bg">
+    <div class="container">
+      <div class="section-center" style="margin-bottom: 60px;">
+        <h2>Meet EasyVariants</h2>
+      </div>
+      <div class="meet-layout">
+        <div class="meet-left">
+          <div class="meet-video-frame glass-card"
+            style="padding:0; overflow:hidden; position:relative; border-radius: 20px; border: 1px solid rgba(139, 92, 246, 0.3); background: rgba(12, 18, 40, 0.4);">
+
+            <!-- Multi-slide content wrapper -->
+            <div class="meet-carousel-content"
+              style="position:relative; width:100%; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center;">
+
+              <!-- Main Video -->
+              <video id="meet-main-vid" src="sweatshirt_v.mp4" autoplay loop muted playsinline
+                style="width: 100%; height: 100%; object-fit: cover;"></video>
+
+              <!-- Carousel Overlay UI from Image -->
+              <div class="meet-video-overlay"
+                style="position:absolute; bottom:0; left:0; width:100%; height:60px; background: linear-gradient(transparent, rgba(0,0,0,0.4)); pointer-events:none;">
+              </div>
+
+              <div class="meet-bottom-controls"
+                style="position:absolute; bottom: 15px; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 25px; z-index: 10;">
+                <div id="meet-badge"
+                  style="font-size: 14px; color: rgba(255,255,255,0.85); font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;">
+                  Sweatshirt Patterns</div>
+
+                <div class="m-dots-row" style="display: flex; gap: 8px;">
+                  <button class="m-dot active" data-idx="0"></button>
+                  <button class="m-dot" data-idx="1"></button>
+                  <button class="m-dot" data-idx="2"></button>
+                </div>
+
+                <button id="meet-pause-play"
+                  style="background: none; border: none; cursor: pointer; color: white; display: flex; align-items: center; justify-content: center; padding: 0;">
+                  <svg id="pp-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <rect x="6" y="4" width="4" height="16"></rect>
+                    <rect x="14" y="4" width="4" height="16"></rect>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="meet-right">
+          <p>In the fast-paced world of consumer products, innovation is constant. New colors, fresh logos, unique
+            wordmarks, seasonal changes, and custom text lead to an overwhelming number of product variants. Sound
+            familiar?</p>
+          <p style="margin-top: 24px;">Are your designers spending endless hours on repetitive tasks — copying, pasting,
+            resizing, and manually adjusting colors for countless variants? Is maintaining brand consistency across
+            hundreds of products a constant battle? Do you need rapid customization to slash your time-to-market, or
+            dream of offering personalized products without the design workload nightmare?</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE PROBLEM SECTION -->
+  <section id="problem" class="problem section-scroll">
+    <div class="glow-bg problem-glow"></div>
+    <div class="container">
+      <div class="section-center">
+        <div class="badge">THE PROBLEM</div>
+        <h2>The Design Bottleneck</h2>
+        <p>Manual variant creation isn't just time-consuming — it's a bottleneck that drains your team's creativity,
+          compromises design consistency, and slows down your market speed. Are your designers spending endless hours
+          copying, pasting, resizing, and manually adjusting colors for countless variants?</p>
+      </div>
+
+      <div class="bento-grid">
+        <div class="card card-top-border">
+          <img src="https://easyvariants.com/img/problem1.png" alt="Repetitive Work" class="card-icon" />
+          <h3>Repetitive Manual Work</h3>
+          <p>Designers drowning in the tedious cycle of duplicating designs for every new colorway, logo placement, or
+            text change.</p>
+        </div>
+        <div class="card card-top-border">
+          <img src="https://easyvariants.com/img/problem2.png" alt="Consistency Challenges" class="card-icon" />
+          <h3>Consistency Challenges</h3>
+          <p>Ensuring every variant adheres perfectly to brand guidelines becomes insurmountable, leading to costly
+            errors.</p>
+        </div>
+        <div class="card card-top-border">
+          <img src="https://easyvariants.com/img/problem3.png" alt="Slow Time-to-Market" class="card-icon" />
+          <h3>Slow Time-to-Market</h3>
+          <p>The sheer volume of manual work delays the launch of new collections and personalized offerings.</p>
+        </div>
+        <div class="card card-top-border">
+          <img src="https://easyvariants.com/img/problem4.png" alt="Limited Customization" class="card-icon" />
+          <h3>Limited Customization</h3>
+          <p>The fear of overwhelming design workload prevents you from offering the personalized products consumers
+            crave.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- SMART AUTOMATION SYSTEM (OUR SOLUTION) -->
+  <section id="solution" class="smart-automation section-scroll section-alt-bg">
+    <div class="container">
+      <div class="section-center" style="margin-bottom: 60px;">
+        <h2>Smart Automation System</h2>
+        <p style="color: var(--color-body); font-size: 18px;">Intelligent design automation that scales your creativity.
+        </p>
+      </div>
+
+      <div class="sa-layout">
+        <!-- Left: Flat Minimal 2x2 Grid -->
+        <div class="sa-grid">
+          <div class="sa-card">
+            <h4>Variable Control</h4>
+            <p>Define text, colors, and images once — reuse everywhere instantly.</p>
+          </div>
+          <div class="sa-card">
+            <h4>Intelligent Generation</h4>
+            <p>Automatically create hundreds of design variations in seconds.</p>
+          </div>
+          <div class="sa-card">
+            <h4>Layer Management</h4>
+            <p>Organize static and dynamic elements with precision control.</p>
+          </div>
+          <div class="sa-card">
+            <h4>Export Anywhere</h4>
+            <p>Download assets in multiple formats, ready for any platform.</p>
+          </div>
+        </div>
+
+        <!-- Right: Premium Highlight Card (Glassmorphism Focus) -->
+        <div class="sa-highlight">
+          <div class="workflow-card premium-glass"
+            style="height: 100%; display: flex; flex-direction: column; justify-content: center;">
+            <div class="wf-row">
+              <div class="wf-label"><span class="wf-dot" style="background: #8B5CF6;"></span> Design Variables</div>
+              <div class="wf-value">32</div>
+            </div>
+            <div class="wf-row">
+              <div class="wf-label"><span class="wf-dot" style="background: #3B82F6;"></span> Color Variants</div>
+              <div class="wf-value">18</div>
+            </div>
+            <div class="wf-row">
+              <div class="wf-label"><span class="wf-dot" style="background: #06b6d4;"></span> Image Assets</div>
+              <div class="wf-value">12</div>
+            </div>
+
+            <div class="wf-footer" style="margin-top: 32px;">
+              <span class="wf-footer-label">Design Variations Generated</span>
+              <span class="wf-footer-val gradient-text">10,000+</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS SECTION -->
+  <section id="how-it-works" class="how-it-works section-scroll">
+    <div class="container">
+      <div class="section-center">
+        <div class="badge">HOW IT WORKS</div>
+        <h2>Automate in 3 Steps</h2>
+      </div>
+
+      <div class="snake-container"
+        style="position: relative; max-width: 900px; margin: 80px auto 0; padding-bottom: 20px;">
+        <!-- SVGs for the curved line -->
+        <svg class="snake-svg" preserveAspectRatio="none"
+          style="position: absolute; top: 40px; left: 40px; width: calc(100% - 80px); height: calc(100% - 80px); z-index: 0; pointer-events: none;"
+          viewBox="0 0 100 100">
+          <path d="M 0 0 C 133.33 0, 133.33 100, 0 100" fill="none" stroke="rgba(139, 92, 246, 0.4)" stroke-width="2.5"
+            stroke-dasharray="6,6" vector-effect="non-scaling-stroke" />
+        </svg>
+
+        <!-- Step 1 -->
+        <div class="snake-step" style="display: flex; justify-content: flex-start; position: relative; z-index: 1;">
+          <div class="ss-inner" style="display: flex; align-items: center; width: 80%; max-width: 480px;">
+            <div class="sn-num"
+              style="background:#0C1228; border:2px solid #8B5CF6; box-shadow: 0 0 20px rgba(139,92,246,0.5); width: 80px; height: 80px; border-radius: 50%; display: flex; align-items:center; justify-content:center; font-size:28px; font-weight:bold; color:white; flex-shrink:0;">
+              1</div>
+            <div class="glass-card ss-card"
+              style="margin-left: 24px; padding: 24px; flex: 1; display: flex; align-items: center;">
+              <h3 style="margin: 0; font-size:22px;">Define Variables</h3>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="snake-step ss-right"
+          style="display: flex; justify-content: flex-end; position: relative; z-index: 1; margin-top: 60px;">
+          <div class="ss-inner"
+            style="display: flex; align-items: center; width: 80%; max-width: 480px; flex-direction: row-reverse; text-align: right;">
+            <div class="sn-num"
+              style="background:#0C1228; border:2px solid #3B82F6; box-shadow: 0 0 20px rgba(59,130,246,0.5); width: 80px; height: 80px; border-radius: 50%; display: flex; align-items:center; justify-content:center; font-size:28px; font-weight:bold; color:white; flex-shrink:0;">
+              2</div>
+            <div class="glass-card ss-card"
+              style="margin-right: 24px; padding: 24px; flex: 1; display: flex; justify-content: flex-start; align-items: center; text-align: left;">
+              <h3 style="margin: 0; font-size:22px;">Maintain Consistency</h3>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="snake-step"
+          style="display: flex; justify-content: flex-start; position: relative; z-index: 1; margin-top: 60px;">
+          <div class="ss-inner" style="display: flex; align-items: center; width: 80%; max-width: 480px;">
+            <div class="sn-num"
+              style="background:#0C1228; border:2px solid #E8472A; box-shadow: 0 0 20px rgba(232,71,42,0.5); width: 80px; height: 80px; border-radius: 50%; display: flex; align-items:center; justify-content:center; font-size:28px; font-weight:bold; color:white; flex-shrink:0;">
+              3</div>
+            <div class="glass-card ss-card"
+              style="margin-left: 24px; padding: 24px; flex: 1; display: flex; align-items: center;">
+              <h3 style="margin: 0; font-size:22px;">Automate Variations</h3>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- DEMO VIDEOS SECTION (FLIPCARD) -->
+  <section id="demos" class="demo-section section-scroll">
+    <div class="demo-glow"></div>
+    <div class="container" style="max-width: 1400px;">
+      <div class="section-center" style="margin-bottom: 80px;">
+        <h2>Demo Videos</h2>
+      </div>
+      
+      <div class="demo-container" style="display: flex; align-items: center; justify-content: center; gap: 100px; flex-wrap: wrap;">
+        <div class="demo-flipcards">
+          <p class="drag-hint">&lt;---drag---&gt;</p>
+          <div class="flip-stack" id="flip-stack" style="margin: 0 auto;">
+            <!-- Cards injected via JS -->
+          </div>
+        </div>
+
+        <div class="demo-text" style="flex: 1; order: 2; max-width: 500px;">
+          <div class="badge">SEEING IS BELIEVING</div>
+          <p style="font-size: 20px; line-height: 1.6; color: var(--color-body);">Explore our specialized design automation tools through these interactive, high-production demos. Witness the power of effortless variety creation.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE ADVANTAGE SECTION -->
+  <section class="advantage section-scroll section-alt">
+    <div class="container">
+      <div class="section-center">
+        <div class="badge">THE EASYVARIANTS ADVANTAGE</div>
+        <h2 style="font-size: 24px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 30px; font-weight: 700;">10X Speed Guaranteed Consistency Unlimited Scale</h2>
+        <p>Generate hundreds — even thousands — of error-free design variants in minutes, not hours or days.</p>
+        <div class="stat-banner">
+          Hundreds of error-free variants in minutes — not hours or days
+        </div>
+      </div>
+
+      <div class="bento-grid">
+        <div class="card">
+          <h3>Boost Design Output 10X</h3>
+          <p>Free your designers from repetitive drudgery — let them focus on pure innovation and new concept
+            development.</p>
+        </div>
+        <div class="card">
+          <h3>Guaranteed Consistency</h3>
+          <p>Eliminate human error and ensure every variant perfectly aligns with your brand standards and design
+            guidelines.</p>
+        </div>
+        <div class="card">
+          <h3>Accelerated Time-to-Market</h3>
+          <p>Rapidly customize and deploy new collections, gaining a critical competitive edge over slower competitors.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Scalable Personalization</h3>
+          <p>Offer extensive product personalization and custom builds without fear of an unmanageable design workload.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA SECTION -->
+  <section class="final-cta section-scroll">
+    <div class="cta-glow"></div>
+    <div class="container cta-container">
+      <h2>Ready to Design Smarter?</h2>
+      <p>Eliminate repetitive tasks, scale your designs, and fuel innovation across your product lines. Transform your
+        design workflow today with EasyVariants.</p>
+      <a href="contactus.html" class="btn btn-primary btn-xl">Request a Demo Today</a>
+      <p class="cta-sub">Let's automate your product variants.</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-top-line"></div>
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+          <div style="width: 48px; height: 48px; overflow: hidden; display: flex; align-items: center; justify-content: flex-start;">
+            <img src="logo.png" alt="EasyVariants" style="height: 60px; width: auto; max-width: none; transform: scale(1.6); transform-origin: left center;" />
+          </div>
+          <span style="font-size: 22px; font-weight: 800; color: #ffffff; letter-spacing: -1px;">EasyVariants</span>
+        </div>
+        <p>Intelligent design automation for the modern creator.</p>
+      </div>
+      <div class="footer-nav">
+        <a href="#home">Home</a>
+        <a href="#solution">Our Solution</a>
+        <a href="#how-it-works">How It Works</a>
+        <a href="#demos">Demo Videos</a>
+        <a href="contactus.html">Get Your Demo Today</a>
+      </div>
+      <div class="footer-action">
+        <a href="contactus.html" class="btn btn-primary">Get Your Demo Today</a>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p>&copy; 2025 EasyVariants. All Rights Reserved.</p>
+      <p class="disclaimer">Adobe Illustrator&reg; is a trademark of Adobe Inc. EasyVariants is not affiliated with or
+        endorsed by Adobe Inc.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
