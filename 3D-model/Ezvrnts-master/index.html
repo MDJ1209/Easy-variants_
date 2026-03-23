@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EasyVariants | Rapid Design Variant Generation</title>
+    <meta name="description" content="Generate 100+ design variants in seconds. EasyVariants prioritizes speed and efficiency, empowering product teams to scale their creativity.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Three.js Import Map -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Abstract Background Setup -->
+    <div class="bg-shape shape-1"></div>
+    <div class="bg-shape shape-2"></div>
+    <div class="bg-shape shape-3"></div>
+    
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container navbar-inner">
+            <div class="logo">
+                <img src="logo-removebg-preview.png" alt="EasyVariants Logo" class="logo-img">
+            </div>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#how-it-works">Process</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#faq">FAQ</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="#" class="btn btn-login">Login</a>
+                <a href="#" class="btn btn-primary">Get Started</a>
+            </div>
+            <button class="mobile-menu-toggle" aria-label="Toggle Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="hero reveal">
+            <video autoplay loop muted playsinline class="hero-video">
+                <source src="12831892_1920_1080_30fps.mp4" type="video/mp4">
+            </video>
+            <div class="video-overlay"></div>
+            <div class="grid-overlay"></div>
+            <div class="container hero-content">
+                <div class="badge">Design Production on Autopilot</div>
+                <h1>Generate 100+ Variants <span style="background: var(--accent-gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">In Seconds.</span></h1>
+                <p>EasyVariants empowers product teams to create, test, and iterate on thousands of designs instantly. Prioritizing speed and efficiency over slow cloud iterations.</p>
+                <div class="hero-actions">
+                    <a href="#" class="btn btn-primary btn-lg">Get Started Free</a>
+                    <a href="#customizer" class="btn btn-secondary btn-lg">Try Customizer</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3D Customizer Section -->
+        <section class="customizer-section reveal fade-up" id="customizer">
+            <div class="container customizer-header">
+                <h2>Interactive 3D Preview</h2>
+                <p>Test the power of our engine in real-time. Apply colors and dynamic decals.</p>
+            </div>
+            <div class="customizer-container glass">
+                <!-- Loading Overlay -->
+                <div id="loader" class="loader-overlay active">
+                    <div class="spinner"></div>
+                    <p>Loading 3D Engine...</p>
+                </div>
+                
+                <!-- 3D Canvas Container -->
+                <div id="canvas-container"></div>
+                <!-- Glass UI Controls (Left Side) -->
+                <div class="customizer-left-panel">
+                    <div class="control-group">
+                        <h3>Select Product</h3>
+                        <div class="model-switcher">
+                            <button id="btn-shirt" class="btn btn-primary w-full">T-Shirt</button>
+                            <button id="btn-cap" class="btn btn-secondary w-full mt-2">Baseball Cap</button>
+                        </div>
+                        
+                        <h3 class="mt-4">Manage Designs</h3>
+                        <button id="btn-clear-decals" class="btn btn-secondary w-full">Clear All</button>
+                    </div>
+                </div>
+
+
+                <!-- Glass UI Controls (Right Side) -->
+                <div class="customizer-controls">
+                    <div class="control-group">
+                        <h3>Fabric Color</h3>
+                        <div class="color-swatches" id="fabric-colors">
+                            <button class="swatch active" style="background: #1e3a8a;" data-color="#1e3a8a"></button>
+                            <button class="swatch" style="background: #172554;" data-color="#172554" title="Original Navy"></button>
+                            <button class="swatch" style="background: #ef4444;" data-color="#ef4444"></button>
+                            <button class="swatch" style="background: #22c55e;" data-color="#22c55e"></button>
+                            <button class="swatch" style="background: #eab308;" data-color="#eab308"></button>
+                            <button class="swatch" style="background: #111827;" data-color="#111827"></button>
+                            <button class="swatch" style="background: #f3f4f6;" data-color="#f3f4f6"></button>
+                        </div>
+                    </div>
+                    
+                    <div class="control-group mt-4">
+                        <h3>Custom Decal</h3>
+                        
+                        <label class="helper-text" style="text-align:left;">Text Content</label>
+                        <input type="text" id="decal-text" class="input-field mb-2" placeholder="e.g. EzVrnts" value="EzVrnts">
+                        
+                        <label class="helper-text" style="text-align:left;">Decal Size</label>
+                        <input type="range" id="decal-size" min="0.5" max="2.0" step="0.1" value="1.0" class="input-field slider mb-2">
+                        
+                        <label class="helper-text" style="text-align:left;">Upload Image (PNG/JPG)</label>
+                        <input type="file" id="decal-image" accept="image/png, image/jpeg" class="input-field mb-2">
+
+                        <label class="helper-text" style="text-align:left;">Text Color</label>
+                        <div class="color-swatches mt-2" id="text-colors">
+                            <button class="swatch active" style="background: #ffffff;" data-color="#ffffff"></button>
+                            <button class="swatch" style="background: #000000;" data-color="#000000"></button>
+                            <button class="swatch" style="background: #3b82f6;" data-color="#3b82f6"></button>
+                            <div class="swatch" style="background-color: #3b82f6;" data-color="#3b82f6"></div>
+                            <div class="swatch" style="background-color: #ec4899;" data-color="#ec4899"></div>
+                        </div>
+                        
+                        <p class="helper-text text-center mt-4 mb-0" style="color: var(--primary);">Click the product to place your design!</p>
+                    </div>
+
+                    <div class="control-actions">
+                        <a href="#pricing" class="btn btn-secondary w-full">Generate 100+ Variants</a>
+                        <a href="#pricing" class="btn btn-primary w-full mt-2" style="background: var(--accent-gradient); border: none;">Export Design</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Bento Grid -->
+        <section class="features reveal fade-up" id="features">
+            <div class="container">
+                <div class="section-header">
+                    <div class="badge">Ecosystem</div>
+                    <h2>Everything you need to scale</h2>
+                    <p>A complete suite of tools designed for high-end 3D variant production.</p>
+                </div>
+                
+                <div class="bento-grid">
+                    <!-- Large Hero Card -->
+                    <div class="bento-card large glass">
+                        <div class="bento-content">
+                            <h3>Algorithmic Generation Engine</h3>
+                            <p>Map millions of color hexes, texture normals, and decal coordinates automatically against your base geometry without tearing vertices or destroying UV maps.</p>
+                        </div>
+                        <div class="variant-progress inline mt-4">
+                            <div class="vp-item">
+                                <p>Render Job #1409 (Cotton / Navy Base)</p>
+                                <div class="progress-container small"><div class="progress-bar" style="width: 100%;"></div></div>
+                            </div>
+                            <div class="vp-item mt-2">
+                                <p>Render Job #1410 (Polyester / Crimson Base) - Processing nodes...</p>
+                                <div class="progress-container small"><div class="progress-bar progress-animated" style="width: 75%;"></div></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Small Card 1 -->
+                    <div class="bento-card glass">
+                        <div class="bento-content">
+                            <h3>Asset Versioning</h3>
+                            <p>Revert to any generation state. Every diffuse and normal map calculation is stored securely.</p>
+                            <span class="badge-mini mt-4 inline-block">Architecture v2.1</span>
+                        </div>
+                    </div>
+
+                    <!-- Small Card 2 -->
+                    <div class="bento-card glass">
+                        <div class="bento-content">
+                            <h3>Headless API</h3>
+                            <p>Inject our Three.js engine directly into your Shopify or generic e-commerce storefront for live rendering.</p>
+                            <span class="badge-mini mt-4 inline-block">GraphQL Supported</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Wide Bottom Card -->
+                    <div class="bento-card wide glass">
+                        <div class="bento-content">
+                            <h3>Real-time WebGL Pipeline</h3>
+                            <p>Invite stakeholders to view, manipulate, and export 1000s of 3D prototypes natively within the browser, bypassing slow desktop render-farms like Blender or Maya.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works Section -->
+        <section class="how-it-works reveal fade-up" id="how-it-works">
+            <div class="container">
+                <div class="section-header">
+                    <div class="badge">Workflow</div>
+                    <h2>Three Steps to Scalable Design</h2>
+                    <p>Stop doing manual data-entry for every product SKU.</p>
+                </div>
+                
+                <div class="workflow-staggered">
+                    <!-- Step 1 -->
+                    <div class="workflow-step glass">
+                        <div class="step-visual">
+                            <div class="mockup-window">
+                                <div class="mockup-header"><i></i><i></i><i></i></div>
+                                <div class="mockup-body centered flex-col">
+                                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                    <span class="mt-2 text-sm font-medium">model_v2.glb</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-badge">Phase 01</div>
+                            <h3>Upload Base Design</h3>
+                            <p>Import your 3D models or vector files. We automatically interpret material nodes and decal geometries mapped within your files.</p>
+                        </div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="workflow-step glass staggered">
+                        <div class="step-content">
+                            <div class="step-badge">Phase 02</div>
+                            <h3>Configure Parameters</h3>
+                            <p>Set a matrix of colors, textures, and patterns. Our engine mathematically cross-references combinations instantly.</p>
+                        </div>
+                        <div class="step-visual alt-bg">
+                            <div class="abstract-nodes">
+                                <div class="node pulse" style="background:var(--accent-blue)"></div>
+                                <div class="node-line"></div>
+                                <div class="node pulse" style="background:var(--accent-purple)"></div>
+                                <div class="node-line"></div>
+                                <div class="node pulse" style="background:var(--primary)"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="workflow-step glass">
+                        <div class="step-visual">
+                            <div class="mockup-stack">
+                                <div class="stack-layer layer-1"></div>
+                                <div class="stack-layer layer-2"></div>
+                                <div class="stack-layer layer-3"></div>
+                            </div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-badge">Phase 03</div>
+                            <h3>Generate & Export</h3>
+                            <p>Receive hundreds of perfectly mapped, high-quality 3D variants in seconds. Download as GLB or batch render PNGs.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Premium Metrics Ribbon -->
+        <section class="metrics-ribbon reveal">
+            <div class="container metrics-grid">
+                <div class="metric">
+                    <div class="metric-value">5M+</div>
+                    <div class="metric-label">Variants Generated Globally</div>
+                </div>
+                <div class="metric-divider"></div>
+                <div class="metric">
+                    <div class="metric-value">500+</div>
+                    <div class="metric-label">Production Teams Scaled</div>
+                </div>
+                <div class="metric-divider"></div>
+                <div class="metric">
+                    <div class="metric-value">90%</div>
+                    <div class="metric-label">Time Saved Over Rendering</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials -->
+        <section class="testimonials reveal fade-up">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Loved by Designers</h2>
+                </div>
+                <div class="testimonial-grid">
+                    <div class="testimonial-card">
+                        <p>"EasyVariants changed our entire production workflow. What used to take weeks now takes minutes."</p>
+                        <div class="testimonial-user">
+                            <div class="user-avatar"></div>
+                            <div>
+                                <strong>Sarah Chen</strong>
+                                <p>Lead Designer, TechCorp</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <p>"The speed of generation is mind-blowing. It allows us to iterate and find the perfect design effortlessly."</p>
+                        <div class="testimonial-user">
+                            <div class="user-avatar"></div>
+                            <div>
+                                <strong>Marcus Thorne</strong>
+                                <p>Creative Director, AppGen</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing Section -->
+        <section class="pricing reveal fade-up" id="pricing">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Simple Pricing</h2>
+                    <p>Scale your production without breaking the bank.</p>
+                </div>
+                <div class="pricing-grid">
+                    <div class="pricing-card glass">
+                        <h3>Starter</h3>
+                        <div class="price">$0<span>/mo</span></div>
+                        <ul class="pricing-features">
+                            <li><svg class="pricing-check" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> 5 Variants per design</li>
+                            <li><svg class="pricing-check" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Community support</li>
+                            <li><svg class="pricing-check" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Standard export</li>
+                        </ul>
+                        <a href="#" class="btn btn-secondary">Get Started</a>
+                    </div>
+                    <div class="pricing-card featured">
+                        <div class="badge" style="background: var(--accent-gradient); color: white;">Most Popular</div>
+                        <h3>Pro</h3>
+                        <div class="price">$49<span>/mo</span></div>
+                        <ul class="pricing-features">
+                            <li><svg class="pricing-check" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Unlimited Variants</li>
+                            <li><svg class="pricing-check" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Priority Support</li>
+                            <li><svg class="pricing-check" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> High-res exports</li>
+                            <li><svg class="pricing-check" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> API Access</li>
+                        </ul>
+                        <a href="#" class="btn btn-primary">Try Pro Free</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="faq reveal fade-up" id="faq">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Frequently Asked Questions</h2>
+                </div>
+                <div class="faq-container">
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            What file formats are supported?
+                            <span class="faq-icon">▼</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>We support .GLB, .OBJ, and .FBX for 3D models, as well as .SVG, .PNG, and .JPG for 2D textures and patterns.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            How fast is the generation process?
+                            <span class="faq-icon">▼</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Typical batch generation of 100 variants takes less than 15 seconds, depending on the complexity of your model.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            Can I integrate this with my Shopify store?
+                            <span class="faq-icon">▼</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Yes, our Pro plan includes API access and native integrations for major e-commerce platforms.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Demo Section (CTA) -->
+        <section class="demo reveal">
+            <div class="container demo-box glass">
+                <h2>Ready to Scale Your Creativity?</h2>
+                <p>Join 500+ teams who are redefining design production with EzVrnts.</p>
+                <a href="#" class="btn btn-primary btn-lg">Start Free Trial</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <div class="logo footer-logo">
+                        <img src="logo-removebg-preview.png" alt="EasyVariants Logo" class="logo-img" style="filter: brightness(0) invert(1);">
+                    </div>
+                    <p>Scaling design production with parametric efficiency. Join the future of creative automation.</p>
+                </div>
+                <div class="footer-column">
+                    <h4>Product</h4>
+                    <ul class="footer-links">
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#how-it-works">How it Works</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
+                        <li><a href="#">Integrations</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Legal</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; 2026 EasyVariants. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="main.js"></script>
+    <script type="module" src="customizer.js"></script>
+</body>
+</html>
