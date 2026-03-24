@@ -668,6 +668,36 @@
                 margin-top: 1rem;
             }
         }
+
+        /* ═══ RESPONSIVE DEMO VARS ═══ */
+        :root {
+            --demo-iframe-top: -35px;
+            --demo-iframe-height: calc(100% + 70px);
+            --demo-padding: 24px;
+        }
+
+        @media (min-width: 768px) {
+            :root {
+                --demo-iframe-top: -75px;
+                --demo-iframe-height: calc(100% + 150px);
+                --demo-padding: 32px 40px;
+            }
+        }
+
+        /* ═══ INTERACTIVE SLIDES ═══ */
+        .demo-slide.is-playing iframe {
+            pointer-events: auto !important;
+            z-index: 15 !important;
+            transform: scale(1) !important;
+            top: 0 !important;
+            height: 100% !important;
+        }
+
+        .demo-slide.is-playing .demo-overlay,
+        .demo-slide.is-playing .demo-play-btn,
+        .demo-slide.is-playing .demo-text-overlay {
+            display: none !important;
+        }
     </style>
 
     <!-- Three.js Import Map -->
@@ -889,7 +919,7 @@
             </section>
 
             <!-- ═══════════════════════ STATS STRIP ═══════════════════════ -->
-            <section class="mb-32 reveal">
+            <section class="mb-4 reveal">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
                     <div class="card-premium rounded-[2rem] p-6 sm:p-10 text-center hover-lift group">
                         <div
@@ -916,10 +946,10 @@
             </section>
 
             <!-- ═══════════════════════ MEET EASYVARIANTS ═══════════════════════ -->
-            <div class="gradient-sep mb-16"></div>
+            <div class="gradient-sep mb-4"></div>
 
             <section id="meet"
-                class="mb-32 reveal bg-white py-12 md:py-16 shadow-sm border-y border-outline-variant/10 w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]">
+                class="mb-6 reveal bg-white py-6 md:py-8 shadow-sm border-y border-outline-variant/10 w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]">
                 <div class="max-w-7xl mx-auto px-6 md:px-8">
                     <div class="flex items-end justify-between mb-12">
                         <div class="max-w-xl">
@@ -946,10 +976,72 @@
                     </div>
             </section>
 
-            <!-- ═══════════════════════ THE PROBLEM (BENTO GRID) ═══════════════════════ -->
-            <div class="gradient-sep mb-16"></div>
+            <!-- ═══════════════════════ THE ADVANTAGE ═══════════════════════ -->
+            <div class="gradient-sep mb-4"></div>
 
-            <section id="problem" class="mb-32 reveal">
+            <section id="advantage" class="mb-4 reveal">
+                <div class="text-center mb-16 max-w-4xl mx-auto">
+                    <span class="font-label text-xs font-bold uppercase tracking-[0.2em] text-primary">The EasyVariants
+                        Advantage</span>
+                    <h2 class="text-4xl md:text-5xl font-headline font-bold tracking-tight mt-3">10X Speed, Guarantee
+                        Brand Consistency, Fuel Innovation.</h2>
+                    <p class="text-on-surface-variant text-lg mt-5 leading-relaxed">The result? Generate hundreds, even
+                        thousands, of error-free design variants in minutes - not hours or days.</p>
+                </div>
+
+                <div class="card-premium rounded-[2.5rem] p-8 md:p-16 hover-lift reveal">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-x-16 md:gap-y-12">
+                        <!-- Point 1: Boost Design Output 10X -->
+                        <div class="flex gap-6 group/item">
+                            <div class="w-16 h-16 rounded-[1.25rem] bg-primary/10 flex items-center justify-center text-primary shrink-0 group-hover/item:scale-110 group-hover/item:bg-primary group-hover/item:text-white transition-all duration-500 shadow-lg shadow-primary/5">
+                                <span class="material-symbols-outlined text-4xl transition-colors duration-500 group-hover/item:text-white">rocket_launch</span>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-headline font-bold mb-4 text-on-surface group-hover/item:text-primary transition-colors duration-500">Boost Output 10X</h3>
+                                <p class="text-on-surface-variant text-[16px] leading-relaxed">Free your designers from repetitive drudgery, allowing them to focus on pure innovation.</p>
+                            </div>
+                        </div>
+
+                        <!-- Point 2: Guaranteed Consistency -->
+                        <div class="flex gap-6 group/item">
+                            <div class="w-16 h-16 rounded-[1.25rem] bg-tertiary/10 flex items-center justify-center text-tertiary shrink-0 group-hover/item:scale-110 group-hover/item:bg-tertiary group-hover/item:text-white transition-all duration-500 shadow-lg shadow-tertiary/5">
+                                <span class="material-symbols-outlined text-4xl transition-colors duration-500 group-hover/item:text-white">verified</span>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-headline font-bold mb-4 text-on-surface group-hover/item:text-tertiary transition-colors duration-500">Guaranteed Consistency</h3>
+                                <p class="text-on-surface-variant text-[16px] leading-relaxed">Eliminate human error and ensure every variant perfectly aligns with your brand standards.</p>
+                            </div>
+                        </div>
+
+                        <!-- Point 3: Accelerated Time-to-Market -->
+                        <div class="flex gap-6 group/item">
+                            <div class="w-16 h-16 rounded-[1.25rem] bg-tertiary/10 flex items-center justify-center text-tertiary shrink-0 group-hover/item:scale-110 group-hover/item:bg-tertiary group-hover/item:text-white transition-all duration-500 shadow-lg shadow-tertiary/5">
+                                <span class="material-symbols-outlined text-4xl transition-colors duration-500 group-hover/item:text-white">trending_up</span>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-headline font-bold mb-4 text-on-surface group-hover/item:text-tertiary transition-colors duration-500">Faster Time-to-Market</h3>
+                                <p class="text-on-surface-variant text-[16px] leading-relaxed">Rapidly customize and deploy new collections, gaining a critical competitive edge.</p>
+                            </div>
+                        </div>
+
+                        <!-- Point 4: Scalable Personalization -->
+                        <div class="flex gap-6 group/item">
+                            <div class="w-16 h-16 rounded-[1.25rem] bg-surface-tint/10 flex items-center justify-center text-surface-tint shrink-0 group-hover/item:scale-110 group-hover/item:bg-surface-tint group-hover/item:text-white transition-all duration-500 shadow-lg shadow-surface-tint/5">
+                                <span class="material-symbols-outlined text-4xl transition-colors duration-500 group-hover/item:text-white">tune</span>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-headline font-bold mb-4 text-on-surface group-hover/item:text-surface-tint transition-colors duration-500">Scalable Personalization</h3>
+                                <p class="text-on-surface-variant text-[16px] leading-relaxed">Offer extensive personalization without fear of an unmanageable design workload.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ═══════════════════════ THE PROBLEM (BENTO GRID) ═══════════════════════ -->
+            <div class="gradient-sep mb-8"></div>
+
+            <section id="problem" class="mb-12 reveal">
                 <div class="flex items-end justify-between mb-12">
                     <div class="max-w-xl">
                         <span class="font-label text-xs font-bold uppercase tracking-[0.2em] text-error">The
@@ -962,46 +1054,51 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-5 stagger">
-                    <div class="md:col-span-6 card-premium rounded-[2rem] p-6 md:p-10 relative overflow-hidden group hover-lift"
-                        style="--i:0">
-                        <div
-                            class="w-14 h-14 rounded-2xl bg-error/8 flex items-center justify-center mb-6 problem-icon border border-error/10">
-                            <span class="material-symbols-outlined text-error text-2xl">cycle</span>
+                <div class="card-premium rounded-[2.5rem] p-8 md:p-16 hover-lift reveal">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-x-16 md:gap-y-12">
+                        <!-- Point 1: Repetitive Work -->
+                        <div class="flex gap-6 group/item">
+                            <div class="w-14 h-14 rounded-2xl bg-error/8 flex items-center justify-center shrink-0 border border-error/10 group-hover/item:scale-110 group-hover/item:bg-error group-hover/item:text-white transition-all duration-500 shadow-sm">
+                                <span class="material-symbols-outlined text-2xl transition-colors duration-500 text-error group-hover/item:text-white">cycle</span>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-headline font-bold mb-3 text-on-surface group-hover/item:text-error transition-colors duration-500">Repetitive Work</h3>
+                                <p class="text-on-surface-variant/80 leading-relaxed text-[15px]">Duplicating designs for every new colorway or logo placement. Hours wasted on mechanical tasks that drain creative energy.</p>
+                            </div>
                         </div>
-                        <h3 class="text-lg font-headline font-bold mb-3 text-on-surface">Repetitive Work</h3>
-                        <p class="text-on-surface-variant/80 leading-relaxed text-sm">Duplicating designs for every new
-                            colorway or logo placement. Hours wasted on mechanical tasks that drain creative energy.</p>
-                    </div>
-                    <div class="md:col-span-6 card-premium rounded-[2rem] p-6 md:p-10 relative overflow-hidden group hover-lift"
-                        style="--i:1">
-                        <div
-                            class="w-14 h-14 rounded-2xl bg-error/8 flex items-center justify-center mb-6 problem-icon border border-error/10">
-                            <span class="material-symbols-outlined text-error text-2xl">rule</span>
+
+                        <!-- Point 2: Consistency Challenges -->
+                        <div class="flex gap-6 group/item">
+                            <div class="w-14 h-14 rounded-2xl bg-error/8 flex items-center justify-center shrink-0 border border-error/10 group-hover/item:scale-110 group-hover/item:bg-error group-hover/item:text-white transition-all duration-500 shadow-sm">
+                                <span class="material-symbols-outlined text-2xl transition-colors duration-500 text-error group-hover/item:text-white">rule</span>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-headline font-bold mb-3 text-on-surface group-hover/item:text-error transition-colors duration-500">Consistency Challenges</h3>
+                                <p class="text-on-surface-variant/80 leading-relaxed text-[15px]">Ensuring perfect manual adherence to strict brand guidelines across hundreds of product variants with absolute precision.</p>
+                            </div>
                         </div>
-                        <h3 class="text-lg font-headline font-bold mb-3 text-on-surface">Consistency Challenges</h3>
-                        <p class="text-on-surface-variant/80 leading-relaxed text-sm">Ensuring perfect manual adherence
-                            to strict brand guidelines across hundreds of product variants.</p>
-                    </div>
-                    <div class="md:col-span-6 card-premium rounded-[2rem] p-6 md:p-10 relative overflow-hidden group hover-lift"
-                        style="--i:2">
-                        <div
-                            class="w-14 h-14 rounded-2xl bg-error/8 flex items-center justify-center mb-6 problem-icon border border-error/10">
-                            <span class="material-symbols-outlined text-error text-2xl">hourglass_empty</span>
+
+                        <!-- Point 3: Slow Time-to-Market -->
+                        <div class="flex gap-6 group/item">
+                            <div class="w-14 h-14 rounded-2xl bg-error/8 flex items-center justify-center shrink-0 border border-error/10 group-hover/item:scale-110 group-hover/item:bg-error group-hover/item:text-white transition-all duration-500 shadow-sm">
+                                <span class="material-symbols-outlined text-2xl transition-colors duration-500 text-error group-hover/item:text-white">hourglass_empty</span>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-headline font-bold mb-3 text-on-surface group-hover/item:text-error transition-colors duration-500">Slow Time-to-Market</h3>
+                                <p class="text-on-surface-variant/80 leading-relaxed text-[15px]">Manual work repeatedly delays new collection launches when speed matters most in a hyper-competitive landscape.</p>
+                            </div>
                         </div>
-                        <h3 class="text-lg font-headline font-bold mb-3 text-on-surface">Slow Time-to-Market</h3>
-                        <p class="text-on-surface-variant/80 leading-relaxed text-sm">Manual work repeatedly delays new
-                            collection launches when speed matters most.</p>
-                    </div>
-                    <div class="md:col-span-6 card-premium rounded-[2rem] p-6 md:p-10 relative overflow-hidden group hover-lift"
-                        style="--i:3">
-                        <div
-                            class="w-14 h-14 rounded-2xl bg-error/8 flex items-center justify-center mb-6 problem-icon border border-error/10">
-                            <span class="material-symbols-outlined text-error text-2xl">block</span>
+
+                        <!-- Point 4: Limited Customization -->
+                        <div class="flex gap-6 group/item">
+                            <div class="w-14 h-14 rounded-2xl bg-error/8 flex items-center justify-center shrink-0 border border-error/10 group-hover/item:scale-110 group-hover/item:bg-error group-hover/item:text-white transition-all duration-500 shadow-sm">
+                                <span class="material-symbols-outlined text-2xl transition-colors duration-500 text-error group-hover/item:text-white">block</span>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-headline font-bold mb-3 text-on-surface group-hover/item:text-error transition-colors duration-500">Limited Personalization</h3>
+                                <p class="text-on-surface-variant/80 leading-relaxed text-[15px]">Too costly and slow for the deep personalization consumers crave. Manual processes simply cannot scale to modern demands.</p>
+                            </div>
                         </div>
-                        <h3 class="text-lg font-headline font-bold mb-3 text-on-surface">Limited Customization</h3>
-                        <p class="text-on-surface-variant/80 leading-relaxed text-sm">Too costly and slow for the
-                            personalization consumers crave in today's market.</p>
                     </div>
                 </div>
             </section>
@@ -1378,18 +1475,18 @@
 
                 <div class="relative max-w-6xl mx-auto">
                     <div id="light-slideshow"
-                        class="relative w-full aspect-video rounded-[2rem] overflow-hidden bg-surface-container-low border border-outline-variant/10 shadow-[0_40px_100px_rgba(0,0,0,0.06)]">
+                        class="relative w-full h-[550px] md:h-auto md:aspect-video rounded-[2rem] overflow-hidden bg-surface-container-low border border-outline-variant/10 shadow-[0_40px_100px_rgba(0,0,0,0.06)]">
                         <!-- Slides injected by JS -->
                     </div>
 
                     <!-- Nav Arrows -->
                     <button id="light-prev"
-                        class="absolute top-1/2 -left-6 -translate-y-1/2 w-12 h-12 rounded-full bg-surface-container-lowest shadow-xl border border-outline-variant/10 flex items-center justify-center hover:bg-primary hover:text-white transition-all z-50 text-on-surface">
-                        <span class="material-symbols-outlined">chevron_left</span>
+                        class="absolute top-1/2 left-4 md:-left-6 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 rounded-full bg-surface-container-lowest shadow-xl border border-outline-variant/10 flex items-center justify-center hover:bg-primary hover:text-white transition-all z-50 text-on-surface">
+                        <span class="material-symbols-outlined text-[20px] md:text-[24px]">chevron_left</span>
                     </button>
                     <button id="light-next"
-                        class="absolute top-1/2 -right-6 -translate-y-1/2 w-12 h-12 rounded-full bg-surface-container-lowest shadow-xl border border-outline-variant/10 flex items-center justify-center hover:bg-primary hover:text-white transition-all z-50 text-on-surface">
-                        <span class="material-symbols-outlined">chevron_right</span>
+                        class="absolute top-1/2 right-4 md:-right-6 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 rounded-full bg-surface-container-lowest shadow-xl border border-outline-variant/10 flex items-center justify-center hover:bg-primary hover:text-white transition-all z-50 text-on-surface">
+                        <span class="material-symbols-outlined text-[20px] md:text-[24px]">chevron_right</span>
                     </button>
 
                     <!-- Dots -->
@@ -1399,74 +1496,6 @@
                 </div>
             </section>
 
-            <!-- ═══════════════════════ THE ADVANTAGE ═══════════════════════ -->
-            <div class="gradient-sep mb-16"></div>
-
-            <section id="advantage" class="mb-32 reveal">
-                <div class="text-center mb-16 max-w-4xl mx-auto">
-                    <span class="font-label text-xs font-bold uppercase tracking-[0.2em] text-primary">The EasyVariants
-                        Advantage</span>
-                    <h2 class="text-4xl md:text-5xl font-headline font-bold tracking-tight mt-3">10X Speed, Guarantee
-                        Brand Consistency, Fuel Innovation.</h2>
-                    <p class="text-on-surface-variant text-lg mt-5 leading-relaxed">The result? Generate hundreds, even
-                        thousands, of error-free design variants in minutes - not hours or days.</p>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 stagger">
-                    <!-- Card 1 -->
-                    <div class="card-premium rounded-[2rem] p-6 md:p-10 hover-lift group reveal" style="--i: 1;">
-                        <div
-                            class="w-16 h-16 rounded-[1.25rem] bg-primary/10 flex items-center justify-center text-primary mb-8 group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-500 shadow-lg shadow-primary/5">
-                            <span class="material-symbols-outlined text-4xl">rocket_launch</span>
-                        </div>
-                        <h3
-                            class="text-2xl font-headline font-bold mb-4 text-on-surface group-hover:text-primary transition-colors duration-500">
-                            Boost Design Output 10X</h3>
-                        <p class="text-on-surface-variant text-[16px] leading-relaxed">Free your designers from
-                            repetitive drudgery, allowing them to focus on pure innovation and new concept development.
-                        </p>
-                    </div>
-
-                    <!-- Card 2 -->
-                    <div class="card-premium rounded-[2rem] p-6 md:p-10 hover-lift group reveal" style="--i: 2;">
-                        <div
-                            class="w-16 h-16 rounded-[1.25rem] bg-tertiary/10 flex items-center justify-center text-tertiary mb-8 group-hover:scale-110 group-hover:bg-tertiary group-hover:text-white transition-all duration-500 shadow-lg shadow-tertiary/5">
-                            <span class="material-symbols-outlined text-4xl">verified</span>
-                        </div>
-                        <h3
-                            class="text-2xl font-headline font-bold mb-4 text-on-surface group-hover:text-tertiary transition-colors duration-500">
-                            Guaranteed Consistency</h3>
-                        <p class="text-on-surface-variant text-[16px] leading-relaxed">Eliminate human error and ensure
-                            every variant perfectly aligns with your brand standards and design guidelines.</p>
-                    </div>
-
-                    <!-- Card 3 -->
-                    <div class="card-premium rounded-[2rem] p-6 md:p-10 hover-lift group reveal" style="--i: 3;">
-                        <div
-                            class="w-16 h-16 rounded-[1.25rem] bg-tertiary/10 flex items-center justify-center text-tertiary mb-8 group-hover:scale-110 group-hover:bg-tertiary group-hover:text-white transition-all duration-500 shadow-lg shadow-tertiary/5">
-                            <span class="material-symbols-outlined text-4xl">trending_up</span>
-                        </div>
-                        <h3
-                            class="text-2xl font-headline font-bold mb-4 text-on-surface group-hover:text-tertiary transition-colors duration-500">
-                            Accelerated Time-to-Market</h3>
-                        <p class="text-on-surface-variant text-[16px] leading-relaxed">Rapidly customize and deploy new
-                            collections, gaining a critical competitive edge.</p>
-                    </div>
-
-                    <!-- Card 4 -->
-                    <div class="card-premium rounded-[2rem] p-6 md:p-10 hover-lift group reveal" style="--i: 4;">
-                        <div
-                            class="w-16 h-16 rounded-[1.25rem] bg-surface-tint/10 flex items-center justify-center text-surface-tint mb-8 group-hover:scale-110 group-hover:bg-surface-tint group-hover:text-white transition-all duration-500 shadow-lg shadow-surface-tint/5">
-                            <span class="material-symbols-outlined text-4xl">tune</span>
-                        </div>
-                        <h3
-                            class="text-2xl font-headline font-bold mb-4 text-on-surface group-hover:text-surface-tint transition-colors duration-500">
-                            Scalable Personalization</h3>
-                        <p class="text-on-surface-variant text-[16px] leading-relaxed">Offer extensive product
-                            personalization and custom builds without fear of an unmanageable design workload.</p>
-                    </div>
-                </div>
-            </section>
 
             <!-- ═══════════════════════ FINAL CTA ═══════════════════════ -->
             <div class="gradient-sep mb-16"></div>
@@ -1681,20 +1710,25 @@
                     slide.style.cursor = 'pointer';
                     slide.innerHTML = `
                     <iframe width="100%" height="100%" src="${data.embed}" frameborder="0"
-                        style="position: absolute; top: -75px; left: 0; width: 100%; height: calc(100% + 150px); z-index: 1; border: none; pointer-events: none; transform: scale(1.02);"></iframe>
-                    <div style="position: absolute; inset: 0; z-index: 5" onclick="window.open('${data.link}', '_blank')"></div>
-                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 8; pointer-events: none;">
+                        style="position: absolute; top: var(--demo-iframe-top); left: 0; width: 100%; height: var(--demo-iframe-height); z-index: 1; border: none; pointer-events: none; transform: scale(1.02); transition: all 0.5s ease;"></iframe>
+                    <div class="demo-overlay" style="position: absolute; inset: 0; z-index: 5; cursor: pointer;"></div>
+                    <div class="demo-play-btn" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 8; pointer-events: none;">
                         <div style="width: 72px; height: 72px; border-radius: 50%; background: rgba(53,37,205,0.12); border: 1px solid rgba(53,37,205,0.3); display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px);">
                             <span class="material-symbols-outlined" style="color: #3525cd; font-size: 36px; margin-left: 3px;">play_arrow</span>
                         </div>
                     </div>
-                    <div style="position: absolute; bottom: 0; left: 0; width: 100%; padding: 32px 40px; background: linear-gradient(to top, rgba(249,249,251,0.97) 0%, rgba(249,249,251,0.8) 50%, transparent 100%); z-index: 10; pointer-events: none;">
+                    <div class="demo-text-overlay" style="position: absolute; bottom: 0; left: 0; width: 100%; padding: var(--demo-padding); background: linear-gradient(to top, rgba(249,249,251,0.97) 0%, rgba(249,249,251,0.8) 50%, transparent 100%); z-index: 10; pointer-events: none;">
                         <div style="display: inline-flex; align-items: center; gap: 6px; margin-bottom: 8px; background: rgba(53,37,205,0.1); border: 1px solid rgba(53,37,205,0.2); padding: 3px 10px; border-radius: 50px; color: #3525cd; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;">
                             <span class="material-symbols-outlined" style="font-size: 13px;">${data.icon}</span> ${data.title}
                         </div>
                         <p style="color: #464555; font-size: 16px; line-height: 1.5; font-weight: 400; margin: 0;">${data.desc}</p>
                     </div>
                 `;
+                    
+                    slide.querySelector('.demo-overlay').addEventListener('click', () => {
+                        slides.forEach(s => s.classList.remove('is-playing'));
+                        slide.classList.add('is-playing');
+                    });
                     lightSlideshow.appendChild(slide);
 
                     // Dot
@@ -1724,10 +1758,12 @@
                 const goToSlide = (i) => { currentSlide = i; updateSlides(); };
 
                 lightPrev.addEventListener('click', () => {
+                    slides.forEach(s => s.classList.remove('is-playing'));
                     currentSlide = (currentSlide === 0) ? slides.length - 1 : currentSlide - 1;
                     updateSlides();
                 });
                 lightNext.addEventListener('click', () => {
+                    slides.forEach(s => s.classList.remove('is-playing'));
                     currentSlide = (currentSlide === slides.length - 1) ? 0 : currentSlide + 1;
                     updateSlides();
                 });
