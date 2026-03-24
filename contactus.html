@@ -114,10 +114,17 @@
       background: rgba(255, 255, 255, 0.85);
       border: 1px solid rgba(199, 196, 216, 0.12);
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02), 0 8px 32px rgba(53, 37, 205, 0.04);
+      transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .card-signature {
+      background: linear-gradient(135deg, rgba(226, 223, 255, 0.4), rgba(255, 255, 255, 0.85)) !important;
     }
 
     .card-premium:hover {
-      border-color: rgba(53, 37, 205, 0.15);
+      border-color: rgba(53, 37, 205, 0.25);
+      transform: translateY(-8px) scale(1.01);
+      box-shadow: 0 20px 48px rgba(53, 37, 205, 0.08), 0 10px 20px rgba(0, 0, 0, 0.03);
     }
 
     .gradient-sep {
@@ -156,6 +163,7 @@
       width: 100%;
       background: rgba(255, 255, 255, 0.96);
       backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
       z-index: 40;
       padding: 20px;
       border-bottom: 1px solid rgba(199, 196, 216, 0.25);
@@ -369,7 +377,7 @@
       <!-- CONTACT SPLIT: FORM + INFO -->
       <section class="grid grid-cols-1 lg:grid-cols-5 gap-10 mb-24 reveal" style="transition-delay: 0.15s;">
         <!-- LEFT: FORM CARD -->
-        <div class="lg:col-span-3 card-premium rounded-[2rem] p-6 sm:p-10 md:p-14 hover-lift">
+        <div class="lg:col-span-3 card-premium card-signature rounded-[2rem] p-6 sm:p-10 md:p-14 hover-lift">
           <h2 class="text-2xl font-headline font-bold text-on-surface mb-2">Send us a message</h2>
           <p class="text-on-surface-variant text-sm mb-8">Fill out the form and our team will get back to you within 24
             hours.</p>

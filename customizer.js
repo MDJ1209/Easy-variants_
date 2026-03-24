@@ -12,6 +12,11 @@ let activeMesh = null;
 let customImageTexture = null;
 const container = document.getElementById('canvas-container');
 
+// Performance: visibility & render-on-demand
+let isVisible = false;
+let needsRender = true;
+let animFrameId = null;
+
 // Decal State
 let decalMaterial = null;
 let placedDecals = [];
@@ -48,8 +53,8 @@ function init() {
     camera.position.set( 0, 0, 3.2 ); // Zoomed out further to decrease model size
 
     // 3. Renderer Setup
-    renderer = new THREE.WebGLRenderer( { antialias: true, alpha: true } );
-    renderer.setPixelRatio( Math.max(window.devicePixelRatio, 2) );
+    renderer = new THREE.WebGLRenderer( { antialias: true, alpha: true, powerPreference: 'high-performance' } );
+    renderer.setPixelRatio( Math.min(window.devicePixelRatio, 2) );
     renderer.setSize( container.clientWidth, container.clientHeight );
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.2;
@@ -64,6 +69,7 @@ function init() {
     controls.dampingFactor = 0.05;
     controls.minDistance = 0.5;
     controls.maxDistance = 5;
+    controls.addEventListener('change', () => { needsRender = true; });
     controls.target.set( 0, -0.3, 0 ); // Center slightly lower
 
     // 5. Lighting (Realistic)
@@ -77,8 +83,8 @@ function init() {
     const dirLight = new THREE.DirectionalLight( 0xffffff, 1.8 );
     dirLight.position.set( 3, 5, 2 );
     dirLight.castShadow = true;
-    dirLight.shadow.mapSize.width = 4096;
-    dirLight.shadow.mapSize.height = 4096;
+    dirLight.shadow.mapSize.width = 1024;
+    dirLight.shadow.mapSize.height = 1024;
     scene.add( dirLight );
 
     const dirLight2 = new THREE.DirectionalLight( 0xd1e9ff, 1.0 );
@@ -198,9 +204,9 @@ function init() {
     setupUI();
     
     // Decal placement constraints and listeners
-    renderer.domElement.addEventListener( 'pointerdown', onPointerDown );
-    renderer.domElement.addEventListener( 'pointermove', onPointerMove );
-    renderer.domElement.addEventListener( 'pointerup', onPointerUp );
+    renderer.domElement.addEventListener( 'pointerdown', (e) => { onPointerDown(e); needsRender = true; } );
+    renderer.domElement.addEventListener( 'pointermove', (e) => { onPointerMove(e); needsRender = true; } );
+    renderer.domElement.addEventListener( 'pointerup', (e) => { onPointerUp(e); needsRender = true; } );
     renderer.domElement.addEventListener( 'dblclick', onDoubleClick );
 }
 
@@ -575,7 +581,30 @@ function onWindowResize() {
 }
 
 function animate() {
-    requestAnimationFrame( animate );
+    animFrameId = requestAnimationFrame( animate );
+
+    // Skip heavy GPU work when section is scrolled out of view
+    if ( !isVisible ) return;
+
     controls.update();
-    renderer.render( scene, camera );
+
+    // Only render when something has changed (controls, interaction, etc.)
+    if ( needsRender || controls.enableDamping ) {
+        renderer.render( scene, camera );
+        needsRender = false;
+    }
+}
+
+// Pause/resume rendering based on section visibility
+const customizerSection = document.getElementById('customizer');
+if (customizerSection) {
+    const visibilityObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            isVisible = entry.isIntersecting;
+            if (isVisible) {
+                needsRender = true;
+            }
+        });
+    }, { rootMargin: '200px 0px' });
+    visibilityObserver.observe(customizerSection);
 }

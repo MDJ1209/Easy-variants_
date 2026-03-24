@@ -82,6 +82,12 @@
             scroll-behavior: smooth;
         }
 
+        * {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+        }
+
         body {
             background-color: #f8f8fc;
             background-image:
@@ -97,20 +103,22 @@
             backdrop-filter: blur(28px) saturate(1.6);
             -webkit-backdrop-filter: blur(28px) saturate(1.6);
             border: 0.5px solid rgba(199, 196, 216, 0.18);
+            transform: translateZ(0);
         }
 
         /* ═══ SCROLL REVEAL ═══ */
         .reveal {
             opacity: 0;
-            transform: translateY(60px) translateZ(0);
+            transform: translateY(40px) translateZ(0);
             will-change: transform, opacity;
-            transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
             backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
         }
 
         .reveal.visible {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateY(0) translateZ(0);
         }
 
         /* stagger children */
@@ -205,13 +213,15 @@
 
         /* ═══ HOVER LIFT ═══ */
         .hover-lift {
-            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease;
-            will-change: transform;
+            transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+            will-change: transform, box-shadow;
             transform: translateZ(0);
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
         }
 
         .hover-lift:hover {
-            transform: translateY(-8px);
+            transform: translateY(-8px) translateZ(0);
             box-shadow: 0 24px 64px rgba(53, 37, 205, 0.10), 0 8px 20px rgba(0, 0, 0, 0.04);
         }
 
@@ -242,10 +252,20 @@
             background: rgba(255, 255, 255, 0.85);
             border: 1px solid rgba(199, 196, 216, 0.12);
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02), 0 8px 32px rgba(53, 37, 205, 0.04);
+            transform: translateZ(0);
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .card-signature {
+            background: linear-gradient(135deg, rgba(226, 223, 255, 0.4), rgba(255, 255, 255, 0.85)) !important;
         }
 
         .card-premium:hover {
-            border-color: rgba(53, 37, 205, 0.15);
+            border-color: rgba(53, 37, 205, 0.25);
+            transform: translateY(-8px) scale(1.01) translateZ(0);
+            box-shadow: 0 20px 48px rgba(53, 37, 205, 0.08), 0 10px 20px rgba(0, 0, 0, 0.03);
         }
 
         /* ═══ GRADIENT SEPARATOR ═══ */
@@ -269,6 +289,29 @@
             border-top: 1px solid rgba(199, 196, 216, 0.15);
         }
 
+        .footer-premium a {
+            transition: color 0.3s cubic-bezier(0.22, 1, 0.36, 1), transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        /* ═══ GLOBAL SMOOTHNESS ═══ */
+        img,
+        video {
+            transform: translateZ(0);
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+
+        a,
+        button {
+            transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        nav {
+            transform: translateZ(0);
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+
         /* ═══ MOBILE MENU ═══ */
         .mobile-menu-light {
             display: none;
@@ -283,6 +326,7 @@
             width: 100%;
             background: rgba(255, 255, 255, 0.96);
             backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
             z-index: 40;
             padding: 20px;
             border-bottom: 1px solid rgba(199, 196, 216, 0.25);
@@ -306,6 +350,7 @@
         /* ═══ 3D CUSTOMIZER SECTION ═══ */
         .ez3d-section {
             padding: 2rem 0 4rem;
+            contain: layout style paint;
         }
 
         .ez3d-header {
@@ -340,6 +385,7 @@
             position: absolute;
             inset: 0;
             z-index: 1;
+            contain: strict;
         }
 
         .ez3d-left-panel {
@@ -355,7 +401,7 @@
             border: 1px solid rgba(255, 255, 255, 0.5);
             border-radius: 1.5rem;
             padding: 1.5rem;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
             display: flex;
             flex-direction: column;
         }
@@ -373,7 +419,7 @@
             border: 1px solid rgba(255, 255, 255, 0.5);
             border-radius: 1.5rem;
             padding: 1.5rem;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
             display: flex;
             flex-direction: column;
             gap: 0.75rem;
@@ -386,7 +432,7 @@
         }
 
         .ez3d-right-panel::-webkit-scrollbar-thumb {
-            background-color: rgba(0,0,0,0.1);
+            background-color: rgba(0, 0, 0, 0.1);
             border-radius: 10px;
         }
 
@@ -411,7 +457,7 @@
             border: 2px solid transparent;
             cursor: pointer;
             transition: all 0.2s ease;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
         }
 
         .ez3d-swatch:hover {
@@ -428,7 +474,7 @@
             width: 100%;
             padding: 0.5rem 0.75rem;
             border-radius: 0.5rem;
-            border: 1px solid rgba(0,0,0,0.1);
+            border: 1px solid rgba(0, 0, 0, 0.1);
             background: white;
             font-family: 'Inter', sans-serif;
             font-size: 0.875rem;
@@ -451,7 +497,7 @@
             padding: 0;
             height: 6px;
             border: none;
-            background: rgba(0,0,0,0.1);
+            background: rgba(0, 0, 0, 0.1);
             border-radius: 3px;
             appearance: none;
             -webkit-appearance: none;
@@ -504,8 +550,8 @@
         .ez3d-btn-secondary {
             background-color: #ffffff;
             color: #1a1c1d;
-            border: 1px solid rgba(0,0,0,0.08);
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
         }
 
         .ez3d-btn-secondary:hover {
@@ -544,7 +590,7 @@
         .ez3d-spinner {
             width: 40px;
             height: 40px;
-            border: 3px solid rgba(0,0,0,0.1);
+            border: 3px solid rgba(0, 0, 0, 0.1);
             border-top-color: #4d44e3;
             border-radius: 50%;
             animation: ez3d-spin 1s linear infinite;
@@ -552,11 +598,18 @@
         }
 
         @keyframes ez3d-spin {
-            100% { transform: rotate(360deg); }
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
-        .ez3d-mt-2 { margin-top: 0.5rem; }
-        .ez3d-mt-4 { margin-top: 1rem; }
+        .ez3d-mt-2 {
+            margin-top: 0.5rem;
+        }
+
+        .ez3d-mt-4 {
+            margin-top: 1rem;
+        }
 
         /* 3D Customizer Mobile */
         @media (max-width: 1024px) {
@@ -632,7 +685,7 @@
 
     <!-- ═══════════════════════ NAVIGATION ═══════════════════════ -->
     <nav class="fixed top-0 w-full z-50 bg-white/75 backdrop-blur-2xl border-b border-zinc-200/15 shadow-[0_1px_0_rgba(0,0,0,0.03),0_16px_48px_rgba(0,0,0,0.03)]"
-        style="-webkit-backdrop-filter:blur(40px);">
+        style="-webkit-backdrop-filter:blur(40px); backdrop-filter:blur(40px);">
         <div class="w-full flex items-center justify-between pl-9 pr-10 py-0.5">
             <!-- Left: Logo -->
             <div class="flex-1 flex justify-start">
@@ -683,35 +736,47 @@
         <div class="max-w-7xl mx-auto">
 
             <!-- ═══════════════════════ HERO ═══════════════════════ -->
-            <section id="home" class="reveal relative overflow-hidden min-h-[95vh] flex items-center mb-12 w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]">
+            <section id="home"
+                class="reveal relative overflow-hidden min-h-[95vh] flex items-center mb-12 w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]">
                 <!-- Background Video -->
-                <video autoplay muted loop playsinline preload="auto" class="absolute inset-0 w-full h-full object-cover" style="will-change: transform; transform: translateZ(0);">
+                <video autoplay muted loop playsinline preload="auto"
+                    class="absolute inset-0 w-full h-full object-cover"
+                    style="will-change: transform; transform: translateZ(0);">
                     <source src="videoo.mp4" type="video/mp4">
                 </video>
                 <!-- Light Overlay for readability -->
                 <div class="absolute inset-0 bg-white/40"></div>
 
-                <div class="relative z-10 w-full max-w-7xl mx-auto px-6 sm:px-10 md:px-16 text-left space-y-10 pt-28 sm:pt-32 pb-20">
+                <div
+                    class="relative z-10 w-full max-w-7xl mx-auto px-6 sm:px-10 md:px-16 text-left space-y-10 pt-28 sm:pt-32 pb-20">
                     <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-secondary-container rounded-full">
                         <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
-                        <span class="text-[11px] uppercase tracking-[0.2em] font-bold text-on-secondary-container font-label">Design Automation Platform</span>
+                        <span
+                            class="text-[11px] uppercase tracking-[0.2em] font-bold text-on-secondary-container font-label">Design
+                            Automation Platform</span>
                     </div>
 
-                    <h1 class="text-4xl sm:text-6xl md:text-8xl font-extrabold font-headline tracking-tighter text-on-surface leading-[0.9] md:leading-[0.85] max-w-3xl">
+                    <h1
+                        class="text-4xl sm:text-6xl md:text-8xl font-extrabold font-headline tracking-tighter text-on-surface leading-[0.9] md:leading-[0.85] max-w-3xl">
                         Speed &amp;<br /> Precision<br />
-                        <span class="bg-gradient-to-r from-primary to-primary-container bg-clip-text text-transparent">10× Amplified.</span>
+                        <span
+                            class="bg-gradient-to-r from-primary to-primary-container bg-clip-text text-transparent">10×
+                            Amplified.</span>
                     </h1>
 
                     <p class="text-xl text-on-surface-variant max-w-xl leading-relaxed font-medium">
-                        Turn one design into thousands instantly. Automate variations like colors, logos, and styles in minutes. Unleash unlimited creativity.
+                        Turn one design into thousands instantly. Automate variations like colors, logos, and styles in
+                        minutes. Unleash unlimited creativity.
                     </p>
 
                     <div class="flex flex-col sm:flex-row items-start justify-start gap-6 pt-6">
-                        <a href="contactus.html" class="px-10 py-5 bg-primary text-white rounded-2xl font-bold shadow-2xl shadow-primary/30 hover:shadow-primary/50 hover:-translate-y-1 transition-all active:scale-95 inline-flex items-center gap-2 text-[16px]">
+                        <a href="contactus.html"
+                            class="px-10 py-5 bg-primary text-white rounded-2xl font-bold shadow-2xl shadow-primary/30 hover:shadow-primary/50 hover:-translate-y-1 transition-all active:scale-95 inline-flex items-center gap-2 text-[16px]">
                             Request a Demo Today
                             <span class="material-symbols-outlined text-xl">arrow_forward</span>
                         </a>
-                        <a href="#demos" class="px-10 py-5 bg-white/80 backdrop-blur-md text-on-surface rounded-2xl font-bold border border-outline-variant/30 hover:border-primary/40 hover:shadow-xl transition-all inline-flex items-center gap-2 text-[16px]">
+                        <a href="#demos"
+                            class="px-10 py-5 bg-white/80 backdrop-blur-md text-on-surface rounded-2xl font-bold border border-outline-variant/30 hover:border-primary/40 hover:shadow-xl transition-all inline-flex items-center gap-2 text-[16px]">
                             <span class="material-symbols-outlined text-primary text-2xl">play_circle</span>
                             Watch Explainer
                         </a>
@@ -720,83 +785,107 @@
             </section>
 
             <!-- ═══════════════════════ 3D INTERACTIVE PREVIEW ═══════════════════════ -->
-            <section class="ez3d-section reveal bg-white py-12 md:py-16 shadow-sm border-y border-outline-variant/10 my-4 w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]" id="customizer">
+            <section
+                class="ez3d-section reveal bg-white py-12 md:py-16 shadow-sm border-y border-outline-variant/10 my-4 w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]"
+                id="customizer">
                 <div class="max-w-7xl mx-auto px-6 md:px-8">
                     <div class="ez3d-header">
-                        <span class="font-label text-xs font-bold uppercase tracking-[0.2em] text-primary">Try It Live</span>
-                        <h2 class="text-4xl md:text-5xl font-headline font-bold tracking-tight mt-2">Interactive 3D Preview</h2>
-                        <p class="text-on-surface-variant text-lg mt-3 max-w-2xl mx-auto">Test the power of our engine in real-time. Apply colors and dynamic decals.</p>
+                        <span class="font-label text-xs font-bold uppercase tracking-[0.2em] text-primary">Try It
+                            Live</span>
+                        <h2 class="text-4xl md:text-5xl font-headline font-bold tracking-tight mt-2">Interactive 3D
+                            Preview</h2>
+                        <p class="text-on-surface-variant text-lg mt-3 max-w-2xl mx-auto">Test the power of our engine
+                            in real-time. Apply colors and dynamic decals.</p>
                     </div>
                     <!-- 3D Container -->
                     <div class="w-full">
                         <div class="ez3d-container w-full">
-                        <!-- Loading Overlay -->
-                        <div id="loader" class="ez3d-loader active">
-                            <div class="ez3d-spinner"></div>
-                            <p style="font-weight:600;">Loading 3D Engine...</p>
-                        </div>
-
-                        <!-- 3D Canvas Container -->
-                        <div id="canvas-container"></div>
-
-                        <!-- Left Panel: Product Switcher -->
-                        <div class="ez3d-left-panel">
-                            <div class="ez3d-control-group">
-                                <h3>Select Product</h3>
-                                <div class="ez3d-model-switcher">
-                                    <button id="btn-shirt" class="ez3d-btn ez3d-btn-primary" style="width:100%;">T-Shirt</button>
-                                    <button id="btn-cap" class="ez3d-btn ez3d-btn-secondary ez3d-mt-2" style="width:100%;">Baseball Cap</button>
-                                </div>
-                                <h3 class="ez3d-mt-4">Manage Designs</h3>
-                                <button id="btn-clear-decals" class="ez3d-btn ez3d-btn-secondary" style="width:100%;">Clear All</button>
+                            <!-- Loading Overlay -->
+                            <div id="loader" class="ez3d-loader active">
+                                <div class="ez3d-spinner"></div>
+                                <p style="font-weight:600;">Loading 3D Engine...</p>
                             </div>
-                        </div>
 
-                        <!-- Right Panel: Customization Controls -->
-                        <div class="ez3d-right-panel customizer-controls">
-                            <div class="ez3d-control-group">
-                                <h3>Fabric Color</h3>
-                                <div class="ez3d-swatches" id="fabric-colors">
-                                    <button class="ez3d-swatch active" style="background: #1e3a8a;" data-color="#1e3a8a"></button>
-                                    <button class="ez3d-swatch" style="background: #172554;" data-color="#172554" title="Original Navy"></button>
-                                    <button class="ez3d-swatch" style="background: #ef4444;" data-color="#ef4444"></button>
-                                    <button class="ez3d-swatch" style="background: #22c55e;" data-color="#22c55e"></button>
-                                    <button class="ez3d-swatch" style="background: #eab308;" data-color="#eab308"></button>
-                                    <button class="ez3d-swatch" style="background: #111827;" data-color="#111827"></button>
-                                    <button class="ez3d-swatch" style="background: #f3f4f6;" data-color="#f3f4f6"></button>
+                            <!-- 3D Canvas Container -->
+                            <div id="canvas-container"></div>
+
+                            <!-- Left Panel: Product Switcher -->
+                            <div class="ez3d-left-panel">
+                                <div class="ez3d-control-group">
+                                    <h3>Select Product</h3>
+                                    <div class="ez3d-model-switcher">
+                                        <button id="btn-shirt" class="ez3d-btn ez3d-btn-primary"
+                                            style="width:100%;">T-Shirt</button>
+                                        <button id="btn-cap" class="ez3d-btn ez3d-btn-secondary ez3d-mt-2"
+                                            style="width:100%;">Baseball Cap</button>
+                                    </div>
+                                    <h3 class="ez3d-mt-4">Manage Designs</h3>
+                                    <button id="btn-clear-decals" class="ez3d-btn ez3d-btn-secondary"
+                                        style="width:100%;">Clear All</button>
                                 </div>
                             </div>
 
-                            <div class="ez3d-control-group ez3d-mt-4">
-                                <h3>Custom Decal</h3>
-                                <label class="ez3d-helper">Text Content</label>
-                                <input type="text" id="decal-text" class="ez3d-input" placeholder="e.g. EzVrnts" value="EzVrnts">
-
-                                <label class="ez3d-helper">Decal Size</label>
-                                <input type="range" id="decal-size" min="0.5" max="2.0" step="0.1" value="1.0" class="ez3d-slider">
-
-                                <label class="ez3d-helper">Upload Image (PNG/JPG)</label>
-                                <input type="file" id="decal-image" accept="image/png, image/jpeg" class="ez3d-input">
-
-                                <label class="ez3d-helper">Text Color</label>
-                                <div class="ez3d-swatches ez3d-mt-2" id="text-colors">
-                                    <button class="ez3d-swatch active" style="background: #ffffff;" data-color="#ffffff"></button>
-                                    <button class="ez3d-swatch" style="background: #000000;" data-color="#000000"></button>
-                                    <button class="ez3d-swatch" style="background: #3b82f6;" data-color="#3b82f6"></button>
-                                    <div class="ez3d-swatch" style="background-color: #ec4899;" data-color="#ec4899"></div>
-                                    <div class="ez3d-swatch" style="background-color: #8b5cf6;" data-color="#8b5cf6"></div>
+                            <!-- Right Panel: Customization Controls -->
+                            <div class="ez3d-right-panel customizer-controls">
+                                <div class="ez3d-control-group">
+                                    <h3>Fabric Color</h3>
+                                    <div class="ez3d-swatches" id="fabric-colors">
+                                        <button class="ez3d-swatch active" style="background: #1e3a8a;"
+                                            data-color="#1e3a8a"></button>
+                                        <button class="ez3d-swatch" style="background: #172554;" data-color="#172554"
+                                            title="Original Navy"></button>
+                                        <button class="ez3d-swatch" style="background: #ef4444;"
+                                            data-color="#ef4444"></button>
+                                        <button class="ez3d-swatch" style="background: #22c55e;"
+                                            data-color="#22c55e"></button>
+                                        <button class="ez3d-swatch" style="background: #eab308;"
+                                            data-color="#eab308"></button>
+                                        <button class="ez3d-swatch" style="background: #111827;"
+                                            data-color="#111827"></button>
+                                        <button class="ez3d-swatch" style="background: #f3f4f6;"
+                                            data-color="#f3f4f6"></button>
+                                    </div>
                                 </div>
 
-                                <p class="ez3d-helper" style="text-align:center; color:#4d44e3; margin-top:1rem;">Click the product to place your design!</p>
-                            </div>
+                                <div class="ez3d-control-group ez3d-mt-4">
+                                    <h3>Custom Decal</h3>
+                                    <label class="ez3d-helper">Text Content</label>
+                                    <input type="text" id="decal-text" class="ez3d-input" placeholder="e.g. EzVrnts"
+                                        value="EzVrnts">
 
-                            <div style="margin-top:auto; display:flex; flex-direction:column; gap:0.5rem;">
-                                <a href="#" class="ez3d-btn ez3d-btn-secondary">Generate 100+ Variants</a>
-                                <a href="#" class="ez3d-btn ez3d-btn-accent">Export Design</a>
+                                    <label class="ez3d-helper">Decal Size</label>
+                                    <input type="range" id="decal-size" min="0.5" max="2.0" step="0.1" value="1.0"
+                                        class="ez3d-slider">
+
+                                    <label class="ez3d-helper">Upload Image (PNG/JPG)</label>
+                                    <input type="file" id="decal-image" accept="image/png, image/jpeg"
+                                        class="ez3d-input">
+
+                                    <label class="ez3d-helper">Text Color</label>
+                                    <div class="ez3d-swatches ez3d-mt-2" id="text-colors">
+                                        <button class="ez3d-swatch active" style="background: #ffffff;"
+                                            data-color="#ffffff"></button>
+                                        <button class="ez3d-swatch" style="background: #000000;"
+                                            data-color="#000000"></button>
+                                        <button class="ez3d-swatch" style="background: #3b82f6;"
+                                            data-color="#3b82f6"></button>
+                                        <div class="ez3d-swatch" style="background-color: #ec4899;"
+                                            data-color="#ec4899"></div>
+                                        <div class="ez3d-swatch" style="background-color: #8b5cf6;"
+                                            data-color="#8b5cf6"></div>
+                                    </div>
+
+                                    <p class="ez3d-helper" style="text-align:center; color:#4d44e3; margin-top:1rem;">
+                                        Click the product to place your design!</p>
+                                </div>
+
+                                <div style="margin-top:auto; display:flex; flex-direction:column; gap:0.5rem;">
+                                    <a href="#" class="ez3d-btn ez3d-btn-secondary">Generate 100+ Variants</a>
+                                    <a href="#" class="ez3d-btn ez3d-btn-accent">Export Design</a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
             </section>
 
             <!-- ═══════════════════════ STATS STRIP ═══════════════════════ -->
@@ -829,28 +918,32 @@
             <!-- ═══════════════════════ MEET EASYVARIANTS ═══════════════════════ -->
             <div class="gradient-sep mb-16"></div>
 
-            <section id="meet" class="mb-32 reveal bg-white py-12 md:py-16 shadow-sm border-y border-outline-variant/10 w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]">
+            <section id="meet"
+                class="mb-32 reveal bg-white py-12 md:py-16 shadow-sm border-y border-outline-variant/10 w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]">
                 <div class="max-w-7xl mx-auto px-6 md:px-8">
                     <div class="flex items-end justify-between mb-12">
                         <div class="max-w-xl">
                             <span
                                 class="font-label text-xs font-bold uppercase tracking-[0.2em] text-primary">Explore</span>
-                            <h2 class="text-4xl md:text-5xl font-headline font-bold tracking-tight mt-2 text-on-surface">
+                            <h2
+                                class="text-4xl md:text-5xl font-headline font-bold tracking-tight mt-2 text-on-surface">
                                 Meet EasyVariants.</h2>
                             <p class="text-on-surface-variant text-lg mt-4 leading-relaxed">In the fast-paced world of
-                                consumer products, innovation is constant. Customize everything from colors and fresh logos
+                                consumer products, innovation is constant. Customize everything from colors and fresh
+                                logos
                                 to unique wordmarks and custom text without the overhead.</p>
                         </div>
                     </div>
 
-                <div class="max-w-4xl mx-auto">
-                    <div class="relative overflow-hidden group">
-                        <div class="video-showcase aspect-video relative">
-                            <video id="light-meet-vid" src="sweatshirt_v.mp4" autoplay loop muted playsinline preload="auto"
-                                class="w-full h-full object-cover rounded-[1.5rem]" style="will-change: transform; transform: translateZ(0);"></video>
+                    <div class="max-w-4xl mx-auto">
+                        <div class="relative overflow-hidden group">
+                            <div class="video-showcase aspect-video relative">
+                                <video id="light-meet-vid" src="sweatshirt_v.mp4" autoplay loop muted playsinline
+                                    preload="auto" class="w-full h-full object-cover rounded-[1.5rem]"
+                                    style="will-change: transform; transform: translateZ(0);"></video>
+                            </div>
                         </div>
                     </div>
-                </div>
             </section>
 
             <!-- ═══════════════════════ THE PROBLEM (BENTO GRID) ═══════════════════════ -->
@@ -958,8 +1051,7 @@
                     </div>
 
                     <!-- Intelligent Generation -->
-                    <div class="md:col-span-4 card-premium rounded-[2rem] p-6 md:p-12 flex flex-col justify-between hover-lift"
-                        style="background: linear-gradient(135deg, rgba(226,223,255,0.4), rgba(255,255,255,0.85));">
+                    <div class="md:col-span-4 card-premium card-signature rounded-[2rem] p-6 md:p-12 flex flex-col justify-between hover-lift">
                         <div
                             class="w-12 h-12 rounded-xl bg-primary flex items-center justify-center text-on-primary shadow-lg shadow-primary/20">
                             <span class="material-symbols-outlined">auto_awesome</span>
@@ -1014,206 +1106,264 @@
             <!-- ═══════════════════════ HOW IT WORKS ═══════════════════════ -->
             <div class="gradient-sep mb-2"></div>
 
-            <section id="how-it-works" class="py-24 mb-20 reveal bg-white shadow-sm border-y border-outline-variant/10 w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]">
+            <section id="how-it-works"
+                class="py-24 mb-20 reveal bg-white shadow-sm border-y border-outline-variant/10 w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]">
                 <div class="max-w-7xl mx-auto px-6 md:px-8">
                     <div class="text-center mb-20">
-                    <span class="font-label text-xs font-bold uppercase tracking-[0.2em] text-primary">Workflow</span>
-                    <h2 class="text-4xl md:text-5xl font-headline font-bold tracking-tight mt-2">Automate in 4 Steps.
-                    </h2>
-                    <p class="text-on-surface-variant text-lg mt-4 max-w-2xl mx-auto">Streamlined workflow that turns
-                        raw inputs into hundreds of production-ready variants.</p>
-                </div>
-
-                <div class="max-w-4xl mx-auto relative pt-4 pb-4">
-                    <!-- Enhanced Vertical Line Container -->
-                    <div class="absolute left-8 md:left-1/2 top-8 bottom-8 w-[2px] md:w-[3px] bg-gradient-to-b from-primary/10 via-primary-container/10 to-tertiary/10 -translate-x-1/2 rounded-full" id="step-progress-container">
-                        <!-- Animated Fill Line -->
-                        <div class="absolute top-0 left-0 w-full bg-gradient-to-b from-primary via-primary-container to-tertiary rounded-full shadow-[0_0_15px_rgba(53,37,205,0.4)] transition-all ease-out" id="step-progress-fill" style="height: 0%;"></div>
+                        <span
+                            class="font-label text-xs font-bold uppercase tracking-[0.2em] text-primary">Workflow</span>
+                        <h2 class="text-4xl md:text-5xl font-headline font-bold tracking-tight mt-2">Automate in 4
+                            Steps.
+                        </h2>
+                        <p class="text-on-surface-variant text-lg mt-4 max-w-2xl mx-auto">Streamlined workflow that
+                            turns
+                            raw inputs into hundreds of production-ready variants.</p>
                     </div>
 
-                    <div class="space-y-20 md:space-y-32">
-                        <!-- Step 1 -->
-                        <div class="flex flex-col md:flex-row items-center md:items-center gap-8 md:gap-12 group reveal relative">
-                            <div class="md:w-[45%] text-left md:text-right pl-16 md:pl-0">
-                                <h3
-                                    class="text-2xl font-headline font-bold mb-3 text-primary group-hover:text-primary/80 transition-colors">
-                                    Define Variables</h3>
-                                <p class="text-on-surface-variant leading-relaxed text-[15px]">Set up your smart templates with
-                                    dynamic layers and data points seamlessly embedded into your workflow.</p>
-                            </div>
-                            <div class="absolute left-8 md:relative md:left-0 md:translate-x-0 -translate-x-1/2 flex justify-center w-16 md:w-auto">
-                                <div
-                                    class="w-12 h-12 md:w-20 md:h-20 rounded-full bg-white border-[3px] md:border-[4px] border-primary flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:shadow-[0_0_30px_rgba(53,37,205,0.4)] transition-all duration-500 shadow-xl relative z-10">
-                                    <span class="font-headline font-extrabold text-xl md:text-3xl text-primary">1</span>
-                                </div>
-                            </div>
-                            <div id="step-card-1"
-                                class="step-card w-full md:w-[45%] card-premium rounded-[2.5rem] p-6 md:p-8 ml-16 md:ml-0 aspect-[16/10] md:aspect-video flex flex-col items-center justify-center text-center overflow-hidden transition-all duration-500 border border-transparent">
-                                <span
-                                    class="material-symbols-outlined text-[64px] text-primary/30 group-hover:text-primary/70 mb-4 transition-colors duration-500">data_object</span>
-                                <span class="text-xs font-bold tracking-[0.2em] uppercase text-on-surface-variant/50 group-hover:text-primary/60 transition-colors">Data Integration</span>
-                            </div>
+                    <div class="max-w-4xl mx-auto relative pt-4 pb-4">
+                        <!-- Enhanced Vertical Line Container -->
+                        <div class="absolute left-8 md:left-1/2 top-8 bottom-8 w-[2px] md:w-[3px] bg-gradient-to-b from-primary/10 via-primary-container/10 to-tertiary/10 -translate-x-1/2 rounded-full"
+                            id="step-progress-container">
+                            <!-- Animated Fill Line -->
+                            <div class="absolute top-0 left-0 w-full bg-gradient-to-b from-primary via-primary-container to-tertiary rounded-full shadow-[0_0_15px_rgba(53,37,205,0.4)] transition-all ease-out"
+                                id="step-progress-fill" style="height: 0%;"></div>
                         </div>
 
-                        <!-- Step 2 -->
-                        <div class="flex flex-col md:flex-row items-center md:items-center gap-8 md:gap-12 group reveal relative">
-                            <div id="step-card-2"
-                                class="step-card w-full md:w-[45%] card-premium rounded-[2.5rem] p-6 md:p-8 ml-16 md:ml-0 aspect-[16/10] md:aspect-video flex flex-col items-center justify-center text-center overflow-hidden transition-all duration-500 order-3 md:order-1 border border-transparent">
-                                <span
-                                    class="material-symbols-outlined text-[64px] text-primary-container/30 group-hover:text-primary-container/70 mb-4 transition-colors duration-500">rule_settings</span>
-                                <span class="text-xs font-bold tracking-[0.2em] uppercase text-on-surface-variant/50 group-hover:text-primary-container/60 transition-colors">Template Control</span>
-                            </div>
-                            <div class="absolute left-8 md:relative md:left-0 md:translate-x-0 -translate-x-1/2 flex justify-center w-16 md:w-auto order-1 md:order-2">
+                        <div class="space-y-20 md:space-y-32">
+                            <!-- Step 1 -->
+                            <div
+                                class="flex flex-col md:flex-row items-center md:items-center gap-8 md:gap-12 group reveal relative">
+                                <div class="md:w-[45%] text-left md:text-right pl-16 md:pl-0">
+                                    <h3
+                                        class="text-2xl font-headline font-bold mb-3 text-tertiary group-hover:text-tertiary/80 transition-colors">
+                                        Define Variables</h3>
+                                    <p class="text-on-surface-variant leading-relaxed text-[15px]">Set up your smart
+                                        templates with
+                                        dynamic layers and data points seamlessly embedded into your workflow.</p>
+                                </div>
                                 <div
-                                    class="w-12 h-12 md:w-20 md:h-20 rounded-full bg-white border-[3px] md:border-[4px] border-primary-container flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:shadow-[0_0_30px_rgba(79,70,229,0.4)] transition-all duration-500 shadow-xl relative z-10">
-                                    <span class="font-headline font-extrabold text-xl md:text-3xl text-primary-container">2</span>
+                                    class="absolute left-8 md:relative md:left-0 md:translate-x-0 -translate-x-1/2 flex justify-center w-16 md:w-auto">
+                                    <div
+                                        class="w-12 h-12 md:w-20 md:h-20 rounded-full bg-white border-[3px] md:border-[4px] border-tertiary flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:shadow-[0_0_30px_rgba(255,182,149,0.4)] transition-all duration-500 shadow-xl relative z-10">
+                                        <span
+                                            class="font-headline font-extrabold text-xl md:text-3xl text-tertiary">1</span>
+                                    </div>
+                                </div>
+                                <div id="step-card-1"
+                                    class="step-card w-full md:w-[45%] card-premium rounded-[2.5rem] p-6 md:p-8 ml-16 md:ml-0 aspect-[16/10] md:aspect-video flex flex-col items-center justify-center text-center overflow-hidden transition-all duration-500 border border-transparent">
+                                    <span
+                                        class="material-symbols-outlined text-[64px] text-tertiary/30 group-hover:text-tertiary/70 mb-4 transition-colors duration-500">data_object</span>
+                                    <span
+                                        class="text-xs font-bold tracking-[0.2em] uppercase text-on-surface-variant/50 group-hover:text-tertiary/60 transition-colors">Data
+                                        Integration</span>
                                 </div>
                             </div>
-                            <div class="w-full md:w-[45%] order-2 md:order-3 text-left pl-16 md:pl-0">
-                                <h3
-                                    class="text-2xl font-headline font-bold mb-3 text-primary-container group-hover:text-primary-container/80 transition-colors">
-                                    Maintain Consistency</h3>
-                                <p class="text-on-surface-variant leading-relaxed text-[15px]">Ensure all generated outputs match
-                                    brand specs and guidelines perfectly, overcoming manual drifts.</p>
-                            </div>
-                        </div>
 
-                        <!-- Step 3 -->
-                        <div class="flex flex-col md:flex-row items-center md:items-center gap-8 md:gap-12 group reveal relative">
-                            <div class="w-full md:w-[45%] text-left md:text-right pl-16 md:pl-0">
-                                <h3
-                                    class="text-2xl font-headline font-bold mb-3 text-tertiary group-hover:text-tertiary/80 transition-colors">
-                                    Automate Variations</h3>
-                                <p class="text-on-surface-variant leading-relaxed text-[15px]">Export hundreds to thousands of
-                                    high-fidelity assets in mere seconds directly formatted for production.</p>
-                            </div>
-                            <div class="absolute left-8 md:relative md:left-0 md:translate-x-0 -translate-x-1/2 flex justify-center w-16 md:w-auto">
+                            <!-- Step 2 -->
+                            <div
+                                class="flex flex-col md:flex-row items-center md:items-center gap-8 md:gap-12 group reveal relative">
+                                <div id="step-card-2"
+                                    class="step-card w-full md:w-[45%] card-premium rounded-[2.5rem] p-6 md:p-8 ml-16 md:ml-0 aspect-[16/10] md:aspect-video flex flex-col items-center justify-center text-center overflow-hidden transition-all duration-500 order-3 md:order-1 border border-transparent">
+                                    <span
+                                        class="material-symbols-outlined text-[64px] text-primary-container/30 group-hover:text-primary-container/70 mb-4 transition-colors duration-500">rule_settings</span>
+                                    <span
+                                        class="text-xs font-bold tracking-[0.2em] uppercase text-on-surface-variant/50 group-hover:text-primary-container/60 transition-colors">Template
+                                        Control</span>
+                                </div>
                                 <div
-                                    class="w-12 h-12 md:w-20 md:h-20 rounded-full bg-white border-[3px] md:border-[4px] border-tertiary flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:shadow-[0_0_30px_rgba(99,102,241,0.4)] transition-all duration-500 shadow-xl relative z-10">
-                                    <span class="font-headline font-extrabold text-xl md:text-3xl text-tertiary">3</span>
+                                    class="absolute left-8 md:relative md:left-0 md:translate-x-0 -translate-x-1/2 flex justify-center w-16 md:w-auto order-1 md:order-2">
+                                    <div
+                                        class="w-12 h-12 md:w-20 md:h-20 rounded-full bg-white border-[3px] md:border-[4px] border-primary-container flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:shadow-[0_0_30px_rgba(79,70,229,0.4)] transition-all duration-500 shadow-xl relative z-10">
+                                        <span
+                                            class="font-headline font-extrabold text-xl md:text-3xl text-primary-container">2</span>
+                                    </div>
+                                </div>
+                                <div class="w-full md:w-[45%] order-2 md:order-3 text-left pl-16 md:pl-0">
+                                    <h3
+                                        class="text-2xl font-headline font-bold mb-3 text-primary-container group-hover:text-primary-container/80 transition-colors">
+                                        Maintain Consistency</h3>
+                                    <p class="text-on-surface-variant leading-relaxed text-[15px]">Ensure all generated
+                                        outputs match
+                                        brand specs and guidelines perfectly, overcoming manual drifts.</p>
                                 </div>
                             </div>
-                            <div id="step-card-3"
-                                class="step-card w-full md:w-[45%] card-premium rounded-[2.5rem] p-6 md:p-8 ml-16 md:ml-0 aspect-[16/10] md:aspect-video flex flex-col items-center justify-center text-center overflow-hidden transition-all duration-500 border border-transparent">
-                                <span
-                                    class="material-symbols-outlined text-[64px] text-tertiary/30 group-hover:text-tertiary/70 mb-4 transition-colors duration-500">auto_awesome_motion</span>
-                                <span class="text-xs font-bold tracking-[0.2em] uppercase text-on-surface-variant/50 group-hover:text-tertiary/60 transition-colors">Batch Export</span>
-                            </div>
-                        </div>
-                        
-                        <!-- Step 4 -->
-                        <div class="flex flex-col md:flex-row items-center md:items-center gap-8 md:gap-12 group reveal relative">
-                            <div id="step-card-4"
-                                class="step-card w-full md:w-[45%] card-premium rounded-[2.5rem] p-6 md:p-8 ml-16 md:ml-0 aspect-[16/10] md:aspect-video flex flex-col items-center justify-center text-center overflow-hidden transition-all duration-500 order-3 md:order-1 border border-transparent">
-                                <span
-                                    class="material-symbols-outlined text-[64px] text-primary/30 group-hover:text-primary/70 mb-4 transition-colors duration-500">cloud_download</span>
-                                <span class="text-xs font-bold tracking-[0.2em] uppercase text-on-surface-variant/50 group-hover:text-primary/60 transition-colors">Delivery</span>
-                            </div>
-                            <div class="absolute left-8 md:relative md:left-0 md:translate-x-0 -translate-x-1/2 flex justify-center w-16 md:w-auto order-1 md:order-2">
-                                <div
-                                    class="w-12 h-12 md:w-20 md:h-20 rounded-full bg-white border-[3px] md:border-[4px] border-primary flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:shadow-[0_0_30px_rgba(53,37,205,0.4)] transition-all duration-500 shadow-xl relative z-10">
-                                    <span class="font-headline font-extrabold text-xl md:text-3xl text-primary">4</span>
-                                </div>
-                            </div>
-                            <div class="w-full md:w-[45%] order-2 md:order-3 text-left pl-16 md:pl-0">
-                                <h3
-                                    class="text-2xl font-headline font-bold mb-3 text-primary group-hover:text-primary/80 transition-colors">
-                                    Export Your Design</h3>
-                                <p class="text-on-surface-variant leading-relaxed text-[15px]">Download your pixel-perfect assets directly or integrate via API straight to your production workflow.</p>
-                            </div>
-                        </div>
 
+                            <!-- Step 3 -->
+                            <div
+                                class="flex flex-col md:flex-row items-center md:items-center gap-8 md:gap-12 group reveal relative">
+                                <div class="w-full md:w-[45%] text-left md:text-right pl-16 md:pl-0">
+                                    <h3
+                                        class="text-2xl font-headline font-bold mb-3 text-tertiary group-hover:text-tertiary/80 transition-colors">
+                                        Automate Variations</h3>
+                                    <p class="text-on-surface-variant leading-relaxed text-[15px]">Export hundreds to
+                                        thousands of
+                                        high-fidelity assets in mere seconds directly formatted for production.</p>
+                                </div>
+                                <div
+                                    class="absolute left-8 md:relative md:left-0 md:translate-x-0 -translate-x-1/2 flex justify-center w-16 md:w-auto">
+                                    <div
+                                        class="w-12 h-12 md:w-20 md:h-20 rounded-full bg-white border-[3px] md:border-[4px] border-tertiary flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:shadow-[0_0_30px_rgba(99,102,241,0.4)] transition-all duration-500 shadow-xl relative z-10">
+                                        <span
+                                            class="font-headline font-extrabold text-xl md:text-3xl text-tertiary">3</span>
+                                    </div>
+                                </div>
+                                <div id="step-card-3"
+                                    class="step-card w-full md:w-[45%] card-premium rounded-[2.5rem] p-6 md:p-8 ml-16 md:ml-0 aspect-[16/10] md:aspect-video flex flex-col items-center justify-center text-center overflow-hidden transition-all duration-500 border border-transparent">
+                                    <span
+                                        class="material-symbols-outlined text-[64px] text-tertiary/30 group-hover:text-tertiary/70 mb-4 transition-colors duration-500">auto_awesome_motion</span>
+                                    <span
+                                        class="text-xs font-bold tracking-[0.2em] uppercase text-on-surface-variant/50 group-hover:text-tertiary/60 transition-colors">Batch
+                                        Export</span>
+                                </div>
+                            </div>
+
+                            <!-- Step 4 -->
+                            <div
+                                class="flex flex-col md:flex-row items-center md:items-center gap-8 md:gap-12 group reveal relative">
+                                <div id="step-card-4"
+                                    class="step-card w-full md:w-[45%] card-premium rounded-[2.5rem] p-6 md:p-8 ml-16 md:ml-0 aspect-[16/10] md:aspect-video flex flex-col items-center justify-center text-center overflow-hidden transition-all duration-500 order-3 md:order-1 border border-transparent">
+                                    <span
+                                        class="material-symbols-outlined text-[64px] text-primary/30 group-hover:text-primary/70 mb-4 transition-colors duration-500">cloud_download</span>
+                                    <span
+                                        class="text-xs font-bold tracking-[0.2em] uppercase text-on-surface-variant/50 group-hover:text-primary/60 transition-colors">Delivery</span>
+                                </div>
+                                <div
+                                    class="absolute left-8 md:relative md:left-0 md:translate-x-0 -translate-x-1/2 flex justify-center w-16 md:w-auto order-1 md:order-2">
+                                    <div
+                                        class="w-12 h-12 md:w-20 md:h-20 rounded-full bg-white border-[3px] md:border-[4px] border-primary flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:shadow-[0_0_30px_rgba(53,37,205,0.4)] transition-all duration-500 shadow-xl relative z-10">
+                                        <span
+                                            class="font-headline font-extrabold text-xl md:text-3xl text-primary">4</span>
+                                    </div>
+                                </div>
+                                <div class="w-full md:w-[45%] order-2 md:order-3 text-left pl-16 md:pl-0">
+                                    <h3
+                                        class="text-2xl font-headline font-bold mb-3 text-primary group-hover:text-primary/80 transition-colors">
+                                        Export Your Design</h3>
+                                    <p class="text-on-surface-variant leading-relaxed text-[15px]">Download your
+                                        pixel-perfect assets directly or integrate via API straight to your production
+                                        workflow.</p>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
-                </div>
-                
-                <style>
-                    /* Dynamic glowing styles applied via JS */
-                    .step-card.glow-active-1 {
-                        box-shadow: 0 0 40px rgba(53,37,205,0.3) !important;
-                        border-color: rgba(53,37,205,0.5) !important;
-                        transform: translateY(-8px) !important;
-                    }
-                    .step-card.glow-active-1 span.material-symbols-outlined { color: rgba(53,37,205,0.7) !important; text-shadow: 0 0 20px rgba(53,37,205,0.4); }
-                    .step-card.glow-active-1 span.text-xs { color: rgba(53,37,205,0.6) !important; }
 
-                    .step-card.glow-active-2 {
-                        box-shadow: 0 0 40px rgba(79,70,229,0.3) !important;
-                        border-color: rgba(79,70,229,0.5) !important;
-                        transform: translateY(-8px) !important;
-                    }
-                    .step-card.glow-active-2 span.material-symbols-outlined { color: rgba(79,70,229,0.7) !important; text-shadow: 0 0 20px rgba(79,70,229,0.4); }
-                    .step-card.glow-active-2 span.text-xs { color: rgba(79,70,229,0.6) !important; }
+                    <style>
+                        /* Dynamic glowing styles applied via JS */
+                        .step-card.glow-active-1 {
+                            box-shadow: 0 0 40px rgba(53, 37, 205, 0.3) !important;
+                            border-color: rgba(53, 37, 205, 0.5) !important;
+                            transform: translateY(-8px) !important;
+                        }
 
-                    .step-card.glow-active-3 {
-                        box-shadow: 0 0 40px rgba(99,102,241,0.3) !important;
-                        border-color: rgba(99,102,241,0.5) !important;
-                        transform: translateY(-8px) !important;
-                    }
-                    .step-card.glow-active-3 span.material-symbols-outlined { color: rgba(99,102,241,0.7) !important; text-shadow: 0 0 20px rgba(99,102,241,0.4); }
-                    .step-card.glow-active-3 span.text-xs { color: rgba(99,102,241,0.6) !important; }
+                        .step-card.glow-active-1 span.material-symbols-outlined {
+                            color: rgba(53, 37, 205, 0.7) !important;
+                            text-shadow: 0 0 20px rgba(53, 37, 205, 0.4);
+                        }
 
-                    .step-card.glow-active-4 {
-                        box-shadow: 0 0 40px rgba(53,37,205,0.3) !important;
-                        border-color: rgba(53,37,205,0.5) !important;
-                        transform: translateY(-8px) !important;
-                    }
-                    .step-card.glow-active-4 span.material-symbols-outlined { color: rgba(53,37,205,0.7) !important; text-shadow: 0 0 20px rgba(53,37,205,0.4); }
-                    .step-card.glow-active-4 span.text-xs { color: rgba(53,37,205,0.6) !important; }
-                </style>
+                        .step-card.glow-active-1 span.text-xs {
+                            color: rgba(53, 37, 205, 0.6) !important;
+                        }
 
-                <script>
-                    document.addEventListener('DOMContentLoaded', () => {
-                        const container = document.getElementById('how-it-works');
-                        const fillLine = document.getElementById('step-progress-fill');
-                        const stepCards = [
-                            document.getElementById('step-card-1'),
-                            document.getElementById('step-card-2'),
-                            document.getElementById('step-card-3'),
-                            document.getElementById('step-card-4')
-                        ];
-                        
-                        // Optimize scroll using requestAnimationFrame
-                        let ticking = false;
-                        
-                        window.addEventListener('scroll', () => {
-                            if (!ticking) {
-                                window.requestAnimationFrame(() => {
-                                    const rect = container.getBoundingClientRect();
-                                    const windowHeight = window.innerHeight;
-                                    
-                                    // Start the animation when the top of the container reaches the middle of the screen
-                                    const startPoint = windowHeight / 2;
-                                    
-                                    // Calculate progress (0 to 1) for the line
-                                    const scrolled = startPoint - rect.top;
-                                    const totalScrollable = rect.height;
-                                    let progress = scrolled / totalScrollable;
-                                    
-                                    // Clamp between 0 and 1
-                                    progress = Math.max(0, Math.min(1, progress));
-                                    
-                                    fillLine.style.height = `${progress * 100}%`;
-                                    
-                                    // Make cards glow if the scroll 'startPoint' has reached them
-                                    stepCards.forEach((card, index) => {
-                                        if (card) {
-                                            const cardRect = card.getBoundingClientRect();
-                                            // The line passes through a card when startPoint crosses its top quarter
-                                            if (startPoint > cardRect.top + (cardRect.height * 0.25)) {
-                                                card.classList.add(`glow-active-${index + 1}`);
-                                            } else {
-                                                card.classList.remove(`glow-active-${index + 1}`);
+                        .step-card.glow-active-2 {
+                            box-shadow: 0 0 40px rgba(79, 70, 229, 0.3) !important;
+                            border-color: rgba(79, 70, 229, 0.5) !important;
+                            transform: translateY(-8px) !important;
+                        }
+
+                        .step-card.glow-active-2 span.material-symbols-outlined {
+                            color: rgba(79, 70, 229, 0.7) !important;
+                            text-shadow: 0 0 20px rgba(79, 70, 229, 0.4);
+                        }
+
+                        .step-card.glow-active-2 span.text-xs {
+                            color: rgba(79, 70, 229, 0.6) !important;
+                        }
+
+                        .step-card.glow-active-3 {
+                            box-shadow: 0 0 40px rgba(99, 102, 241, 0.3) !important;
+                            border-color: rgba(99, 102, 241, 0.5) !important;
+                            transform: translateY(-8px) !important;
+                        }
+
+                        .step-card.glow-active-3 span.material-symbols-outlined {
+                            color: rgba(99, 102, 241, 0.7) !important;
+                            text-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+                        }
+
+                        .step-card.glow-active-3 span.text-xs {
+                            color: rgba(99, 102, 241, 0.6) !important;
+                        }
+
+                        .step-card.glow-active-4 {
+                            box-shadow: 0 0 40px rgba(53, 37, 205, 0.3) !important;
+                            border-color: rgba(53, 37, 205, 0.5) !important;
+                            transform: translateY(-8px) !important;
+                        }
+
+                        .step-card.glow-active-4 span.material-symbols-outlined {
+                            color: rgba(53, 37, 205, 0.7) !important;
+                            text-shadow: 0 0 20px rgba(53, 37, 205, 0.4);
+                        }
+
+                        .step-card.glow-active-4 span.text-xs {
+                            color: rgba(53, 37, 205, 0.6) !important;
+                        }
+                    </style>
+
+                    <script>
+                        document.addEventListener('DOMContentLoaded', () => {
+                            const container = document.getElementById('how-it-works');
+                            const fillLine = document.getElementById('step-progress-fill');
+                            const stepCards = [
+                                document.getElementById('step-card-1'),
+                                document.getElementById('step-card-2'),
+                                document.getElementById('step-card-3'),
+                                document.getElementById('step-card-4')
+                            ];
+
+                            // Optimize scroll using requestAnimationFrame
+                            let ticking = false;
+
+                            window.addEventListener('scroll', () => {
+                                if (!ticking) {
+                                    window.requestAnimationFrame(() => {
+                                        const rect = container.getBoundingClientRect();
+                                        const windowHeight = window.innerHeight;
+
+                                        // Start the animation when the top of the container reaches the middle of the screen
+                                        const startPoint = windowHeight / 2;
+
+                                        // Calculate progress (0 to 1) for the line
+                                        const scrolled = startPoint - rect.top;
+                                        const totalScrollable = rect.height;
+                                        let progress = scrolled / totalScrollable;
+
+                                        // Clamp between 0 and 1
+                                        progress = Math.max(0, Math.min(1, progress));
+
+                                        fillLine.style.height = `${progress * 100}%`;
+
+                                        // Make cards glow if the scroll 'startPoint' has reached them
+                                        stepCards.forEach((card, index) => {
+                                            if (card) {
+                                                const cardRect = card.getBoundingClientRect();
+                                                // The line passes through a card when startPoint crosses its top quarter
+                                                if (startPoint > cardRect.top + (cardRect.height * 0.25)) {
+                                                    card.classList.add(`glow-active-${index + 1}`);
+                                                } else {
+                                                    card.classList.remove(`glow-active-${index + 1}`);
+                                                }
                                             }
-                                        }
+                                        });
+
+                                        ticking = false;
                                     });
-                                    
-                                    ticking = false;
-                                });
-                                ticking = true;
-                            }
-                        }, { passive: true });
-                    });
-                </script>
+                                    ticking = true;
+                                }
+                            }, { passive: true });
+                        });
+                    </script>
             </section>
 
             <!-- ═══════════════════════ DEMO VIDEOS ═══════════════════════ -->
@@ -1254,46 +1404,66 @@
 
             <section id="advantage" class="mb-32 reveal">
                 <div class="text-center mb-16 max-w-4xl mx-auto">
-                    <span class="font-label text-xs font-bold uppercase tracking-[0.2em] text-primary">The EasyVariants Advantage</span>
-                    <h2 class="text-4xl md:text-5xl font-headline font-bold tracking-tight mt-3">10X Speed, Guarantee Brand Consistency, Fuel Innovation.</h2>
-                    <p class="text-on-surface-variant text-lg mt-5 leading-relaxed">The result? Generate hundreds, even thousands, of error-free design variants in minutes - not hours or days.</p>
+                    <span class="font-label text-xs font-bold uppercase tracking-[0.2em] text-primary">The EasyVariants
+                        Advantage</span>
+                    <h2 class="text-4xl md:text-5xl font-headline font-bold tracking-tight mt-3">10X Speed, Guarantee
+                        Brand Consistency, Fuel Innovation.</h2>
+                    <p class="text-on-surface-variant text-lg mt-5 leading-relaxed">The result? Generate hundreds, even
+                        thousands, of error-free design variants in minutes - not hours or days.</p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 stagger">
                     <!-- Card 1 -->
-                    <div class="card-premium rounded-[2rem] p-6 md:p-10 hover-lift group reveal" style="--i: 1">
-                        <div class="w-16 h-16 rounded-[1.25rem] bg-primary/10 flex items-center justify-center text-primary mb-8 group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-500 shadow-lg shadow-primary/5">
+                    <div class="card-premium rounded-[2rem] p-6 md:p-10 hover-lift group reveal" style="--i: 1;">
+                        <div
+                            class="w-16 h-16 rounded-[1.25rem] bg-primary/10 flex items-center justify-center text-primary mb-8 group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-500 shadow-lg shadow-primary/5">
                             <span class="material-symbols-outlined text-4xl">rocket_launch</span>
                         </div>
-                        <h3 class="text-2xl font-headline font-bold mb-4 text-on-surface group-hover:text-primary transition-colors duration-500">Boost Design Output 10X</h3>
-                        <p class="text-on-surface-variant text-[16px] leading-relaxed">Free your designers from repetitive drudgery, allowing them to focus on pure innovation and new concept development.</p>
+                        <h3
+                            class="text-2xl font-headline font-bold mb-4 text-on-surface group-hover:text-primary transition-colors duration-500">
+                            Boost Design Output 10X</h3>
+                        <p class="text-on-surface-variant text-[16px] leading-relaxed">Free your designers from
+                            repetitive drudgery, allowing them to focus on pure innovation and new concept development.
+                        </p>
                     </div>
 
                     <!-- Card 2 -->
-                    <div class="card-premium rounded-[2rem] p-6 md:p-10 hover-lift group reveal" style="--i: 2">
-                        <div class="w-16 h-16 rounded-[1.25rem] bg-primary-container/10 flex items-center justify-center text-primary-container mb-8 group-hover:scale-110 group-hover:bg-primary-container group-hover:text-white transition-all duration-500 shadow-lg shadow-primary-container/5">
+                    <div class="card-premium rounded-[2rem] p-6 md:p-10 hover-lift group reveal" style="--i: 2;">
+                        <div
+                            class="w-16 h-16 rounded-[1.25rem] bg-tertiary/10 flex items-center justify-center text-tertiary mb-8 group-hover:scale-110 group-hover:bg-tertiary group-hover:text-white transition-all duration-500 shadow-lg shadow-tertiary/5">
                             <span class="material-symbols-outlined text-4xl">verified</span>
                         </div>
-                        <h3 class="text-2xl font-headline font-bold mb-4 text-on-surface group-hover:text-primary-container transition-colors duration-500">Guaranteed Consistency</h3>
-                        <p class="text-on-surface-variant text-[16px] leading-relaxed">Eliminate human error and ensure every variant perfectly aligns with your brand standards and design guidelines.</p>
+                        <h3
+                            class="text-2xl font-headline font-bold mb-4 text-on-surface group-hover:text-tertiary transition-colors duration-500">
+                            Guaranteed Consistency</h3>
+                        <p class="text-on-surface-variant text-[16px] leading-relaxed">Eliminate human error and ensure
+                            every variant perfectly aligns with your brand standards and design guidelines.</p>
                     </div>
 
                     <!-- Card 3 -->
-                    <div class="card-premium rounded-[2rem] p-6 md:p-10 hover-lift group reveal" style="--i: 3">
-                        <div class="w-16 h-16 rounded-[1.25rem] bg-tertiary/10 flex items-center justify-center text-tertiary mb-8 group-hover:scale-110 group-hover:bg-tertiary group-hover:text-white transition-all duration-500 shadow-lg shadow-tertiary/5">
+                    <div class="card-premium rounded-[2rem] p-6 md:p-10 hover-lift group reveal" style="--i: 3;">
+                        <div
+                            class="w-16 h-16 rounded-[1.25rem] bg-tertiary/10 flex items-center justify-center text-tertiary mb-8 group-hover:scale-110 group-hover:bg-tertiary group-hover:text-white transition-all duration-500 shadow-lg shadow-tertiary/5">
                             <span class="material-symbols-outlined text-4xl">trending_up</span>
                         </div>
-                        <h3 class="text-2xl font-headline font-bold mb-4 text-on-surface group-hover:text-tertiary transition-colors duration-500">Accelerated Time-to-Market</h3>
-                        <p class="text-on-surface-variant text-[16px] leading-relaxed">Rapidly customize and deploy new collections, gaining a critical competitive edge.</p>
+                        <h3
+                            class="text-2xl font-headline font-bold mb-4 text-on-surface group-hover:text-tertiary transition-colors duration-500">
+                            Accelerated Time-to-Market</h3>
+                        <p class="text-on-surface-variant text-[16px] leading-relaxed">Rapidly customize and deploy new
+                            collections, gaining a critical competitive edge.</p>
                     </div>
 
                     <!-- Card 4 -->
-                    <div class="card-premium rounded-[2rem] p-6 md:p-10 hover-lift group reveal" style="--i: 4">
-                        <div class="w-16 h-16 rounded-[1.25rem] bg-surface-tint/10 flex items-center justify-center text-surface-tint mb-8 group-hover:scale-110 group-hover:bg-surface-tint group-hover:text-white transition-all duration-500 shadow-lg shadow-surface-tint/5">
+                    <div class="card-premium rounded-[2rem] p-6 md:p-10 hover-lift group reveal" style="--i: 4;">
+                        <div
+                            class="w-16 h-16 rounded-[1.25rem] bg-surface-tint/10 flex items-center justify-center text-surface-tint mb-8 group-hover:scale-110 group-hover:bg-surface-tint group-hover:text-white transition-all duration-500 shadow-lg shadow-surface-tint/5">
                             <span class="material-symbols-outlined text-4xl">tune</span>
                         </div>
-                        <h3 class="text-2xl font-headline font-bold mb-4 text-on-surface group-hover:text-surface-tint transition-colors duration-500">Scalable Personalization</h3>
-                        <p class="text-on-surface-variant text-[16px] leading-relaxed">Offer extensive product personalization and custom builds without fear of an unmanageable design workload.</p>
+                        <h3
+                            class="text-2xl font-headline font-bold mb-4 text-on-surface group-hover:text-surface-tint transition-colors duration-500">
+                            Scalable Personalization</h3>
+                        <p class="text-on-surface-variant text-[16px] leading-relaxed">Offer extensive product
+                            personalization and custom builds without fear of an unmanageable design workload.</p>
                     </div>
                 </div>
             </section>
@@ -1329,56 +1499,80 @@
     </main>
 
     <!-- ═══════════════════════ FOOTER ═══════════════════════ -->
-    <footer class="footer-premium bg-surface-container-[rgba(255,255,255,0.6)] w-full py-20 px-8 border-t border-outline-variant/10 mt-10">
+    <footer
+        class="footer-premium bg-surface-container-[rgba(255,255,255,0.6)] w-full py-20 px-8 border-t border-outline-variant/10 mt-10">
         <div class="max-w-7xl mx-auto">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
                 <!-- Brand Col -->
                 <div class="flex flex-col gap-6">
-                    <img src="logo.png" alt="EasyVariants" class="h-10 w-auto object-contain self-start" />
+                    <img src="logo.png" alt="EasyVariants" class="h-32 md:h-[136px] w-auto object-contain self-start"
+                        style="margin: -35px 0;" />
                     <p class="text-on-surface text-[15px] leading-relaxed font-semibold">
-                        The ultimate design automation platform. Scale your product variants without limits and eliminate repetitive tasks from your workflow.
+                        The ultimate design automation platform. Scale your product variants without limits and
+                        eliminate repetitive tasks from your workflow.
                     </p>
                     <div class="flex items-center gap-4 mt-2">
-                        <a href="#" class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface hover:bg-primary hover:text-white transition-all shadow-sm border border-outline-variant/20"><span class="material-symbols-outlined text-[20px]">share</span></a>
-                        <a href="#" class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface hover:bg-primary hover:text-white transition-all shadow-sm border border-outline-variant/20"><span class="material-symbols-outlined text-[20px]">forum</span></a>
-                        <a href="mailto:hello@easyvariants.com" class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface hover:bg-primary hover:text-white transition-all shadow-sm border border-outline-variant/20"><span class="material-symbols-outlined text-[20px]">mail</span></a>
+                        <a href="#"
+                            class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface hover:bg-primary hover:text-white transition-all shadow-sm border border-outline-variant/20"><span
+                                class="material-symbols-outlined text-[20px]">share</span></a>
+                        <a href="#"
+                            class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface hover:bg-primary hover:text-white transition-all shadow-sm border border-outline-variant/20"><span
+                                class="material-symbols-outlined text-[20px]">forum</span></a>
+                        <a href="mailto:hello@easyvariants.com"
+                            class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface hover:bg-primary hover:text-white transition-all shadow-sm border border-outline-variant/20"><span
+                                class="material-symbols-outlined text-[20px]">mail</span></a>
                     </div>
                 </div>
 
                 <!-- Product Col -->
                 <div class="flex flex-col gap-4">
                     <h4 class="font-headline font-extrabold text-lg text-on-surface tracking-tight mb-2">Product</h4>
-                    <a href="#smooth" class="text-on-surface font-semibold hover:text-primary transition-colors">Platform Features</a>
-                    <a href="#how-it-works" class="text-on-surface font-semibold hover:text-primary transition-colors">How it Works</a>
-                    <a href="#demos" class="text-on-surface font-semibold hover:text-primary transition-colors">Interactive Demos</a>
-                    <a href="#" class="text-on-surface font-semibold hover:text-primary transition-colors">Pricing Options</a>
-                    <a href="#" class="text-on-surface font-semibold hover:text-primary transition-colors">API Documentation</a>
+                    <a href="#smooth"
+                        class="text-on-surface font-semibold hover:text-primary transition-colors">Platform Features</a>
+                    <a href="#how-it-works"
+                        class="text-on-surface font-semibold hover:text-primary transition-colors">How it Works</a>
+                    <a href="#demos"
+                        class="text-on-surface font-semibold hover:text-primary transition-colors">Interactive Demos</a>
+                    <a href="#" class="text-on-surface font-semibold hover:text-primary transition-colors">Pricing
+                        Options</a>
+                    <a href="#" class="text-on-surface font-semibold hover:text-primary transition-colors">API
+                        Documentation</a>
                 </div>
 
                 <!-- Company Col -->
                 <div class="flex flex-col gap-4">
                     <h4 class="font-headline font-extrabold text-lg text-on-surface tracking-tight mb-2">Company</h4>
                     <a href="#" class="text-on-surface font-semibold hover:text-primary transition-colors">About Us</a>
-                    <a href="#" class="text-on-surface font-semibold hover:text-primary transition-colors">Careers & Culture</a>
-                    <a href="#" class="text-on-surface font-semibold hover:text-primary transition-colors">Blog & News</a>
-                    <a href="contactus.html" class="text-on-surface font-semibold hover:text-primary transition-colors">Contact Support</a>
-                    <a href="#" class="text-on-surface font-semibold hover:text-primary transition-colors">Partnerships</a>
+                    <a href="#" class="text-on-surface font-semibold hover:text-primary transition-colors">Careers &
+                        Culture</a>
+                    <a href="#" class="text-on-surface font-semibold hover:text-primary transition-colors">Blog &
+                        News</a>
+                    <a href="contactus.html"
+                        class="text-on-surface font-semibold hover:text-primary transition-colors">Contact Support</a>
+                    <a href="#"
+                        class="text-on-surface font-semibold hover:text-primary transition-colors">Partnerships</a>
                 </div>
 
                 <!-- Legal Col -->
                 <div class="flex flex-col gap-4">
-                    <h4 class="font-headline font-extrabold text-lg text-on-surface tracking-tight mb-2">Legal & Privacy</h4>
-                    <a href="#" class="text-on-surface font-semibold hover:text-primary transition-colors">Terms of Service</a>
-                    <a href="#" class="text-on-surface font-semibold hover:text-primary transition-colors">Privacy Policy</a>
-                    <a href="#" class="text-on-surface font-semibold hover:text-primary transition-colors">Cookie Policy</a>
-                    <a href="#" class="text-on-surface font-semibold hover:text-primary transition-colors">Security Overview</a>
+                    <h4 class="font-headline font-extrabold text-lg text-on-surface tracking-tight mb-2">Legal & Privacy
+                    </h4>
+                    <a href="#" class="text-on-surface font-semibold hover:text-primary transition-colors">Terms of
+                        Service</a>
+                    <a href="#" class="text-on-surface font-semibold hover:text-primary transition-colors">Privacy
+                        Policy</a>
+                    <a href="#" class="text-on-surface font-semibold hover:text-primary transition-colors">Cookie
+                        Policy</a>
+                    <a href="#" class="text-on-surface font-semibold hover:text-primary transition-colors">Security
+                        Overview</a>
                 </div>
             </div>
 
             <div class="gradient-sep mb-8"></div>
-            
+
             <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
-                <p class="text-[12px] tracking-[0.1em] uppercase font-bold text-on-surface">© 2025 EasyVariants. All Rights Reserved.</p>
+                <p class="text-[12px] tracking-[0.1em] uppercase font-bold text-on-surface">© 2025 EasyVariants. All
+                    Rights Reserved.</p>
                 <p class="text-[11px] tracking-wide font-medium text-on-surface/80">
                     Adobe Illustrator® is a trademark of Adobe Inc. EasyVariants is not affiliated.
                 </p>
