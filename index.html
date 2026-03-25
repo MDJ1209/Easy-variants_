@@ -150,6 +150,65 @@
             }
         }
 
+        /* ═══ 2D GALLERY ═══ */
+        .ez3d-gallery {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(15px);
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem;
+            overflow-y: auto;
+            border-radius: 2rem;
+        }
+
+        .ez3d-gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .ez3d-gallery-item {
+            background: #fdfdff;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 2px solid transparent;
+        }
+
+        .ez3d-gallery-item:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 50px rgba(77, 68, 227, 0.15);
+            border-color: #4d44e3;
+        }
+
+        .ez3d-gallery-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 1rem;
+            margin-bottom: 1rem;
+            background: #f8f9fa;
+        }
+
+        .ez3d-gallery-item span {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #111827;
+        }
+
         @keyframes float {
 
             0%,
@@ -839,6 +898,13 @@
                             <!-- 3D Canvas Container -->
                             <div id="canvas-container"></div>
 
+                            <!-- 2D Gallery Overlay -->
+                            <div id="ez3d-gallery" class="ez3d-gallery" style="display:none;">
+                                <div class="ez3d-gallery-grid" id="gallery-grid">
+                                    <!-- Thumbnails will be injected here -->
+                                </div>
+                            </div>
+
                             <!-- Left Panel: Product Switcher -->
                             <div class="ez3d-left-panel">
                                 <div class="ez3d-control-group">
@@ -857,31 +923,11 @@
 
                             <!-- Right Panel: Customization Controls -->
                             <div class="ez3d-right-panel customizer-controls">
-                                <div class="ez3d-control-group">
-                                    <h3>Fabric Color</h3>
-                                    <div class="ez3d-swatches" id="fabric-colors">
-                                        <button class="ez3d-swatch active" style="background: #1e3a8a;"
-                                            data-color="#1e3a8a"></button>
-                                        <button class="ez3d-swatch" style="background: #172554;" data-color="#172554"
-                                            title="Original Navy"></button>
-                                        <button class="ez3d-swatch" style="background: #ef4444;"
-                                            data-color="#ef4444"></button>
-                                        <button class="ez3d-swatch" style="background: #22c55e;"
-                                            data-color="#22c55e"></button>
-                                        <button class="ez3d-swatch" style="background: #eab308;"
-                                            data-color="#eab308"></button>
-                                        <button class="ez3d-swatch" style="background: #111827;"
-                                            data-color="#111827"></button>
-                                        <button class="ez3d-swatch" style="background: #f3f4f6;"
-                                            data-color="#f3f4f6"></button>
-                                    </div>
-                                </div>
+
 
                                 <div class="ez3d-control-group ez3d-mt-4">
                                     <h3>Custom Decal</h3>
-                                    <label class="ez3d-helper">Text Content</label>
-                                    <input type="text" id="decal-text" class="ez3d-input" placeholder="e.g. EzVrnts"
-                                        value="EzVrnts">
+
 
                                     <label class="ez3d-helper">Decal Size</label>
                                     <input type="range" id="decal-size" min="0.5" max="2.0" step="0.1" value="1.0"
@@ -891,26 +937,15 @@
                                     <input type="file" id="decal-image" accept="image/png, image/jpeg"
                                         class="ez3d-input">
 
-                                    <label class="ez3d-helper">Text Color</label>
-                                    <div class="ez3d-swatches ez3d-mt-2" id="text-colors">
-                                        <button class="ez3d-swatch active" style="background: #ffffff;"
-                                            data-color="#ffffff"></button>
-                                        <button class="ez3d-swatch" style="background: #000000;"
-                                            data-color="#000000"></button>
-                                        <button class="ez3d-swatch" style="background: #3b82f6;"
-                                            data-color="#3b82f6"></button>
-                                        <div class="ez3d-swatch" style="background-color: #ec4899;"
-                                            data-color="#ec4899"></div>
-                                        <div class="ez3d-swatch" style="background-color: #8b5cf6;"
-                                            data-color="#8b5cf6"></div>
-                                    </div>
+
 
                                     <p class="ez3d-helper" style="text-align:center; color:#4d44e3; margin-top:1rem;">
                                         Click the product to place your design!</p>
                                 </div>
 
-                                <div style="margin-top:auto; display:flex; flex-direction:column; gap:0.5rem;">
-                                    <a href="#" class="ez3d-btn ez3d-btn-secondary">Generate 100+ Variants</a>
+                                <div style="margin-top:auto; display:flex; flex-direction:column; gap:0.5rem;" id="variants-controls">
+                                    <button id="btn-generate-variants" class="ez3d-btn ez3d-btn-secondary">Generate Variants</button>
+                                    <button id="btn-back-editor" class="ez3d-btn ez3d-btn-secondary" style="display:none;">Back to Editor</button>
                                     <a href="#" class="ez3d-btn ez3d-btn-accent">Export Design</a>
                                 </div>
                             </div>
@@ -993,45 +1028,65 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-x-16 md:gap-y-12">
                         <!-- Point 1: Boost Design Output 10X -->
                         <div class="flex gap-6 group/item">
-                            <div class="w-16 h-16 rounded-[1.25rem] bg-primary/10 flex items-center justify-center text-primary shrink-0 group-hover/item:scale-110 group-hover/item:bg-primary group-hover/item:text-white transition-all duration-500 shadow-lg shadow-primary/5">
-                                <span class="material-symbols-outlined text-4xl transition-colors duration-500 group-hover/item:text-white">rocket_launch</span>
+                            <div
+                                class="w-16 h-16 rounded-[1.25rem] bg-primary/10 flex items-center justify-center text-primary shrink-0 group-hover/item:scale-110 group-hover/item:bg-primary group-hover/item:text-white transition-all duration-500 shadow-lg shadow-primary/5">
+                                <span
+                                    class="material-symbols-outlined text-4xl transition-colors duration-500 group-hover/item:text-white">rocket_launch</span>
                             </div>
                             <div>
-                                <h3 class="text-2xl font-headline font-bold mb-4 text-on-surface group-hover/item:text-primary transition-colors duration-500">Boost Output 10X</h3>
-                                <p class="text-on-surface-variant text-[16px] leading-relaxed">Free your designers from repetitive drudgery, allowing them to focus on pure innovation.</p>
+                                <h3
+                                    class="text-2xl font-headline font-bold mb-4 text-on-surface group-hover/item:text-primary transition-colors duration-500">
+                                    Boost Output 10X</h3>
+                                <p class="text-on-surface-variant text-[16px] leading-relaxed">Free your designers from
+                                    repetitive drudgery, allowing them to focus on pure innovation.</p>
                             </div>
                         </div>
 
                         <!-- Point 2: Guaranteed Consistency -->
                         <div class="flex gap-6 group/item">
-                            <div class="w-16 h-16 rounded-[1.25rem] bg-tertiary/10 flex items-center justify-center text-tertiary shrink-0 group-hover/item:scale-110 group-hover/item:bg-tertiary group-hover/item:text-white transition-all duration-500 shadow-lg shadow-tertiary/5">
-                                <span class="material-symbols-outlined text-4xl transition-colors duration-500 group-hover/item:text-white">verified</span>
+                            <div
+                                class="w-16 h-16 rounded-[1.25rem] bg-tertiary/10 flex items-center justify-center text-tertiary shrink-0 group-hover/item:scale-110 group-hover/item:bg-tertiary group-hover/item:text-white transition-all duration-500 shadow-lg shadow-tertiary/5">
+                                <span
+                                    class="material-symbols-outlined text-4xl transition-colors duration-500 group-hover/item:text-white">verified</span>
                             </div>
                             <div>
-                                <h3 class="text-2xl font-headline font-bold mb-4 text-on-surface group-hover/item:text-tertiary transition-colors duration-500">Guaranteed Consistency</h3>
-                                <p class="text-on-surface-variant text-[16px] leading-relaxed">Eliminate human error and ensure every variant perfectly aligns with your brand standards.</p>
+                                <h3
+                                    class="text-2xl font-headline font-bold mb-4 text-on-surface group-hover/item:text-tertiary transition-colors duration-500">
+                                    Guaranteed Consistency</h3>
+                                <p class="text-on-surface-variant text-[16px] leading-relaxed">Eliminate human error and
+                                    ensure every variant perfectly aligns with your brand standards.</p>
                             </div>
                         </div>
 
                         <!-- Point 3: Accelerated Time-to-Market -->
                         <div class="flex gap-6 group/item">
-                            <div class="w-16 h-16 rounded-[1.25rem] bg-tertiary/10 flex items-center justify-center text-tertiary shrink-0 group-hover/item:scale-110 group-hover/item:bg-tertiary group-hover/item:text-white transition-all duration-500 shadow-lg shadow-tertiary/5">
-                                <span class="material-symbols-outlined text-4xl transition-colors duration-500 group-hover/item:text-white">trending_up</span>
+                            <div
+                                class="w-16 h-16 rounded-[1.25rem] bg-tertiary/10 flex items-center justify-center text-tertiary shrink-0 group-hover/item:scale-110 group-hover/item:bg-tertiary group-hover/item:text-white transition-all duration-500 shadow-lg shadow-tertiary/5">
+                                <span
+                                    class="material-symbols-outlined text-4xl transition-colors duration-500 group-hover/item:text-white">trending_up</span>
                             </div>
                             <div>
-                                <h3 class="text-2xl font-headline font-bold mb-4 text-on-surface group-hover/item:text-tertiary transition-colors duration-500">Faster Time-to-Market</h3>
-                                <p class="text-on-surface-variant text-[16px] leading-relaxed">Rapidly customize and deploy new collections, gaining a critical competitive edge.</p>
+                                <h3
+                                    class="text-2xl font-headline font-bold mb-4 text-on-surface group-hover/item:text-tertiary transition-colors duration-500">
+                                    Faster Time-to-Market</h3>
+                                <p class="text-on-surface-variant text-[16px] leading-relaxed">Rapidly customize and
+                                    deploy new collections, gaining a critical competitive edge.</p>
                             </div>
                         </div>
 
                         <!-- Point 4: Scalable Personalization -->
                         <div class="flex gap-6 group/item">
-                            <div class="w-16 h-16 rounded-[1.25rem] bg-surface-tint/10 flex items-center justify-center text-surface-tint shrink-0 group-hover/item:scale-110 group-hover/item:bg-surface-tint group-hover/item:text-white transition-all duration-500 shadow-lg shadow-surface-tint/5">
-                                <span class="material-symbols-outlined text-4xl transition-colors duration-500 group-hover/item:text-white">tune</span>
+                            <div
+                                class="w-16 h-16 rounded-[1.25rem] bg-surface-tint/10 flex items-center justify-center text-surface-tint shrink-0 group-hover/item:scale-110 group-hover/item:bg-surface-tint group-hover/item:text-white transition-all duration-500 shadow-lg shadow-surface-tint/5">
+                                <span
+                                    class="material-symbols-outlined text-4xl transition-colors duration-500 group-hover/item:text-white">tune</span>
                             </div>
                             <div>
-                                <h3 class="text-2xl font-headline font-bold mb-4 text-on-surface group-hover/item:text-surface-tint transition-colors duration-500">Scalable Personalization</h3>
-                                <p class="text-on-surface-variant text-[16px] leading-relaxed">Offer extensive personalization without fear of an unmanageable design workload.</p>
+                                <h3
+                                    class="text-2xl font-headline font-bold mb-4 text-on-surface group-hover/item:text-surface-tint transition-colors duration-500">
+                                    Scalable Personalization</h3>
+                                <p class="text-on-surface-variant text-[16px] leading-relaxed">Offer extensive
+                                    personalization without fear of an unmanageable design workload.</p>
                             </div>
                         </div>
                     </div>
@@ -1058,45 +1113,69 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-x-16 md:gap-y-12">
                         <!-- Point 1: Repetitive Work -->
                         <div class="flex gap-6 group/item">
-                            <div class="w-14 h-14 rounded-2xl bg-error/8 flex items-center justify-center shrink-0 border border-error/10 group-hover/item:scale-110 group-hover/item:bg-error group-hover/item:text-white transition-all duration-500 shadow-sm">
-                                <span class="material-symbols-outlined text-2xl transition-colors duration-500 text-error group-hover/item:text-white">cycle</span>
+                            <div
+                                class="w-14 h-14 rounded-2xl bg-error/8 flex items-center justify-center shrink-0 border border-error/10 group-hover/item:scale-110 group-hover/item:bg-error group-hover/item:text-white transition-all duration-500 shadow-sm">
+                                <span
+                                    class="material-symbols-outlined text-2xl transition-colors duration-500 text-error group-hover/item:text-white">cycle</span>
                             </div>
                             <div>
-                                <h3 class="text-xl font-headline font-bold mb-3 text-on-surface group-hover/item:text-error transition-colors duration-500">Repetitive Work</h3>
-                                <p class="text-on-surface-variant/80 leading-relaxed text-[15px]">Duplicating designs for every new colorway or logo placement. Hours wasted on mechanical tasks that drain creative energy.</p>
+                                <h3
+                                    class="text-xl font-headline font-bold mb-3 text-on-surface group-hover/item:text-error transition-colors duration-500">
+                                    Repetitive Work</h3>
+                                <p class="text-on-surface-variant/80 leading-relaxed text-[15px]">Duplicating designs
+                                    for every new colorway or logo placement. Hours wasted on mechanical tasks that
+                                    drain creative energy.</p>
                             </div>
                         </div>
 
                         <!-- Point 2: Consistency Challenges -->
                         <div class="flex gap-6 group/item">
-                            <div class="w-14 h-14 rounded-2xl bg-error/8 flex items-center justify-center shrink-0 border border-error/10 group-hover/item:scale-110 group-hover/item:bg-error group-hover/item:text-white transition-all duration-500 shadow-sm">
-                                <span class="material-symbols-outlined text-2xl transition-colors duration-500 text-error group-hover/item:text-white">rule</span>
+                            <div
+                                class="w-14 h-14 rounded-2xl bg-error/8 flex items-center justify-center shrink-0 border border-error/10 group-hover/item:scale-110 group-hover/item:bg-error group-hover/item:text-white transition-all duration-500 shadow-sm">
+                                <span
+                                    class="material-symbols-outlined text-2xl transition-colors duration-500 text-error group-hover/item:text-white">rule</span>
                             </div>
                             <div>
-                                <h3 class="text-xl font-headline font-bold mb-3 text-on-surface group-hover/item:text-error transition-colors duration-500">Consistency Challenges</h3>
-                                <p class="text-on-surface-variant/80 leading-relaxed text-[15px]">Ensuring perfect manual adherence to strict brand guidelines across hundreds of product variants with absolute precision.</p>
+                                <h3
+                                    class="text-xl font-headline font-bold mb-3 text-on-surface group-hover/item:text-error transition-colors duration-500">
+                                    Consistency Challenges</h3>
+                                <p class="text-on-surface-variant/80 leading-relaxed text-[15px]">Ensuring perfect
+                                    manual adherence to strict brand guidelines across hundreds of product variants with
+                                    absolute precision.</p>
                             </div>
                         </div>
 
                         <!-- Point 3: Slow Time-to-Market -->
                         <div class="flex gap-6 group/item">
-                            <div class="w-14 h-14 rounded-2xl bg-error/8 flex items-center justify-center shrink-0 border border-error/10 group-hover/item:scale-110 group-hover/item:bg-error group-hover/item:text-white transition-all duration-500 shadow-sm">
-                                <span class="material-symbols-outlined text-2xl transition-colors duration-500 text-error group-hover/item:text-white">hourglass_empty</span>
+                            <div
+                                class="w-14 h-14 rounded-2xl bg-error/8 flex items-center justify-center shrink-0 border border-error/10 group-hover/item:scale-110 group-hover/item:bg-error group-hover/item:text-white transition-all duration-500 shadow-sm">
+                                <span
+                                    class="material-symbols-outlined text-2xl transition-colors duration-500 text-error group-hover/item:text-white">hourglass_empty</span>
                             </div>
                             <div>
-                                <h3 class="text-xl font-headline font-bold mb-3 text-on-surface group-hover/item:text-error transition-colors duration-500">Slow Time-to-Market</h3>
-                                <p class="text-on-surface-variant/80 leading-relaxed text-[15px]">Manual work repeatedly delays new collection launches when speed matters most in a hyper-competitive landscape.</p>
+                                <h3
+                                    class="text-xl font-headline font-bold mb-3 text-on-surface group-hover/item:text-error transition-colors duration-500">
+                                    Slow Time-to-Market</h3>
+                                <p class="text-on-surface-variant/80 leading-relaxed text-[15px]">Manual work repeatedly
+                                    delays new collection launches when speed matters most in a hyper-competitive
+                                    landscape.</p>
                             </div>
                         </div>
 
                         <!-- Point 4: Limited Customization -->
                         <div class="flex gap-6 group/item">
-                            <div class="w-14 h-14 rounded-2xl bg-error/8 flex items-center justify-center shrink-0 border border-error/10 group-hover/item:scale-110 group-hover/item:bg-error group-hover/item:text-white transition-all duration-500 shadow-sm">
-                                <span class="material-symbols-outlined text-2xl transition-colors duration-500 text-error group-hover/item:text-white">block</span>
+                            <div
+                                class="w-14 h-14 rounded-2xl bg-error/8 flex items-center justify-center shrink-0 border border-error/10 group-hover/item:scale-110 group-hover/item:bg-error group-hover/item:text-white transition-all duration-500 shadow-sm">
+                                <span
+                                    class="material-symbols-outlined text-2xl transition-colors duration-500 text-error group-hover/item:text-white">block</span>
                             </div>
                             <div>
-                                <h3 class="text-xl font-headline font-bold mb-3 text-on-surface group-hover/item:text-error transition-colors duration-500">Limited Personalization</h3>
-                                <p class="text-on-surface-variant/80 leading-relaxed text-[15px]">Too costly and slow for the deep personalization consumers crave. Manual processes simply cannot scale to modern demands.</p>
+                                <h3
+                                    class="text-xl font-headline font-bold mb-3 text-on-surface group-hover/item:text-error transition-colors duration-500">
+                                    Limited Personalization</h3>
+                                <p class="text-on-surface-variant/80 leading-relaxed text-[15px]">Too costly and slow
+                                    for the deep personalization consumers crave. Manual processes simply cannot scale
+                                    to modern demands.</p>
                             </div>
                         </div>
                     </div>
@@ -1148,7 +1227,8 @@
                     </div>
 
                     <!-- Intelligent Generation -->
-                    <div class="md:col-span-4 card-premium card-signature rounded-[2rem] p-6 md:p-12 flex flex-col justify-between hover-lift">
+                    <div
+                        class="md:col-span-4 card-premium card-signature rounded-[2rem] p-6 md:p-12 flex flex-col justify-between hover-lift">
                         <div
                             class="w-12 h-12 rounded-xl bg-primary flex items-center justify-center text-on-primary shadow-lg shadow-primary/20">
                             <span class="material-symbols-outlined">auto_awesome</span>
@@ -1724,7 +1804,7 @@
                         <p style="color: #464555; font-size: 16px; line-height: 1.5; font-weight: 400; margin: 0;">${data.desc}</p>
                     </div>
                 `;
-                    
+
                     slide.querySelector('.demo-overlay').addEventListener('click', () => {
                         slides.forEach(s => s.classList.remove('is-playing'));
                         slide.classList.add('is-playing');
