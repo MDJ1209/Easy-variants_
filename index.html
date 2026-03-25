@@ -117,8 +117,16 @@
         }
 
         .reveal.visible {
-            opacity: 1;
-            transform: translateY(0) translateZ(0);
+            opacity: 1 !important;
+            transform: translate(0, 0) !important;
+        }
+
+        .reveal-left {
+            transform: translateX(-100px) !important;
+        }
+
+        .reveal-right {
+            transform: translateX(100px) !important;
         }
 
         /* stagger children */
@@ -283,6 +291,332 @@
             animation: gradientShift 6s ease infinite;
         }
 
+        /* ═══ ADVANTAGE ENHANCEMENTS ═══ */
+        @keyframes drawCheck {
+            from {
+                stroke-dashoffset: 48;
+            }
+
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        @keyframes launch {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0);
+            }
+
+            25% {
+                transform: translateY(-8px) rotate(-1deg);
+            }
+
+            75% {
+                transform: translateY(-25px) rotate(1deg);
+            }
+        }
+
+        @keyframes equalize {
+
+            50% {
+                transform: scaleY(1);
+            }
+        }
+
+        .rocket-card-icon {
+            animation: launch 2s ease-in-out infinite;
+            filter: drop-shadow(0 5px 10px rgba(53, 37, 205, 0.2));
+        }
+
+        .check-svg-path {
+            stroke-dasharray: 48;
+            stroke-dashoffset: 48;
+            animation: drawCheck 3s ease-in-out infinite alternate;
+        }
+
+        .eq-bar {
+            transform-origin: bottom;
+            animation: equalize 1.5s ease-in-out infinite;
+        }
+
+        .eq-bar:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .eq-bar:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .eq-bar:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .eq-bar:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .progress-race {
+            width: 30%;
+            animation: progressLoop 3s ease-in-out infinite;
+        }
+
+        @keyframes progressLoading {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+
+        .loading-bar-active {
+            animation: progressLoading 2.2s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
+        }
+
+        .trending-up-anim {
+            animation: trendingUp 2s ease-in-out infinite;
+        }
+
+        @keyframes trendingUp {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(5px, -8px) scale(1.1); }
+        }
+
+        .cascade-bar {
+            transform-origin: bottom;
+            animation: cascadeLoop 2.5s ease-in-out infinite;
+        }
+
+        .cascade-bar:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .cascade-bar:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .cascade-bar:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .cascade-bar:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        /* ═══ ADVANTAGE SLIDESHOW ═══ */
+        .advantage-slideshow-container {
+            position: relative;
+            min-height: 480px;
+            overflow: hidden;
+        }
+
+        .advantage-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .advantage-slide.active {
+            display: flex;
+            z-index: 2;
+            animation: slideInRight 1.2s cubic-bezier(0.4, 0.2, 0.1, 1) forwards;
+        }
+
+        .advantage-slide.exit {
+            display: flex;
+            z-index: 1;
+            animation: slideOutLeft 1.2s cubic-bezier(0.4, 0.2, 0.1, 1) forwards;
+        }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(100px); filter: blur(10px); }
+            to { opacity: 1; transform: translateX(0); filter: blur(0); }
+        }
+
+        @keyframes slideOutLeft {
+            from { opacity: 1; transform: translateX(0); filter: blur(0); }
+            to { opacity: 0; transform: translateX(-100px); filter: blur(10px); }
+        }
+
+        .advantage-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(53, 37, 205, 0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .advantage-dot.active {
+            width: 32px;
+            border-radius: 4px;
+            background: #3525cd;
+            box-shadow: 0 0 10px rgba(53, 37, 205, 0.3);
+        }
+
+        /* ═══ ADVANTAGE CARD DECORATION ═══ */
+        .card-advantage-premium {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(32px) saturate(1.8);
+            -webkit-backdrop-filter: blur(32px) saturate(1.8);
+            border: 1px solid rgba(53, 37, 205, 0.1);
+            position: relative;
+            z-index: 1;
+            box-shadow: 
+                0 10px 40px -10px rgba(53, 37, 205, 0.08),
+                0 4px 12px -4px rgba(0, 0, 0, 0.03),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+        }
+
+        .card-advantage-premium::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            padding: 1px;
+            border-radius: inherit;
+            background: linear-gradient(135deg, rgba(53, 37, 205, 0.3), transparent 40%, transparent 60%, rgba(164, 65, 0, 0.2));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .advantage-aurora {
+            position: absolute;
+            top: -20%;
+            right: -10%;
+            width: 60%;
+            height: 80%;
+            background: radial-gradient(circle at center, rgba(53, 37, 205, 0.06) 0%, transparent 70%);
+            filter: blur(60px);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+            animation: auroraPulse 8s ease-in-out infinite alternate;
+        }
+
+        @keyframes auroraPulse {
+            0% { transform: translate(0, 0) scale(1); opacity: 0.5; }
+            100% { transform: translate(-20px, 30px) scale(1.1); opacity: 0.8; }
+        }
+
+        /* ═══ PROBLEM CARD DECORATION ═══ */
+        .card-problem-premium {
+            background: rgba(255, 253, 253, 0.8);
+            backdrop-filter: blur(32px) saturate(1.8);
+            -webkit-backdrop-filter: blur(32px) saturate(1.8);
+            border: 1px solid rgba(186, 26, 26, 0.08);
+            position: relative;
+            z-index: 1;
+            box-shadow: 
+                0 15px 45px -10px rgba(186, 26, 26, 0.05),
+                0 4px 12px -4px rgba(0, 0, 0, 0.02);
+            overflow: hidden;
+        }
+
+        .bottleneck-flow {
+            position: absolute;
+            inset: 0;
+            background: 
+                radial-gradient(circle at 10% 10%, rgba(186, 26, 26, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 90% 90%, rgba(186, 26, 26, 0.02) 0%, transparent 40%);
+            opacity: 0.6;
+            z-index: -1;
+            animation: bottleneckPulse 10s ease-in-out infinite alternate;
+        }
+
+        @keyframes bottleneckPulse {
+            0% { transform: scale(1); opacity: 0.4; }
+            50% { transform: scale(1.05); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 0.4; }
+        }
+
+        .stress-glow {
+            position: relative;
+        }
+
+        .stress-glow::after {
+            content: '';
+            position: absolute;
+            inset: -8px;
+            background: radial-gradient(circle, rgba(186, 26, 26, 0.15) 0%, transparent 70%);
+            border-radius: inherit;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .group\/item:hover .stress-glow::after {
+            opacity: 1;
+        }
+
+        .problem-grain {
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 1;
+            mix-blend-mode: overlay;
+        }
+
+        .scanner-line {
+            position: absolute;
+            top: -10%;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, transparent, rgba(186, 26, 26, 0.4), transparent);
+            z-index: 2;
+            pointer-events: none;
+            animation: scan 4s linear infinite;
+            filter: blur(1px);
+        }
+
+        @keyframes scan {
+            0% { top: -10%; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { top: 110%; opacity: 0; }
+        }
+
+        .floating-particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(186, 26, 26, 0.15);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            animation: floatParticle 12s linear infinite;
+        }
+
+        @keyframes floatParticle {
+            0% { transform: translate(0, 0) scale(1); opacity: 0; }
+            10% { opacity: 0.3; }
+            90% { opacity: 0.3; }
+            100% { transform: translate(var(--tw-translateX), var(--tw-translateY)) scale(0.5); opacity: 0; }
+        }
+
+        @media (min-width: 768px) {
+            .advantage-slideshow-container {
+                min-height: 380px;
+            }
+            .advantage-slide {
+                flex-direction: row;
+                text-align: left;
+                padding: 4rem;
+            }
+        }
+
         /* ═══ FOOTER ═══ */
         .footer-premium {
             background: linear-gradient(180deg, #f8f8fc 0%, #f0f0f4 100%);
@@ -310,6 +644,15 @@
             transform: translateZ(0);
             backface-visibility: hidden;
             -webkit-backface-visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .navbar.scrolled {
+            background-color: rgba(255, 255, 255, 0.75) !important;
+            backdrop-filter: blur(40px) !important;
+            -webkit-backdrop-filter: blur(40px) !important;
+            border-bottom: 1px solid rgba(212, 212, 216, 0.15) !important;
+            box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03), 0 16px 48px rgba(0, 0, 0, 0.03) !important;
         }
 
         /* ═══ MOBILE MENU ═══ */
@@ -714,8 +1057,7 @@
 <body class="font-body text-on-surface antialiased">
 
     <!-- ═══════════════════════ NAVIGATION ═══════════════════════ -->
-    <nav class="fixed top-0 w-full z-50 bg-white/75 backdrop-blur-2xl border-b border-zinc-200/15 shadow-[0_1px_0_rgba(0,0,0,0.03),0_16px_48px_rgba(0,0,0,0.03)]"
-        style="-webkit-backdrop-filter:blur(40px); backdrop-filter:blur(40px);">
+    <nav class="navbar fixed top-0 w-full z-50 transition-all duration-300">
         <div class="w-full flex items-center justify-between pl-9 pr-10 py-0.5">
             <!-- Left: Logo -->
             <div class="flex-1 flex justify-start">
@@ -918,32 +1260,6 @@
                     </div>
             </section>
 
-            <!-- ═══════════════════════ STATS STRIP ═══════════════════════ -->
-            <section class="mb-4 reveal">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-                    <div class="card-premium rounded-[2rem] p-6 sm:p-10 text-center hover-lift group">
-                        <div
-                            class="text-5xl font-extrabold font-headline bg-gradient-to-br from-primary to-primary-container bg-clip-text text-transparent mb-3 stat-number group-hover:scale-110 transition-transform duration-500">
-                            10X</div>
-                        <div class="text-[10px] uppercase tracking-[0.25em] font-bold text-on-surface-variant/70">Boost
-                            Design Output</div>
-                    </div>
-                    <div class="card-premium rounded-[2rem] p-10 text-center hover-lift group">
-                        <div
-                            class="text-5xl font-extrabold font-headline bg-gradient-to-br from-primary to-primary-container bg-clip-text text-transparent mb-3 stat-number group-hover:scale-110 transition-transform duration-500">
-                            100%</div>
-                        <div class="text-[10px] uppercase tracking-[0.25em] font-bold text-on-surface-variant/70">Brand
-                            Consistency</div>
-                    </div>
-                    <div class="card-premium rounded-[2rem] p-10 text-center hover-lift group">
-                        <div
-                            class="text-5xl font-extrabold font-headline bg-gradient-to-br from-primary to-primary-container bg-clip-text text-transparent mb-3 stat-number group-hover:scale-110 transition-transform duration-500">
-                            1,000s</div>
-                        <div class="text-[10px] uppercase tracking-[0.25em] font-bold text-on-surface-variant/70">
-                            Variants in Minutes</div>
-                    </div>
-                </div>
-            </section>
 
             <!-- ═══════════════════════ MEET EASYVARIANTS ═══════════════════════ -->
             <div class="gradient-sep mb-4"></div>
@@ -976,68 +1292,6 @@
                     </div>
             </section>
 
-            <!-- ═══════════════════════ THE ADVANTAGE ═══════════════════════ -->
-            <div class="gradient-sep mb-4"></div>
-
-            <section id="advantage" class="mb-4 reveal">
-                <div class="text-center mb-16 max-w-4xl mx-auto">
-                    <span class="font-label text-xs font-bold uppercase tracking-[0.2em] text-primary">The EasyVariants
-                        Advantage</span>
-                    <h2 class="text-4xl md:text-5xl font-headline font-bold tracking-tight mt-3">10X Speed, Guarantee
-                        Brand Consistency, Fuel Innovation.</h2>
-                    <p class="text-on-surface-variant text-lg mt-5 leading-relaxed">The result? Generate hundreds, even
-                        thousands, of error-free design variants in minutes - not hours or days.</p>
-                </div>
-
-                <div class="card-premium rounded-[2.5rem] p-8 md:p-16 hover-lift reveal">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-x-16 md:gap-y-12">
-                        <!-- Point 1: Boost Design Output 10X -->
-                        <div class="flex gap-6 group/item">
-                            <div class="w-16 h-16 rounded-[1.25rem] bg-primary/10 flex items-center justify-center text-primary shrink-0 group-hover/item:scale-110 group-hover/item:bg-primary group-hover/item:text-white transition-all duration-500 shadow-lg shadow-primary/5">
-                                <span class="material-symbols-outlined text-4xl transition-colors duration-500 group-hover/item:text-white">rocket_launch</span>
-                            </div>
-                            <div>
-                                <h3 class="text-2xl font-headline font-bold mb-4 text-on-surface group-hover/item:text-primary transition-colors duration-500">Boost Output 10X</h3>
-                                <p class="text-on-surface-variant text-[16px] leading-relaxed">Free your designers from repetitive drudgery, allowing them to focus on pure innovation.</p>
-                            </div>
-                        </div>
-
-                        <!-- Point 2: Guaranteed Consistency -->
-                        <div class="flex gap-6 group/item">
-                            <div class="w-16 h-16 rounded-[1.25rem] bg-tertiary/10 flex items-center justify-center text-tertiary shrink-0 group-hover/item:scale-110 group-hover/item:bg-tertiary group-hover/item:text-white transition-all duration-500 shadow-lg shadow-tertiary/5">
-                                <span class="material-symbols-outlined text-4xl transition-colors duration-500 group-hover/item:text-white">verified</span>
-                            </div>
-                            <div>
-                                <h3 class="text-2xl font-headline font-bold mb-4 text-on-surface group-hover/item:text-tertiary transition-colors duration-500">Guaranteed Consistency</h3>
-                                <p class="text-on-surface-variant text-[16px] leading-relaxed">Eliminate human error and ensure every variant perfectly aligns with your brand standards.</p>
-                            </div>
-                        </div>
-
-                        <!-- Point 3: Accelerated Time-to-Market -->
-                        <div class="flex gap-6 group/item">
-                            <div class="w-16 h-16 rounded-[1.25rem] bg-tertiary/10 flex items-center justify-center text-tertiary shrink-0 group-hover/item:scale-110 group-hover/item:bg-tertiary group-hover/item:text-white transition-all duration-500 shadow-lg shadow-tertiary/5">
-                                <span class="material-symbols-outlined text-4xl transition-colors duration-500 group-hover/item:text-white">trending_up</span>
-                            </div>
-                            <div>
-                                <h3 class="text-2xl font-headline font-bold mb-4 text-on-surface group-hover/item:text-tertiary transition-colors duration-500">Faster Time-to-Market</h3>
-                                <p class="text-on-surface-variant text-[16px] leading-relaxed">Rapidly customize and deploy new collections, gaining a critical competitive edge.</p>
-                            </div>
-                        </div>
-
-                        <!-- Point 4: Scalable Personalization -->
-                        <div class="flex gap-6 group/item">
-                            <div class="w-16 h-16 rounded-[1.25rem] bg-surface-tint/10 flex items-center justify-center text-surface-tint shrink-0 group-hover/item:scale-110 group-hover/item:bg-surface-tint group-hover/item:text-white transition-all duration-500 shadow-lg shadow-surface-tint/5">
-                                <span class="material-symbols-outlined text-4xl transition-colors duration-500 group-hover/item:text-white">tune</span>
-                            </div>
-                            <div>
-                                <h3 class="text-2xl font-headline font-bold mb-4 text-on-surface group-hover/item:text-surface-tint transition-colors duration-500">Scalable Personalization</h3>
-                                <p class="text-on-surface-variant text-[16px] leading-relaxed">Offer extensive personalization without fear of an unmanageable design workload.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
             <!-- ═══════════════════════ THE PROBLEM (BENTO GRID) ═══════════════════════ -->
             <div class="gradient-sep mb-8"></div>
 
@@ -1054,50 +1308,210 @@
                     </div>
                 </div>
 
-                <div class="card-premium rounded-[2.5rem] p-8 md:p-16 hover-lift reveal">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-x-16 md:gap-y-12">
+                <div class="card-problem-premium rounded-[2.5rem] p-8 md:p-16 hover-lift reveal relative overflow-hidden">
+                    <!-- Decorative Background -->
+                    <div class="bottleneck-flow"></div>
+                    <div class="problem-grain"></div>
+                    <div class="scanner-line"></div>
+                    
+                    <!-- Floating Particles -->
+                    <div class="floating-particle" style="top: 20%; left: 10%; --tw-translateX: 40px; --tw-translateY: -30px; animation-delay: 0s;"></div>
+                    <div class="floating-particle" style="top: 70%; left: 80%; --tw-translateX: -50px; --tw-translateY: -40px; animation-delay: 2s;"></div>
+                    <div class="floating-particle" style="top: 40%; left: 60%; --tw-translateX: 30px; --tw-translateY: 50px; animation-delay: 4s;"></div>
+                    <div class="floating-particle" style="top: 10%; left: 40%; --tw-translateX: -20px; --tw-translateY: 40px; animation-delay: 6s;"></div>
+                    <div class="floating-particle" style="top: 80%; left: 20%; --tw-translateX: 60px; --tw-translateY: -20px; animation-delay: 1s;"></div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-x-16 md:gap-y-12 relative z-10">
                         <!-- Point 1: Repetitive Work -->
                         <div class="flex gap-6 group/item">
-                            <div class="w-14 h-14 rounded-2xl bg-error/8 flex items-center justify-center shrink-0 border border-error/10 group-hover/item:scale-110 group-hover/item:bg-error group-hover/item:text-white transition-all duration-500 shadow-sm">
-                                <span class="material-symbols-outlined text-2xl transition-colors duration-500 text-error group-hover/item:text-white">cycle</span>
+                            <div
+                                class="w-14 h-14 rounded-2xl bg-error flex items-center justify-center shrink-0 border border-error/10 scale-110 text-white shadow-sm stress-glow">
+                                <span
+                                    class="material-symbols-outlined text-2xl text-white">cycle</span>
                             </div>
                             <div>
-                                <h3 class="text-xl font-headline font-bold mb-3 text-on-surface group-hover/item:text-error transition-colors duration-500">Repetitive Work</h3>
-                                <p class="text-on-surface-variant/80 leading-relaxed text-[15px]">Duplicating designs for every new colorway or logo placement. Hours wasted on mechanical tasks that drain creative energy.</p>
+                                <h3
+                                    class="text-xl font-headline font-bold mb-3 text-error">
+                                    Repetitive Work</h3>
+                                <p class="text-on-surface-variant/80 leading-relaxed text-[15px]">Duplicating designs
+                                    for every new colorway or logo placement. Hours wasted on mechanical tasks that
+                                    drain creative energy.</p>
                             </div>
                         </div>
 
                         <!-- Point 2: Consistency Challenges -->
                         <div class="flex gap-6 group/item">
-                            <div class="w-14 h-14 rounded-2xl bg-error/8 flex items-center justify-center shrink-0 border border-error/10 group-hover/item:scale-110 group-hover/item:bg-error group-hover/item:text-white transition-all duration-500 shadow-sm">
-                                <span class="material-symbols-outlined text-2xl transition-colors duration-500 text-error group-hover/item:text-white">rule</span>
+                            <div
+                                class="w-14 h-14 rounded-2xl bg-error flex items-center justify-center shrink-0 border border-error/10 scale-110 text-white shadow-sm stress-glow">
+                                <span
+                                    class="material-symbols-outlined text-2xl text-white">rule</span>
                             </div>
                             <div>
-                                <h3 class="text-xl font-headline font-bold mb-3 text-on-surface group-hover/item:text-error transition-colors duration-500">Consistency Challenges</h3>
-                                <p class="text-on-surface-variant/80 leading-relaxed text-[15px]">Ensuring perfect manual adherence to strict brand guidelines across hundreds of product variants with absolute precision.</p>
+                                <h3
+                                    class="text-xl font-headline font-bold mb-3 text-error">
+                                    Consistency Challenges</h3>
+                                <p class="text-on-surface-variant/80 leading-relaxed text-[15px]">Ensuring perfect
+                                    manual adherence to strict brand guidelines across hundreds of product variants with
+                                    absolute precision.</p>
                             </div>
                         </div>
 
                         <!-- Point 3: Slow Time-to-Market -->
                         <div class="flex gap-6 group/item">
-                            <div class="w-14 h-14 rounded-2xl bg-error/8 flex items-center justify-center shrink-0 border border-error/10 group-hover/item:scale-110 group-hover/item:bg-error group-hover/item:text-white transition-all duration-500 shadow-sm">
-                                <span class="material-symbols-outlined text-2xl transition-colors duration-500 text-error group-hover/item:text-white">hourglass_empty</span>
+                            <div
+                                class="w-14 h-14 rounded-2xl bg-error flex items-center justify-center shrink-0 border border-error/10 scale-110 text-white shadow-sm stress-glow">
+                                <span
+                                    class="material-symbols-outlined text-2xl text-white">hourglass_empty</span>
                             </div>
                             <div>
-                                <h3 class="text-xl font-headline font-bold mb-3 text-on-surface group-hover/item:text-error transition-colors duration-500">Slow Time-to-Market</h3>
-                                <p class="text-on-surface-variant/80 leading-relaxed text-[15px]">Manual work repeatedly delays new collection launches when speed matters most in a hyper-competitive landscape.</p>
+                                <h3
+                                    class="text-xl font-headline font-bold mb-3 text-error">
+                                    Slow Time-to-Market</h3>
+                                <p class="text-on-surface-variant/80 leading-relaxed text-[15px]">Manual work repeatedly
+                                    delays new collection launches when speed matters most in a hyper-competitive
+                                    landscape.</p>
                             </div>
                         </div>
 
                         <!-- Point 4: Limited Customization -->
                         <div class="flex gap-6 group/item">
-                            <div class="w-14 h-14 rounded-2xl bg-error/8 flex items-center justify-center shrink-0 border border-error/10 group-hover/item:scale-110 group-hover/item:bg-error group-hover/item:text-white transition-all duration-500 shadow-sm">
-                                <span class="material-symbols-outlined text-2xl transition-colors duration-500 text-error group-hover/item:text-white">block</span>
+                            <div
+                                class="w-14 h-14 rounded-2xl bg-error flex items-center justify-center shrink-0 border border-error/10 scale-110 text-white shadow-sm stress-glow">
+                                <span
+                                    class="material-symbols-outlined text-2xl text-white">block</span>
                             </div>
                             <div>
-                                <h3 class="text-xl font-headline font-bold mb-3 text-on-surface group-hover/item:text-error transition-colors duration-500">Limited Personalization</h3>
-                                <p class="text-on-surface-variant/80 leading-relaxed text-[15px]">Too costly and slow for the deep personalization consumers crave. Manual processes simply cannot scale to modern demands.</p>
+                                <h3
+                                    class="text-xl font-headline font-bold mb-3 text-error">
+                                    Limited Personalization</h3>
+                                <p class="text-on-surface-variant/80 leading-relaxed text-[15px]">Too costly and slow
+                                    for the deep personalization consumers crave. Manual processes simply cannot scale
+                                    to modern demands.</p>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ═══════════════════════ THE ADVANTAGE ═══════════════════════ -->
+            <div class="gradient-sep mb-4"></div>
+
+            <section id="advantage" class="mb-4 reveal">
+                <div class="text-center mb-16 max-w-4xl mx-auto">
+                    <span class="font-label text-xs font-bold uppercase tracking-[0.2em] text-primary">The EasyVariants
+                        Advantage</span>
+                    <h2 class="text-4xl md:text-5xl font-headline font-bold tracking-tight mt-3">
+                        <span id="counting-headline" class="text-primary">1X</span> Speed, Guarantee
+                        Brand Consistency, Fuel Innovation.
+                    </h2>
+                    <p class="text-on-surface-variant text-lg mt-5 leading-relaxed">The result? Generate hundreds, even
+                        thousands, of error-free design variants in minutes - not hours or days.</p>
+                </div>
+
+
+                <!-- ═══ ADVANTAGE SLIDESHOW CARD ═══ -->
+                <div class="max-w-4xl mx-auto px-4 reveal">
+                    <div class="card-advantage-premium rounded-[2.5rem] overflow-hidden hover-lift relative advantage-slideshow-container">
+                        <!-- Aurora Background -->
+                        <div class="advantage-aurora"></div>
+
+                        <!-- Slide 1: Boost Design Output 10X -->
+                        <div class="advantage-slide active flex flex-col md:flex-row gap-8 items-center"
+                            id="adv-slide-1">
+                            <div
+                                class="w-24 h-24 rounded-[1.5rem] bg-primary/10 flex items-center justify-center text-primary shrink-0 relative group">
+                                <div class="rocket-spark"></div>
+                                <span class="material-symbols-outlined text-5xl rocket-card-icon">rocket_launch</span>
+                            </div>
+                            <div class="text-center md:text-left">
+                                <h3 class="text-3xl font-headline font-bold mb-4 text-on-surface">Boost Output 10X</h3>
+                                <div class="flex items-end gap-1.5 h-10 mb-5 justify-center md:justify-start">
+                                    <div class="w-2.5 bg-[#4f46e5] rounded-full eq-bar shadow-[0_0_15px_rgba(79,70,229,0.4)]" style="height: 100%; animation-duration: 0.8s;"></div>
+                                    <div class="w-2.5 bg-[#6366f1] rounded-full eq-bar shadow-[0_0_15px_rgba(99,102,241,0.4)]" style="height: 80%; animation-duration: 1.2s; animation-delay: 0.1s;"></div>
+                                    <div class="w-2.5 bg-[#818cf8] rounded-full eq-bar shadow-[0_0_15px_rgba(129,140,248,0.4)]" style="height: 60%; animation-duration: 0.9s; animation-delay: 0.2s;"></div>
+                                    <div class="w-2.5 bg-[#a5b4fc] rounded-full eq-bar shadow-[0_0_15px_rgba(165,180,252,0.4)]" style="height: 40%; animation-duration: 1.1s; animation-delay: 0.3s;"></div>
+                                    <div class="w-2.5 bg-[#c7d2fe] rounded-full eq-bar shadow-[0_0_15px_rgba(199,210,254,0.4)]" style="height: 70%; animation-duration: 0.7s; animation-delay: 0.4s;"></div>
+                                </div>
+                                <p class="text-on-surface-variant text-lg leading-relaxed">Free your designers from
+                                    repetitive drudgery, allowing them to focus on pure innovation.</p>
+                            </div>
+                        </div>
+
+                        <!-- Slide 2: Guaranteed Consistency -->
+                        <div class="advantage-slide flex flex-col md:flex-row gap-8 items-center" id="adv-slide-2">
+                            <div
+                                class="w-24 h-24 rounded-[1.5rem] bg-tertiary/10 flex items-center justify-center text-tertiary shrink-0 relative overflow-hidden">
+                                <svg class="w-12 h-12 text-tertiary" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="3" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path class="check-svg-path" d="M20 6L9 17L4 12" />
+                                </svg>
+                            </div>
+                            <div class="text-center md:text-left">
+                                <h3 class="text-3xl font-headline font-bold mb-4 text-on-surface">Guaranteed Consistency
+                                </h3>
+                                <div class="flex gap-4 h-8 mb-4 items-center justify-center md:justify-start">
+                                    <div class="w-64 h-2 bg-tertiary/10 rounded-full overflow-hidden border border-tertiary/5">
+                                        <div class="h-full bg-gradient-to-r from-tertiary via-tertiary-container to-tertiary shadow-[0_0_15px_rgba(126,48,0,0.4)] w-0 advantage-progress-bar"
+                                            id="progress-bar-2"></div>
+                                    </div>
+                                    <span class="text-sm font-black text-tertiary font-label w-12 advantage-counter" id="counter-2">0%</span>
+                                </div>
+                                <p class="text-on-surface-variant text-lg leading-relaxed">Eliminate human error and
+                                    ensure every variant perfectly aligns with your brand standards.</p>
+                            </div>
+                        </div>
+
+                        <!-- Slide 3: Accelerated Time-to-Market -->
+                        <div class="advantage-slide flex flex-col md:flex-row gap-8 items-center" id="adv-slide-3">
+                            <div class="w-24 h-24 rounded-[1.5rem] bg-tertiary/10 flex items-center justify-center text-tertiary shrink-0">
+                                <span class="material-symbols-outlined text-5xl trending-up-anim">trending_up</span>
+                            </div>
+                            <div class="text-center md:text-left">
+                                <h3 class="text-3xl font-headline font-bold mb-4 text-on-surface">Faster Time-to-Market
+                                </h3>
+                                <div class="flex gap-4 h-8 mb-4 items-center justify-center md:justify-start">
+                                    <div class="w-64 h-2 bg-on-surface/5 rounded-full overflow-hidden border border-on-surface/10">
+                                        <div class="h-full bg-gradient-to-r from-tertiary to-tertiary-container shadow-[0_0_15px_rgba(126,48,0,0.3)] w-0 advantage-progress-bar" 
+                                            id="progress-bar-3"></div>
+                                    </div>
+                                    <span class="text-sm font-black text-tertiary font-label w-12 advantage-counter" id="counter-3">0%</span>
+                                </div>
+                                <p class="text-on-surface-variant text-lg leading-relaxed">Rapidly customize and deploy
+                                    new collections, gaining a critical competitive edge.</p>
+                            </div>
+                        </div>
+
+                        <!-- Slide 4: Scalable Personalization -->
+                        <div class="advantage-slide flex flex-col md:flex-row gap-8 items-center" id="adv-slide-4">
+                            <div
+                                class="w-24 h-24 rounded-[1.5rem] bg-surface-tint/10 flex items-center justify-center text-surface-tint shrink-0">
+                                <span class="material-symbols-outlined text-5xl">tune</span>
+                            </div>
+                            <div class="text-center md:text-left">
+                                <h3 class="text-3xl font-headline font-bold mb-4 text-on-surface">Scalable
+                                    Personalization</h3>
+                                <div class="flex items-end gap-1.5 h-10 mb-4 justify-center md:justify-start">
+                                    <div class="w-2.5 bg-surface-tint/20 rounded-t-sm cascade-bar"
+                                        style="animation-delay: 0.1s;"></div>
+                                    <div class="w-2.5 bg-surface-tint/40 rounded-t-sm cascade-bar"
+                                        style="animation-delay: 0.2s;"></div>
+                                    <div class="w-2.5 bg-surface-tint/60 rounded-t-sm cascade-bar"
+                                        style="animation-delay: 0.3s;"></div>
+                                    <div class="w-2.5 bg-surface-tint rounded-t-sm cascade-bar"
+                                        style="animation-delay: 0.4s;"></div>
+                                </div>
+                                <p class="text-on-surface-variant text-lg leading-relaxed">Offer extensive
+                                    personalization without fear of an unmanageable design workload.</p>
+                            </div>
+                        </div>
+
+                        <!-- Dots Navigation -->
+                        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3">
+                            <div class="advantage-dot active" data-slide="0"></div>
+                            <div class="advantage-dot" data-slide="1"></div>
+                            <div class="advantage-dot" data-slide="2"></div>
+                            <div class="advantage-dot" data-slide="3"></div>
                         </div>
                     </div>
                 </div>
@@ -1129,7 +1543,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
                     <!-- Automation — Large -->
                     <div
-                        class="md:col-span-8 card-premium rounded-[2rem] p-6 md:p-12 relative overflow-hidden group hover-lift">
+                        class="md:col-span-8 card-premium rounded-[2rem] p-6 md:p-12 relative overflow-hidden group hover-lift reveal reveal-left">
                         <div class="relative z-10 max-w-sm">
                             <div
                                 class="w-12 h-12 rounded-xl bg-primary flex items-center justify-center text-on-primary shadow-lg shadow-primary/20 mb-6">
@@ -1148,7 +1562,8 @@
                     </div>
 
                     <!-- Intelligent Generation -->
-                    <div class="md:col-span-4 card-premium card-signature rounded-[2rem] p-6 md:p-12 flex flex-col justify-between hover-lift">
+                    <div
+                        class="md:col-span-4 card-premium card-signature rounded-[2rem] p-6 md:p-12 flex flex-col justify-between hover-lift reveal reveal-right">
                         <div
                             class="w-12 h-12 rounded-xl bg-primary flex items-center justify-center text-on-primary shadow-lg shadow-primary/20">
                             <span class="material-symbols-outlined">auto_awesome</span>
@@ -1161,7 +1576,7 @@
                     </div>
                     <!-- Smart Generation — Small -->
                     <div
-                        class="md:col-span-4 card-premium rounded-[2rem] p-6 md:p-12 relative overflow-hidden group hover-lift">
+                        class="md:col-span-4 card-premium rounded-[2rem] p-6 md:p-12 relative overflow-hidden group hover-lift reveal reveal-left">
                         <div class="relative z-10">
                             <h3 class="text-2xl font-headline font-bold mb-4">Layer Management</h3>
                             <p class="opacity-80 text-sm">Organize static and dynamic elements with precision control.
@@ -1176,7 +1591,7 @@
 
                     <!-- Export Anywhere -->
                     <div
-                        class="md:col-span-8 card-premium rounded-[2rem] p-6 md:p-12 flex flex-col md:flex-row gap-8 items-center hover-lift">
+                        class="md:col-span-8 card-premium rounded-[2rem] p-6 md:p-12 flex flex-col md:flex-row gap-8 items-center hover-lift reveal reveal-right">
                         <div class="md:w-1/2">
                             <h3 class="text-2xl font-headline font-bold mb-4">Export Anywhere</h3>
                             <p class="text-on-surface-variant leading-relaxed">Download assets in multiple formats,
@@ -1264,8 +1679,7 @@
                                     <span
                                         class="material-symbols-outlined text-[64px] text-primary-container/30 group-hover:text-primary-container/70 mb-4 transition-colors duration-500">rule_settings</span>
                                     <span
-                                        class="text-xs font-bold tracking-[0.2em] uppercase text-on-surface-variant/50 group-hover:text-primary-container/60 transition-colors">Template
-                                        Control</span>
+                                        class="text-xs font-bold tracking-[0.2em] uppercase text-on-surface-variant/50 group-hover:text-primary-container/60 transition-colors">Design</span>
                                 </div>
                                 <div
                                     class="absolute left-8 md:relative md:left-0 md:translate-x-0 -translate-x-1/2 flex justify-center w-16 md:w-auto order-1 md:order-2">
@@ -1279,9 +1693,9 @@
                                     <h3
                                         class="text-2xl font-headline font-bold mb-3 text-primary-container group-hover:text-primary-container/80 transition-colors">
                                         Maintain Consistency</h3>
-                                    <p class="text-on-surface-variant leading-relaxed text-[15px]">Ensure all generated
-                                        outputs match
-                                        brand specs and guidelines perfectly, overcoming manual drifts.</p>
+                                    <p class="text-on-surface-variant leading-relaxed text-[15px]">Predefine Logo
+                                        Placements to ensure all variations match the brand specs and guidelines
+                                        perfectly, overcoming manual drifts.</p>
                                 </div>
                             </div>
 
@@ -1612,6 +2026,17 @@
     <!-- ═══════════════════════ JAVASCRIPT ═══════════════════════ -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
+            /* ═══ NAVBAR SCROLL LOGIC ═══ */
+            const navbar = document.querySelector(".navbar");
+            const handleNavbar = () => {
+                if (window.scrollY > 20) {
+                    navbar.classList.add("scrolled");
+                } else {
+                    navbar.classList.remove("scrolled");
+                }
+            };
+            window.addEventListener("scroll", handleNavbar);
+            handleNavbar();
 
             /* ═══ SCROLL REVEAL ═══ */
             const revealEls = document.querySelectorAll(".reveal");
@@ -1724,7 +2149,7 @@
                         <p style="color: #464555; font-size: 16px; line-height: 1.5; font-weight: 400; margin: 0;">${data.desc}</p>
                     </div>
                 `;
-                    
+
                     slide.querySelector('.demo-overlay').addEventListener('click', () => {
                         slides.forEach(s => s.classList.remove('is-playing'));
                         slide.classList.add('is-playing');
@@ -1784,6 +2209,141 @@
                 });
 
                 setTimeout(updateSlides, 100);
+            }
+
+            /* ═══ ADVANTAGE SECTION ANIMATIONS (COUNT UP LOOP) ═══ */
+            const animateCount = (el, target, suffix = '', duration = 1500) => {
+                let start = 1;
+                el.textContent = start + suffix;
+                const increment = (target - 1) / (duration / 16);
+                const timer = setInterval(() => {
+                    start += increment;
+                    if (start >= target) {
+                        el.textContent = target + suffix;
+                        clearInterval(timer);
+                    } else {
+                        el.textContent = Math.floor(start) + suffix;
+                    }
+                }, 16);
+            };
+
+            const headline = document.getElementById('counting-headline');
+            if (headline) {
+                const startLoop = () => {
+                    animateCount(headline, 10, 'X', 1500);
+                    setTimeout(startLoop, 5000); // Repeat every 5 seconds
+                };
+
+                const observer = new IntersectionObserver((entries) => {
+                    if (entries[0].isIntersecting) {
+                        startLoop();
+                        observer.unobserve(headline);
+                    }
+                }, { threshold: 0.5 });
+                observer.observe(headline);
+            }
+
+            /* ═══ ADVANTAGE SLIDESHOW (SLIDE-TO-LEFT) ═══ */
+            const advSlides = document.querySelectorAll('.advantage-slide');
+            const advDots = document.querySelectorAll('.advantage-dot');
+            const advContainer = document.querySelector('.advantage-slideshow-container');
+            let currentAdvSlide = 0;
+            let advInterval;
+            let isAdvTransitioning = false;
+            let counterTimers = {};
+
+            const animateProgressBar = (slideIndex) => {
+                // IDs of progress elements mapping to slide IDs
+                const bar = document.getElementById(`progress-bar-${slideIndex}`);
+                const counter = document.getElementById(`counter-${slideIndex}`);
+                
+                if (!bar || !counter) return;
+
+                // Reset
+                bar.classList.remove('loading-bar-active');
+                bar.style.width = '0%';
+                counter.textContent = '0%';
+                if (counterTimers[slideIndex]) clearInterval(counterTimers[slideIndex]);
+
+                // Small delay to ensure browser paints the reset state
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        bar.classList.add('loading-bar-active');
+                        
+                        let count = 0;
+                        const duration = 2200; // Adjusted to be shorter than the 2.7s slide cycle
+                        const interval = duration / 100;
+                        
+                        counterTimers[slideIndex] = setInterval(() => {
+                            count++;
+                            if (count <= 100) {
+                                counter.textContent = count + '%';
+                            } else {
+                                clearInterval(counterTimers[slideIndex]);
+                            }
+                        }, interval);
+                    });
+                });
+            };
+
+            const updateAdvSlides = (nextIndex) => {
+                const prevIndex = currentAdvSlide;
+                if (isAdvTransitioning || nextIndex === prevIndex) return;
+                isAdvTransitioning = true;
+
+                const prevSlide = advSlides[prevIndex];
+                const nextSlide = advSlides[nextIndex];
+
+                // Previous slide exits to left
+                prevSlide.classList.remove('active');
+                prevSlide.classList.add('exit');
+
+                // Next slide enters from right
+                nextSlide.classList.add('active');
+
+                // Trigger sub-animations for progress bars if they exist in the next slide
+                animateProgressBar(nextIndex + 1);
+
+                // Update dots
+                advDots.forEach((d, i) => {
+                    if (i === nextIndex) d.classList.add('active');
+                    else d.classList.remove('active');
+                });
+
+                currentAdvSlide = nextIndex;
+
+                // Cleanup exit class after animation
+                setTimeout(() => {
+                    prevSlide.classList.remove('exit');
+                    isAdvTransitioning = false;
+                }, 1200);
+            };
+
+            const startAdvCycle = () => {
+                if (advInterval) clearInterval(advInterval);
+                advInterval = setInterval(() => {
+                    updateAdvSlides((currentAdvSlide + 1) % advSlides.length);
+                }, 2700); // 2.7 seconds cycle
+            };
+
+            advDots.forEach((dot, idx) => {
+                dot.addEventListener('click', () => {
+                    updateAdvSlides(idx);
+                    startAdvCycle();
+                });
+            });
+
+            if (advContainer) {
+                const advScrollObserver = new IntersectionObserver((entries) => {
+                    if (entries[0].isIntersecting) {
+                        animateProgressBar(1);
+                        startAdvCycle();
+                        advScrollObserver.unobserve(advContainer);
+                    }
+                }, { threshold: 0.3 });
+                advScrollObserver.observe(advContainer);
+                
+                // Infinite loop: hover listeners removed to ensure it never stops per request
             }
 
         });
