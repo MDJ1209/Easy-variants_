@@ -42,10 +42,7 @@ const decalOrientation = new THREE.Euler();
 const position = new THREE.Vector3();
 
 // Helper to check if script is loaded
-console.log("3D Customizer Initialized");
-
-init();
-animate();
+console.log("3D Customizer Script Loaded - Start of file execution");
 
 function init() {
     // 1. Scene Setup
@@ -65,6 +62,7 @@ function init() {
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     container.appendChild(renderer.domElement);
+    console.log("Renderer added to container. Container size:", container.clientWidth, "x", container.clientHeight);
 
     // 4. Controls
     controls = new OrbitControls(camera, renderer.domElement);
@@ -133,14 +131,21 @@ function init() {
             tShirtGroup = model;
             scene.add(tShirtGroup);
             activeMesh = tShirtMesh;
+            console.log("T-Shirt model added to scene. activeMesh:", activeMesh ? activeMesh.name : "null");
 
             // Hide loader
             document.getElementById('loader').classList.remove('active');
-            // Setup initial Decal Helper Material
-            createDecalMaterial('EzVrnts', '#ffffff');
+            // Default: no decal material until an image is uploaded
         },
         undefined,
-        function (error) { console.error('Error loading T-Shirt', error); }
+        function (error) { 
+            console.error('Error loading T-Shirt', error); 
+            const loaderStatus = document.getElementById('loader');
+            if (loaderStatus) {
+                loaderStatus.querySelector('p').textContent = 'Error loading T-Shirt. Please refresh.';
+                loaderStatus.querySelector('.ez3d-spinner').style.display = 'none';
+            }
+        }
     );
 
     // Load Cap
@@ -195,6 +200,7 @@ function init() {
             capGroup = model;
             capGroup.visible = false;
             scene.add(capGroup);
+            console.log("Cap model added to scene. capMesh:", capMesh ? capMesh.name : "null");
         },
         undefined,
         function (error) { console.error('Error loading Cap', error); }
@@ -218,43 +224,49 @@ function setupUI() {
     const btnCap = document.getElementById('btn-cap');
     const btnClear = document.getElementById('btn-clear-decals');
 
-    btnClear.addEventListener('click', () => {
-        placedDecals.forEach(d => {
-            scene.remove(d.mesh);
-            d.mesh.geometry.dispose();
+    if (btnClear) {
+        btnClear.addEventListener('click', () => {
+            placedDecals.forEach(d => {
+                scene.remove(d.mesh);
+                d.mesh.geometry.dispose();
+            });
+            placedDecals = [];
         });
-        placedDecals = [];
-    });
+    }
 
-    btnShirt.addEventListener('click', () => {
-        if (!tShirtGroup) return;
-        btnShirt.classList.replace('ez3d-btn-secondary', 'ez3d-btn-primary');
-        btnCap.classList.replace('ez3d-btn-primary', 'ez3d-btn-secondary');
-        tShirtGroup.visible = true;
-        if (capGroup) capGroup.visible = false;
-        activeMesh = tShirtMesh;
+    if (btnShirt) {
+        btnShirt.addEventListener('click', () => {
+            if (!tShirtGroup) return;
+            btnShirt.classList.replace('ez3d-btn-secondary', 'ez3d-btn-primary');
+            btnCap.classList.replace('ez3d-btn-primary', 'ez3d-btn-secondary');
+            tShirtGroup.visible = true;
+            if (capGroup) capGroup.visible = false;
+            activeMesh = tShirtMesh;
 
-        // Hide decals placed on other models
-        placedDecals.forEach(d => {
-            if (d.parentMesh !== tShirtMesh) d.mesh.visible = false;
-            else d.mesh.visible = true;
+            // Hide decals placed on other models
+            placedDecals.forEach(d => {
+                if (d.parentMesh !== tShirtMesh) d.mesh.visible = false;
+                else d.mesh.visible = true;
+            });
         });
-    });
+    }
 
-    btnCap.addEventListener('click', () => {
-        if (!capGroup) return;
-        btnCap.classList.replace('ez3d-btn-secondary', 'ez3d-btn-primary');
-        btnShirt.classList.replace('ez3d-btn-primary', 'ez3d-btn-secondary');
-        capGroup.visible = true;
-        if (tShirtGroup) tShirtGroup.visible = false;
-        activeMesh = capMesh;
+    if (btnCap) {
+        btnCap.addEventListener('click', () => {
+            if (!capGroup) return;
+            btnCap.classList.replace('ez3d-btn-secondary', 'ez3d-btn-primary');
+            btnShirt.classList.replace('ez3d-btn-primary', 'ez3d-btn-secondary');
+            capGroup.visible = true;
+            if (tShirtGroup) tShirtGroup.visible = false;
+            activeMesh = capMesh;
 
-        // Hide decals placed on other models
-        placedDecals.forEach(d => {
-            if (d.parentMesh !== capMesh) d.mesh.visible = false;
-            else d.mesh.visible = true;
+            // Hide decals placed on other models
+            placedDecals.forEach(d => {
+                if (d.parentMesh !== capMesh) d.mesh.visible = false;
+                else d.mesh.visible = true;
+            });
         });
-    });
+    }
 
     // Generate Variants
     const btnGenerate = document.getElementById('btn-generate-variants');
@@ -292,47 +304,43 @@ function setupUI() {
         });
     });
 
-    // Text Color Select
-    const textSwatches = document.querySelectorAll('#text-colors .ez3d-swatch');
-    textSwatches.forEach(swatch => {
-        swatch.addEventListener('click', (e) => {
-            textSwatches.forEach(s => s.classList.remove('active'));
-            e.target.classList.add('active');
-            // Update preview geometry / material color if applicable
-            updateDecalPreview();
-        });
-    });
-
-    // Updates from Inputs
-    const textInput = document.getElementById('decal-text');
-    textInput.addEventListener('input', () => {
-        customImageTexture = null;
-        updateDecalPreview();
-    });
-
+    // Size Input listener
     const sizeInput = document.getElementById('decal-size');
-    sizeInput.addEventListener('input', () => {
-        // Handled directly during placement
-    });
+    if (sizeInput) {
+        sizeInput.addEventListener('input', () => {
+            // Handled directly during placement or update existing decals if desired
+        });
+    }
 
     const imageInput = document.getElementById('decal-image');
-    imageInput.addEventListener('change', (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function (event) {
-                textureLoader.load(event.target.result, function (texture) {
-                    customImageTexture = texture;
-                    updateDecalPreview();
-                });
-            };
-            reader.readAsDataURL(file);
-        }
-    });
+    if (imageInput) {
+        imageInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    textureLoader.load(event.target.result, function (texture) {
+                        customImageTexture = texture;
+                        updateDecalPreview();
+                    });
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
 }
 
-const variantColors = ['#1e3a8a', '#ef4444', '#22c55e', '#111827', '#f3f4f6']; // Navy, Red, Green, Black, White
-const variantNames = ['Navy', 'Red', 'Green', 'Black', 'White'];
+const variantColors = [
+    '#1e3a8a', // Navy
+    '#ef4444', // Red
+    '#22c55e', // Green
+    '#111827', // Black
+    '#f3f4f6', // White
+    '#f59e0b', // Orange
+    '#7c3aed', // Purple
+    '#6b7280'  // Grey
+];
+const variantNames = ['Navy', 'Red', 'Green', 'Black', 'White', 'Orange', 'Purple', 'Grey'];
 let variantContainer = null;
 
 function generateVariants() {
@@ -388,7 +396,9 @@ function generateVariants() {
         const item = document.createElement('div');
         item.className = 'ez3d-gallery-item';
         item.innerHTML = `
-            <img src="${thumb.img}" alt="${thumb.name}">
+            <div class="ez3d-gallery-img-wrapper">
+                <img src="${thumb.img}" alt="${thumb.name}">
+            </div>
             <span>${thumb.name}</span>
         `;
         item.onclick = () => selectGalleryVariant(thumb.color);
@@ -427,13 +437,14 @@ function selectVariant(index) {
 }
 
 function updateDecalPreview() {
-    const text = document.getElementById('decal-text').value || 'Text';
-    const activeSwatch = document.querySelector('#text-colors .ez3d-swatch.active');
-    const color = activeSwatch ? activeSwatch.getAttribute('data-color') : '#ffffff';
-
     if (customImageTexture) {
         createImageDecalMaterial(customImageTexture);
     }
+}
+
+function confirmSelection() {
+    console.log("Selection confirmed");
+    backToEditor();
 }
 
 function createImageDecalMaterial(texture) {
@@ -456,44 +467,7 @@ function createImageDecalMaterial(texture) {
     decalScale.set(0.3, 0.3 * aspect, 0.3);
 }
 
-// Generate Texture from Canvas for Text
-function createDecalMaterial(text, colorHex) {
-    const canvas = document.createElement('canvas');
-    canvas.width = 1024;
-    canvas.height = 256;
-    const ctx = canvas.getContext('2d');
-
-    // Background (transparent)
-    ctx.clearRect(0, 0, 1024, 256);
-
-    // Text drawing
-    ctx.fillStyle = colorHex;
-    ctx.font = 'bold 140px Outfit, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(text, 512, 128);
-
-    const texture = new THREE.CanvasTexture(canvas);
-    texture.colorSpace = THREE.SRGBColorSpace;
-    texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
-    texture.minFilter = THREE.LinearMipmapLinearFilter;
-    texture.magFilter = THREE.LinearFilter;
-    texture.generateMipmaps = true;
-
-    decalMaterial = new THREE.MeshStandardMaterial({
-        map: texture,
-        transparent: true,
-        depthTest: true,
-        depthWrite: false,
-        polygonOffset: true,
-        polygonOffsetFactor: -4,
-        roughness: 0.9, // Matte paint feel
-        metalness: 0.0
-    });
-
-    // Set scale based roughly on aspect ratio
-    decalScale.set(0.3, 0.3 * (256 / 1024), 0.3);
-}
+// createDecalMaterial (text) function removed as per requirements
 
 function checkIntersection(x, y) {
     if (!scene) return;
@@ -559,7 +533,10 @@ function onPointerDown(event) {
         return;
     }
 
-    if (!decalMaterial) return;
+    if (!decalMaterial && !customImageTexture) {
+        alert("Please upload a design image first!");
+        return;
+    }
 
     // Otherwise, place a new one!
     checkIntersection(event.clientX, event.clientY);
@@ -690,6 +667,9 @@ function onWindowResize() {
 function animate() {
     animFrameId = requestAnimationFrame(animate);
 
+    // DEBUG: Always log occasionally
+    if (Math.random() < 0.01) console.log("animate loop running. isVisible:", isVisible, "needsRender:", needsRender);
+
     // Skip heavy GPU work when section is scrolled out of view
     if (!isVisible) return;
 
@@ -698,6 +678,7 @@ function animate() {
     // Only render when something has changed (controls, interaction, etc.)
     if (needsRender || controls.enableDamping) {
         renderer.render(scene, camera);
+        console.log("Renderer.render called!");
         needsRender = false;
     }
 }
@@ -712,6 +693,14 @@ if (customizerSection) {
                 needsRender = true;
             }
         });
-    }, { rootMargin: '200px 0px' });
+    }, { rootMargin: '0px', threshold: 0.1 });
     visibilityObserver.observe(customizerSection);
+}
+
+// START EXECUTION
+try {
+    init();
+    animate();
+} catch (error) {
+    console.error("3D Customizer Initialization Error:", error);
 }

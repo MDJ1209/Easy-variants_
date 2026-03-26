@@ -178,19 +178,20 @@
 
         .ez3d-gallery-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
             width: 100%;
             max-width: 1200px;
+            margin: 0 auto;
         }
 
         .ez3d-gallery-item {
-            background: #fdfdff;
-            border-radius: 1.5rem;
-            padding: 1.5rem;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
+            background: #ffffff;
+            border-radius: 1rem;
+            padding: 1rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.3s ease;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -198,23 +199,44 @@
         }
 
         .ez3d-gallery-item:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 50px rgba(77, 68, 227, 0.15);
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(77, 68, 227, 0.15);
             border-color: #4d44e3;
+        }
+
+        .ez3d-gallery-img-wrapper {
+            width: 100%;
+            height: 22vh; /* Slightly smaller height to guarantee 4x2 fits on any screen */
+            min-height: 140px;
+            max-height: 200px;
+            overflow: hidden;
+            border-radius: 0.5rem;
+            margin-bottom: 0.8rem;
+            background: #f8fafc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .ez3d-gallery-item img {
             width: 100%;
-            height: auto;
-            border-radius: 1rem;
-            margin-bottom: 1rem;
-            background: #f8f9fa;
+            height: 100%;
+            object-fit: contain; /* Guarantees the entire image is shown without cropping */
+            transform: scale(1.15); /* Tiny zoom to clean margins but keep full shirt */
+            transform-origin: center center;
+            transition: transform 0.3s;
+        }
+
+        .ez3d-gallery-item:hover img {
+            transform: scale(1.25);
         }
 
         .ez3d-gallery-item span {
             font-size: 1.1rem;
-            font-weight: 700;
-            color: #111827;
+            font-weight: 800;
+            color: #1e293b;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
         @keyframes float {
@@ -1367,33 +1389,29 @@
                             </div>
 
                             <!-- Right Panel: Customization Controls -->
-                            <div class="ez3d-right-panel customizer-controls">
+                             <div class="ez3d-right-panel customizer-controls">
+                                 <div class="ez3d-control-group ez3d-mt-4">
+                                     <h3>Custom Design</h3>
+                                     
+                                     <label class="ez3d-helper ez3d-mt-2">Design Size</label>
+                                     <input type="range" id="decal-size" min="0.5" max="2.0" step="0.1" value="1.0"
+                                         class="ez3d-slider">
 
+                                     <label class="ez3d-helper">Upload Design (PNG/JPG)</label>
+                                     <input type="file" id="decal-image" accept="image/png, image/jpeg"
+                                         class="ez3d-input">
 
-                                <div class="ez3d-control-group ez3d-mt-4">
-                                    <h3>Custom Decal</h3>
+                                     <p class="ez3d-helper" style="text-align:center; color:#4d44e3; margin-top:1rem;">
+                                         Click the product to place your design!</p>
+                                 </div>
 
-
-                                    <label class="ez3d-helper">Decal Size</label>
-                                    <input type="range" id="decal-size" min="0.5" max="2.0" step="0.1" value="1.0"
-                                        class="ez3d-slider">
-
-                                    <label class="ez3d-helper">Upload Image (PNG/JPG)</label>
-                                    <input type="file" id="decal-image" accept="image/png, image/jpeg"
-                                        class="ez3d-input">
-
-
-
-                                    <p class="ez3d-helper" style="text-align:center; color:#4d44e3; margin-top:1rem;">
-                                        Click the product to place your design!</p>
-                                </div>
-
-                                <div style="margin-top:auto; display:flex; flex-direction:column; gap:0.5rem;" id="variants-controls">
-                                    <button id="btn-generate-variants" class="ez3d-btn ez3d-btn-secondary">Generate Variants</button>
-                                    <button id="btn-back-editor" class="ez3d-btn ez3d-btn-secondary" style="display:none;">Back to Editor</button>
-                                    <a href="#" class="ez3d-btn ez3d-btn-accent">Export Design</a>
-                                </div>
-                            </div>
+                                 <div style="margin-top:auto; display:flex; flex-direction:column; gap:0.5rem;" id="variants-controls">
+                                     <button id="btn-generate-variants" class="ez3d-btn ez3d-btn-secondary">Generate Variants</button>
+                                     <button id="btn-confirm-selection" class="ez3d-btn ez3d-btn-primary" style="display:none;">Confirm Selection</button>
+                                     <button id="btn-back-editor" class="ez3d-btn ez3d-btn-secondary" style="display:none;">Back to Editor</button>
+                                     <a href="#" class="ez3d-btn ez3d-btn-accent">Export Design</a>
+                                 </div>
+                             </div>
                         </div>
                     </div>
             </section>
