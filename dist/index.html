@@ -1,0 +1,2447 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>EasyVariants - Design Automation Platform</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Manrope:wght@400;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-variant": "#e2e2e4",
+                        "primary-fixed-dim": "#c3c0ff",
+                        "on-primary-container": "#dad7ff",
+                        "inverse-primary": "#c3c0ff",
+                        "error-container": "#ffdad6",
+                        "tertiary-fixed-dim": "#ffb695",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-high": "#e8e8ea",
+                        "on-primary-fixed-variant": "#3323cc",
+                        "outline-variant": "#c7c4d8",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-low": "#f3f3f5",
+                        "on-primary-fixed": "#0f0069",
+                        "surface-dim": "#d9dadc",
+                        "on-tertiary-container": "#ffd2be",
+                        "on-surface-variant": "#464555",
+                        "surface-container": "#eeeef0",
+                        "on-surface": "#1a1c1d",
+                        "secondary": "#565e74",
+                        "secondary-container": "#dae2fd",
+                        "on-tertiary-fixed-variant": "#7b2f00",
+                        "primary-container": "#4f46e5",
+                        "on-background": "#1a1c1d",
+                        "surface-container-highest": "#e2e2e4",
+                        "inverse-on-surface": "#f0f0f2",
+                        "on-secondary-container": "#5c647a",
+                        "outline": "#777587",
+                        "on-error-container": "#93000a",
+                        "on-error": "#ffffff",
+                        "surface-bright": "#f9f9fb",
+                        "on-primary": "#ffffff",
+                        "tertiary-fixed": "#ffdbcc",
+                        "tertiary-container": "#a44100",
+                        "on-secondary-fixed-variant": "#3f465c",
+                        "surface": "#f9f9fb",
+                        "primary": "#3525cd",
+                        "error": "#ba1a1a",
+                        "on-secondary": "#ffffff",
+                        "secondary-fixed-dim": "#bec6e0",
+                        "surface-tint": "#4d44e3",
+                        "on-tertiary-fixed": "#351000",
+                        "tertiary": "#7e3000",
+                        "on-secondary-fixed": "#131b2e",
+                        "background": "#f9f9fb",
+                        "inverse-surface": "#2f3132",
+                        "secondary-fixed": "#dae2fd",
+                        "primary-fixed": "#e2dfff"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope", "sans-serif"],
+                        "body": ["Inter", "sans-serif"],
+                        "label": ["Inter", "sans-serif"]
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        /* ═══ BASE ═══ */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        * {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+        }
+
+        body {
+            background-color: #f8f8fc;
+            background-image:
+                radial-gradient(ellipse 80% 50% at 50% -20%, rgba(53, 37, 205, 0.04), transparent),
+                url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            background-repeat: no-repeat, repeat;
+            background-size: 100% 800px, 100px 100px;
+        }
+
+        /* ═══ GLASS ═══ */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.72);
+            backdrop-filter: blur(28px) saturate(1.6);
+            -webkit-backdrop-filter: blur(28px) saturate(1.6);
+            border: 0.5px solid rgba(199, 196, 216, 0.18);
+            transform: translateZ(0);
+        }
+
+        /* ═══ SCROLL REVEAL ═══ */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px) translateZ(0);
+            will-change: transform, opacity;
+            transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+
+        .reveal.visible {
+            opacity: 1 !important;
+            transform: translate(0, 0) !important;
+        }
+
+        .reveal-left {
+            transform: translateX(-100px) !important;
+        }
+
+        .reveal-right {
+            transform: translateX(100px) !important;
+        }
+
+        /* stagger children */
+        .stagger>* {
+            transition-delay: calc(var(--i, 0) * 0.12s);
+        }
+
+        /* ═══ VIDEO ═══ */
+        .video-showcase {
+            position: relative;
+            overflow: hidden;
+            border-radius: 1.5rem;
+        }
+
+        .video-showcase video {
+            transition: opacity 0.5s ease;
+        }
+
+        /* ═══ KEYFRAMES ═══ */
+        @keyframes countUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ═══ 2D GALLERY ═══ */
+        .ez3d-gallery {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(15px);
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem;
+            overflow-y: auto;
+            border-radius: 2rem;
+        }
+
+        .ez3d-gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .ez3d-gallery-item {
+            background: #ffffff;
+            border-radius: 1rem;
+            padding: 1rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 2px solid transparent;
+        }
+
+        .ez3d-gallery-item:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(77, 68, 227, 0.15);
+            border-color: #4d44e3;
+        }
+
+        .ez3d-gallery-img-wrapper {
+            width: 100%;
+            height: 22vh; /* Slightly smaller height to guarantee 4x2 fits on any screen */
+            min-height: 140px;
+            max-height: 200px;
+            overflow: hidden;
+            border-radius: 0.5rem;
+            margin-bottom: 0.8rem;
+            background: #f8fafc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ez3d-gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Guarantees the entire image is shown without cropping */
+            transform: scale(1.15); /* Tiny zoom to clean margins but keep full shirt */
+            transform-origin: center center;
+            transition: transform 0.3s;
+        }
+
+        .ez3d-gallery-item:hover img {
+            transform: scale(1.25);
+        }
+
+        .ez3d-gallery-item span {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #1e293b;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -200% 0;
+            }
+
+            100% {
+                background-position: 200% 0;
+            }
+        }
+
+        @keyframes gradientShift {
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        .stat-number {
+            animation: countUp 0.6s ease-out forwards;
+        }
+
+        .float-anim {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        /* ═══ SLIDES ═══ */
+        .slide-fade {
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .demo-slide {
+            position: absolute;
+            inset: 0;
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform, opacity;
+            backface-visibility: hidden;
+            transform: translateZ(0);
+        }
+
+        /* ═══ STEP LINE ═══ */
+        .step-line {
+            background: linear-gradient(to bottom, #3525cd, #4f46e5, #a44100);
+        }
+
+        /* ═══ HOVER LIFT ═══ */
+        .hover-lift {
+            transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+            will-change: transform, box-shadow;
+            transform: translateZ(0);
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-8px) translateZ(0);
+            box-shadow: 0 24px 64px rgba(53, 37, 205, 0.10), 0 8px 20px rgba(0, 0, 0, 0.04);
+        }
+
+        /* ═══ PROBLEM CARD ═══ */
+        .problem-icon {
+            transition: all 0.4s ease;
+        }
+
+        .group:hover .problem-icon {
+            transform: scale(1.1);
+            box-shadow: 0 0 0 8px rgba(186, 26, 26, 0.06);
+        }
+
+        /* ═══ SECTION BACKGROUNDS ═══ */
+        .section-warm {
+            background: linear-gradient(180deg, #f8f8fc 0%, #faf9f7 100%);
+            border-radius: 3rem;
+            margin-left: -2rem;
+            margin-right: -2rem;
+            padding-left: 2rem;
+            padding-right: 2rem;
+            -webkit-backdrop-filter: blur(28px) saturate(1.6);
+            backdrop-filter: blur(28px) saturate(1.6);
+        }
+
+        /* ═══ PREMIUM CARD STYLES ═══ */
+        .card-premium {
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid rgba(199, 196, 216, 0.12);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02), 0 8px 32px rgba(53, 37, 205, 0.04);
+            transform: translateZ(0);
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .card-signature {
+            background: linear-gradient(135deg, rgba(226, 223, 255, 0.4), rgba(255, 255, 255, 0.85)) !important;
+        }
+
+        .card-premium:hover {
+            border-color: rgba(53, 37, 205, 0.25);
+            transform: translateY(-8px) scale(1.01) translateZ(0);
+            box-shadow: 0 20px 48px rgba(53, 37, 205, 0.08), 0 10px 20px rgba(0, 0, 0, 0.03);
+        }
+
+        /* ═══ GRADIENT SEPARATOR ═══ */
+        .gradient-sep {
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(53, 37, 205, 0.12), transparent);
+            margin: 0 auto;
+            max-width: 60%;
+        }
+
+        /* ═══ CTA SHIMMER ═══ */
+        .cta-gradient {
+            background: linear-gradient(135deg, #3525cd 0%, #4f46e5 40%, #6366f1 60%, #3525cd 100%);
+            background-size: 300% 300%;
+            animation: gradientShift 6s ease infinite;
+        }
+
+        /* ═══ ADVANTAGE ENHANCEMENTS ═══ */
+        @keyframes drawCheck {
+            from {
+                stroke-dashoffset: 48;
+            }
+
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        @keyframes launch {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0);
+            }
+
+            25% {
+                transform: translateY(-8px) rotate(-1deg);
+            }
+
+            75% {
+                transform: translateY(-25px) rotate(1deg);
+            }
+        }
+
+        @keyframes equalize {
+
+            50% {
+                transform: scaleY(1);
+            }
+        }
+
+        .rocket-card-icon {
+            animation: launch 2s ease-in-out infinite;
+            filter: drop-shadow(0 5px 10px rgba(53, 37, 205, 0.2));
+        }
+
+        .check-svg-path {
+            stroke-dasharray: 48;
+            stroke-dashoffset: 48;
+            animation: drawCheck 3s ease-in-out infinite alternate;
+        }
+
+        .eq-bar {
+            transform-origin: bottom;
+            animation: equalize 1.5s ease-in-out infinite;
+        }
+
+        .eq-bar:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .eq-bar:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .eq-bar:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .eq-bar:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .progress-race {
+            width: 30%;
+            animation: progressLoop 3s ease-in-out infinite;
+        }
+
+        @keyframes progressLoading {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+
+        .loading-bar-active {
+            animation: progressLoading 2.2s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
+        }
+
+        .trending-up-anim {
+            animation: trendingUp 2s ease-in-out infinite;
+        }
+
+        @keyframes trendingUp {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(5px, -8px) scale(1.1); }
+        }
+
+        .cascade-bar {
+            transform-origin: bottom;
+            animation: cascadeLoop 2.5s ease-in-out infinite;
+        }
+
+        .cascade-bar:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .cascade-bar:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .cascade-bar:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .cascade-bar:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        /* ═══ ADVANTAGE SLIDESHOW ═══ */
+        .advantage-slideshow-container {
+            position: relative;
+            min-height: 480px;
+            overflow: hidden;
+        }
+
+        .advantage-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .advantage-slide.active {
+            display: flex;
+            z-index: 2;
+            animation: slideInRight 1.2s cubic-bezier(0.4, 0.2, 0.1, 1) forwards;
+        }
+
+        .advantage-slide.exit {
+            display: flex;
+            z-index: 1;
+            animation: slideOutLeft 1.2s cubic-bezier(0.4, 0.2, 0.1, 1) forwards;
+        }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(100px); filter: blur(10px); }
+            to { opacity: 1; transform: translateX(0); filter: blur(0); }
+        }
+
+        @keyframes slideOutLeft {
+            from { opacity: 1; transform: translateX(0); filter: blur(0); }
+            to { opacity: 0; transform: translateX(-100px); filter: blur(10px); }
+        }
+
+        .advantage-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(53, 37, 205, 0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .advantage-dot.active {
+            width: 32px;
+            border-radius: 4px;
+            background: #3525cd;
+            box-shadow: 0 0 10px rgba(53, 37, 205, 0.3);
+        }
+
+        /* ═══ ADVANTAGE CARD DECORATION ═══ */
+        .card-advantage-premium {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(32px) saturate(1.8);
+            -webkit-backdrop-filter: blur(32px) saturate(1.8);
+            border: 1px solid rgba(53, 37, 205, 0.1);
+            position: relative;
+            z-index: 1;
+            box-shadow: 
+                0 10px 40px -10px rgba(53, 37, 205, 0.08),
+                0 4px 12px -4px rgba(0, 0, 0, 0.03),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+        }
+
+        .card-advantage-premium::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            padding: 1px;
+            border-radius: inherit;
+            background: linear-gradient(135deg, rgba(53, 37, 205, 0.3), transparent 40%, transparent 60%, rgba(164, 65, 0, 0.2));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .advantage-aurora {
+            position: absolute;
+            top: -20%;
+            right: -10%;
+            width: 60%;
+            height: 80%;
+            background: radial-gradient(circle at center, rgba(53, 37, 205, 0.06) 0%, transparent 70%);
+            filter: blur(60px);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+            animation: auroraPulse 8s ease-in-out infinite alternate;
+        }
+
+        @keyframes auroraPulse {
+            0% { transform: translate(0, 0) scale(1); opacity: 0.5; }
+            100% { transform: translate(-20px, 30px) scale(1.1); opacity: 0.8; }
+        }
+
+        /* ═══ PROBLEM CARD DECORATION ═══ */
+        .card-problem-premium {
+            background: rgba(255, 253, 253, 0.8);
+            backdrop-filter: blur(32px) saturate(1.8);
+            -webkit-backdrop-filter: blur(32px) saturate(1.8);
+            border: 1px solid rgba(186, 26, 26, 0.08);
+            position: relative;
+            z-index: 1;
+            box-shadow: 
+                0 15px 45px -10px rgba(186, 26, 26, 0.05),
+                0 4px 12px -4px rgba(0, 0, 0, 0.02);
+            overflow: hidden;
+        }
+
+        .bottleneck-flow {
+            position: absolute;
+            inset: 0;
+            background: 
+                radial-gradient(circle at 10% 10%, rgba(186, 26, 26, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 90% 90%, rgba(186, 26, 26, 0.02) 0%, transparent 40%);
+            opacity: 0.6;
+            z-index: -1;
+            animation: bottleneckPulse 10s ease-in-out infinite alternate;
+        }
+
+        @keyframes bottleneckPulse {
+            0% { transform: scale(1); opacity: 0.4; }
+            50% { transform: scale(1.05); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 0.4; }
+        }
+
+        .stress-glow {
+            position: relative;
+        }
+
+        .stress-glow::after {
+            content: '';
+            position: absolute;
+            inset: -8px;
+            background: radial-gradient(circle, rgba(186, 26, 26, 0.15) 0%, transparent 70%);
+            border-radius: inherit;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .group\/item:hover .stress-glow::after {
+            opacity: 1;
+        }
+
+        .problem-grain {
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 1;
+            mix-blend-mode: overlay;
+        }
+
+        .scanner-line {
+            position: absolute;
+            top: -10%;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, transparent, rgba(186, 26, 26, 0.4), transparent);
+            z-index: 2;
+            pointer-events: none;
+            animation: scan 4s linear infinite;
+            filter: blur(1px);
+        }
+
+        @keyframes scan {
+            0% { top: -10%; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { top: 110%; opacity: 0; }
+        }
+
+        .floating-particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(186, 26, 26, 0.15);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            animation: floatParticle 12s linear infinite;
+        }
+
+        @keyframes floatParticle {
+            0% { transform: translate(0, 0) scale(1); opacity: 0; }
+            10% { opacity: 0.3; }
+            90% { opacity: 0.3; }
+            100% { transform: translate(var(--tw-translateX), var(--tw-translateY)) scale(0.5); opacity: 0; }
+        }
+
+        @media (min-width: 768px) {
+            .advantage-slideshow-container {
+                min-height: 380px;
+            }
+            .advantage-slide {
+                flex-direction: row;
+                text-align: left;
+                padding: 4rem;
+            }
+        }
+
+        /* ═══ FOOTER ═══ */
+        .footer-premium {
+            background: linear-gradient(180deg, #f8f8fc 0%, #f0f0f4 100%);
+            border-top: 1px solid rgba(199, 196, 216, 0.15);
+        }
+
+        .footer-premium a {
+            transition: color 0.3s cubic-bezier(0.22, 1, 0.36, 1), transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        /* ═══ GLOBAL SMOOTHNESS ═══ */
+        img,
+        video {
+            transform: translateZ(0);
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+
+        a,
+        button {
+            transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        nav {
+            transform: translateZ(0);
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .navbar.scrolled {
+            background-color: rgba(255, 255, 255, 0.75) !important;
+            backdrop-filter: blur(40px) !important;
+            -webkit-backdrop-filter: blur(40px) !important;
+            border-bottom: 1px solid rgba(212, 212, 216, 0.15) !important;
+            box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03), 0 16px 48px rgba(0, 0, 0, 0.03) !important;
+        }
+
+        /* ═══ MOBILE MENU ═══ */
+        .mobile-menu-light {
+            display: none;
+        }
+
+        .mobile-menu-light.active {
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 72px;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            z-index: 40;
+            padding: 20px;
+            border-bottom: 1px solid rgba(199, 196, 216, 0.25);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.06);
+        }
+
+        .mobile-menu-light a {
+            padding: 14px 0;
+            font-weight: 600;
+            color: #1a1c1d;
+            border-bottom: 1px solid rgba(199, 196, 216, 0.12);
+            text-decoration: none;
+        }
+
+        @media(max-width: 768px) {
+            .menu-toggle-light {
+                display: flex !important;
+            }
+        }
+
+        /* ═══ 3D CUSTOMIZER SECTION ═══ */
+        .ez3d-section {
+            padding: 2rem 0 4rem;
+            contain: layout style paint;
+        }
+
+        .ez3d-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .ez3d-header h2 {
+            font-size: 2.5rem;
+            font-family: 'Manrope', sans-serif;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            color: #1a1c1d;
+        }
+
+        .ez3d-header p {
+            color: #464555;
+            font-size: 1.05rem;
+        }
+
+        .ez3d-container {
+            position: relative;
+            width: 100%;
+            height: 750px;
+            border-radius: 2rem;
+            overflow: hidden;
+            background: #ffffff;
+            /* Removed border and box-shadow to blend seamlessly with the white section */
+        }
+
+        #canvas-container {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            contain: strict;
+        }
+
+        .ez3d-left-panel {
+            position: absolute;
+            left: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 190px;
+            z-index: 2;
+            background: rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(20px) saturate(150%);
+            -webkit-backdrop-filter: blur(20px) saturate(150%);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .ez3d-right-panel {
+            position: absolute;
+            right: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 300px;
+            z-index: 2;
+            background: rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(20px) saturate(150%);
+            -webkit-backdrop-filter: blur(20px) saturate(150%);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            max-height: 85%;
+            overflow-y: auto;
+        }
+
+        .ez3d-right-panel::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .ez3d-right-panel::-webkit-scrollbar-thumb {
+            background-color: rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .ez3d-control-group h3 {
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: #1a1c1d;
+            font-family: 'Manrope', sans-serif;
+        }
+
+        .ez3d-swatches {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .ez3d-swatch {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+        }
+
+        .ez3d-swatch:hover {
+            transform: scale(1.15);
+        }
+
+        .ez3d-swatch.active {
+            border-color: #4d44e3;
+            transform: scale(1.15);
+            box-shadow: 0 0 0 2px white, 0 0 0 4px #4d44e3;
+        }
+
+        .ez3d-input {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.5rem;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            background: white;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.875rem;
+            transition: border-color 0.2s;
+            margin-bottom: 0.5rem;
+        }
+
+        .ez3d-input:focus {
+            outline: none;
+            border-color: #4d44e3;
+        }
+
+        input[type="file"].ez3d-input {
+            padding: 0.4rem;
+            font-size: 0.75rem;
+        }
+
+        input[type="range"].ez3d-slider {
+            width: 100%;
+            padding: 0;
+            height: 6px;
+            border: none;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 3px;
+            appearance: none;
+            -webkit-appearance: none;
+            margin-bottom: 0.5rem;
+        }
+
+        input[type="range"].ez3d-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            background: #1a1c1d;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .ez3d-helper {
+            font-size: 0.75rem;
+            color: #464555;
+            margin-top: 0.25rem;
+            text-align: left;
+            display: block;
+        }
+
+        .ez3d-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.6rem 1.25rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: none;
+            width: 100%;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .ez3d-btn-primary {
+            background-color: #1a1c1d;
+            color: #ffffff;
+        }
+
+        .ez3d-btn-primary:hover {
+            opacity: 0.85;
+            transform: translateY(-1px);
+        }
+
+        .ez3d-btn-secondary {
+            background-color: #ffffff;
+            color: #1a1c1d;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        .ez3d-btn-secondary:hover {
+            background-color: #f9fafb;
+            transform: translateY(-1px);
+        }
+
+        .ez3d-btn-accent {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            border: none;
+        }
+
+        .ez3d-btn-accent:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .ez3d-loader {
+            position: absolute;
+            inset: 0;
+            background: #f8fafc;
+            z-index: 10;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #1a1c1d;
+            transition: opacity 0.5s ease;
+        }
+
+        .ez3d-loader.active {
+            display: flex;
+        }
+
+        .ez3d-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(0, 0, 0, 0.1);
+            border-top-color: #4d44e3;
+            border-radius: 50%;
+            animation: ez3d-spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes ez3d-spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .ez3d-mt-2 {
+            margin-top: 0.5rem;
+        }
+
+        .ez3d-mt-4 {
+            margin-top: 1rem;
+        }
+
+        /* 3D Customizer Mobile */
+        @media (max-width: 1024px) {
+            .ez3d-container {
+                height: auto;
+                min-height: 500px;
+                display: flex;
+                flex-direction: column;
+            }
+
+            #canvas-container {
+                position: relative;
+                height: 450px;
+                min-height: 450px;
+            }
+
+            .ez3d-left-panel {
+                position: relative;
+                left: auto;
+                top: auto;
+                transform: none;
+                width: 100%;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                padding: 1rem;
+                border-radius: 0 0 1rem 1rem;
+            }
+
+            .ez3d-left-panel .ez3d-control-group {
+                display: flex;
+                width: 100%;
+                align-items: center;
+                gap: 0.75rem;
+                flex-wrap: wrap;
+            }
+
+            .ez3d-left-panel h3 {
+                display: none;
+            }
+
+            .ez3d-model-switcher {
+                display: flex;
+                gap: 0.5rem;
+                width: 100%;
+            }
+
+            .ez3d-right-panel {
+                position: relative;
+                right: auto;
+                top: auto;
+                transform: none;
+                width: 100%;
+                max-height: 350px;
+                border-radius: 1rem;
+                margin-top: 1rem;
+            }
+        }
+
+        /* ═══ RESPONSIVE DEMO VARS ═══ */
+        :root {
+            --demo-iframe-top: -35px;
+            --demo-iframe-height: calc(100% + 70px);
+            --demo-padding: 24px;
+        }
+
+        @media (min-width: 768px) {
+            :root {
+                --demo-iframe-top: -75px;
+                --demo-iframe-height: calc(100% + 150px);
+                --demo-padding: 32px 40px;
+            }
+        }
+
+        /* ═══ INTERACTIVE SLIDES ═══ */
+        .demo-slide.is-playing iframe {
+            pointer-events: auto !important;
+            z-index: 15 !important;
+            transform: scale(1) !important;
+            top: 0 !important;
+            height: 100% !important;
+        }
+
+        .demo-slide.is-playing .demo-overlay,
+        .demo-slide.is-playing .demo-play-btn,
+        .demo-slide.is-playing .demo-text-overlay {
+            display: none !important;
+        }
+
+        @keyframes pageUpEnter {
+            from {
+                opacity: 0;
+                transform: translateY(60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pageUpExit {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(-60px);
+            }
+        }
+
+        /* ═══ ADVANTAGE CARD CAROUSEL ═══ */
+        .adv-card-carousel {
+            position: relative;
+        }
+
+        .adv-card {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: none;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .adv-card.active {
+            display: block;
+            position: relative;
+            opacity: 1;
+            z-index: 2;
+            animation: pageUpEnter 0.5s cubic-bezier(0.2, 0, 0, 1) forwards;
+            pointer-events: auto;
+        }
+
+        .adv-card.exit {
+            display: block;
+            position: absolute;
+            opacity: 1;
+            z-index: 1;
+            animation: pageUpExit 0.5s cubic-bezier(0.2, 0, 0, 1) forwards;
+            pointer-events: none;
+        }
+
+        .adv-card-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+
+        .adv-card-dot.active {
+            background: #1a1c1d;
+            width: 24px;
+            border-radius: 4px;
+        }
+
+        /* ═══ PROBLEM CARD CAROUSEL ═══ */
+        .problem-card-carousel {
+            position: relative;
+        }
+
+        .problem-card {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: none;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .problem-card.active {
+            display: block;
+            position: relative;
+            opacity: 1;
+            z-index: 2;
+            animation: slideInRight 2s cubic-bezier(0.4, 0.2, 0.1, 1) forwards;
+            pointer-events: auto;
+        }
+
+        .problem-card.exit {
+            display: block;
+            position: absolute;
+            opacity: 1;
+            z-index: 1;
+            animation: slideOutLeft 2s cubic-bezier(0.4, 0.2, 0.1, 1) forwards;
+            pointer-events: none;
+        }
+    </style>
+
+    <!-- Three.js Import Map -->
+
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+  <script type="module" crossorigin src="/assets/index-D4UNoLt_.js"></script>
+</head>
+
+<body class="font-body text-on-surface antialiased">
+
+    <!-- ═══════════════════════ NAVIGATION ═══════════════════════ -->
+    <nav class="navbar fixed top-0 w-full z-50 transition-all duration-300">
+        <div class="w-full flex items-center justify-between pl-9 pr-10 py-0.5">
+            <!-- Left: Logo -->
+            <div class="flex-1 flex justify-start">
+                <a href="#" class="flex items-center">
+                    <img src="/assets/logo-Bo98x2xn.png" alt="EasyVariants" class="h-32 md:h-[136px] w-auto" style="margin: -35px 0;" />
+                </a>
+            </div>
+
+            <!-- Center: Navigation Links -->
+            <div class="hidden md:flex items-center justify-center gap-10">
+                <a class="text-[15px] font-bold text-on-surface border-b-2 border-primary pb-0.5" href="#home">Home</a>
+                <a class="text-[15px] font-semibold text-on-surface-variant hover:text-on-surface transition-colors duration-300"
+                    href="#solution">Our Solution</a>
+                <a class="text-[15px] font-semibold text-on-surface-variant hover:text-on-surface transition-colors duration-300"
+                    href="#how-it-works">How It Works</a>
+                <a class="text-[15px] font-semibold text-on-surface-variant hover:text-on-surface transition-colors duration-300"
+                    href="#demos">Demo Videos</a>
+            </div>
+
+            <!-- Right: CTA -->
+            <div class="flex-1 hidden md:flex items-center justify-end gap-6">
+                <a href="contactus.html"
+                    class="text-[14px] font-bold text-white bg-primary px-7 py-3.5 rounded-full hover:shadow-lg hover:shadow-primary/25 transition-all active:scale-95">
+                    Get Your Demo Today
+                </a>
+            </div>
+
+            <!-- Mobile: Toggle Button -->
+            <button class="menu-toggle-light hidden flex-col gap-1.5 md:hidden" aria-label="Toggle Menu"
+                onclick="document.querySelector('.mobile-menu-light').classList.toggle('active')">
+                <span class="block w-5 h-0.5 bg-on-surface rounded-full"></span>
+                <span class="block w-5 h-0.5 bg-on-surface rounded-full"></span>
+                <span class="block w-5 h-0.5 bg-on-surface rounded-full"></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu-light">
+        <a href="#home">Home</a>
+        <a href="#solution">Our Solution</a>
+        <a href="#how-it-works">How It Works</a>
+        <a href="#demos">Demo Videos</a>
+        <a href="contactus.html" style="color: #3525cd;">Get Your Demo Today</a>
+    </div>
+
+    <main class="pt-0 pb-24 px-6 md:px-8 overflow-hidden">
+        <div class="max-w-7xl mx-auto">
+
+            <!-- ═══════════════════════ HERO ═══════════════════════ -->
+            <section id="home"
+                class="reveal relative overflow-hidden min-h-[95vh] flex items-center mb-12 w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]">
+                <!-- Background Video -->
+                <video autoplay muted loop playsinline preload="auto"
+                    class="absolute inset-0 w-full h-full object-cover"
+                    style="will-change: transform; transform: translateZ(0);">
+                    <source src="/assets/videoo-DE2yWC-J.mp4" type="video/mp4">
+                </video>
+                <!-- Light Overlay for readability -->
+                <div class="absolute inset-0 bg-white/40"></div>
+
+                <div
+                    class="relative z-10 w-full max-w-7xl mx-auto px-6 sm:px-10 md:px-16 text-left space-y-10 pt-28 sm:pt-32 pb-20">
+                    <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-secondary-container rounded-full">
+                        <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+                        <span
+                            class="text-[11px] uppercase tracking-[0.2em] font-bold text-on-secondary-container font-label">Design
+                            Automation Platform</span>
+                    </div>
+
+                    <h1
+                        class="text-4xl sm:text-6xl md:text-8xl font-extrabold font-headline tracking-tighter text-on-surface leading-[0.9] md:leading-[0.85] max-w-3xl">
+                        Speed &amp;<br /> Precision<br />
+                        <span
+                            class="bg-gradient-to-r from-primary to-primary-container bg-clip-text text-transparent">10×
+                            Amplified.</span>
+                    </h1>
+
+                    <p class="text-xl text-on-surface-variant max-w-xl leading-relaxed font-medium">
+                        Turn one design into thousands instantly. Automate variations like colors, logos, and styles in
+                        minutes. Unleash unlimited creativity.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row items-start justify-start gap-6 pt-6">
+                        <a href="contactus.html"
+                            class="px-10 py-5 bg-primary text-white rounded-2xl font-bold shadow-2xl shadow-primary/30 hover:shadow-primary/50 hover:-translate-y-1 transition-all active:scale-95 inline-flex items-center gap-2 text-[16px]">
+                            Request a Demo Today
+                            <span class="material-symbols-outlined text-xl">arrow_forward</span>
+                        </a>
+                        <a href="#demos"
+                            class="px-10 py-5 bg-white/80 backdrop-blur-md text-on-surface rounded-2xl font-bold border border-outline-variant/30 hover:border-primary/40 hover:shadow-xl transition-all inline-flex items-center gap-2 text-[16px]">
+                            <span class="material-symbols-outlined text-primary text-2xl">play_circle</span>
+                            Watch Explainer
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ═══════════════════════ 3D INTERACTIVE PREVIEW ═══════════════════════ -->
+            <section
+                class="ez3d-section reveal bg-white py-12 md:py-16 shadow-sm border-y border-outline-variant/10 my-4 w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]"
+                id="customizer">
+                <div class="max-w-7xl mx-auto px-6 md:px-8">
+                    <div class="ez3d-header">
+                        <span class="font-label text-xs font-bold uppercase tracking-[0.2em] text-primary">Try It
+                            Live</span>
+                        <h2 class="text-4xl md:text-5xl font-headline font-bold tracking-tight mt-2">Interactive 3D
+                            Preview</h2>
+                        <p class="text-on-surface-variant text-lg mt-3 max-w-2xl mx-auto">Test the power of our engine
+                            in real-time. Apply colors and dynamic decals.</p>
+                    </div>
+                    <!-- 3D Container -->
+                    <div class="w-full">
+                        <div class="ez3d-container w-full">
+                            <!-- Loading Overlay -->
+                            <div id="loader" class="ez3d-loader active">
+                                <div class="ez3d-spinner"></div>
+                                <p style="font-weight:600;">Loading 3D Engine...</p>
+                            </div>
+
+                            <!-- 3D Canvas Container -->
+                            <div id="canvas-container"></div>
+
+                            <!-- 2D Gallery Overlay -->
+                            <div id="ez3d-gallery" class="ez3d-gallery" style="display:none;">
+                                <div class="ez3d-gallery-grid" id="gallery-grid">
+                                    <!-- Thumbnails will be injected here -->
+                                </div>
+                            </div>
+
+                            <!-- Left Panel: Product Switcher -->
+                            <div class="ez3d-left-panel">
+                                <div class="ez3d-control-group">
+                                    <h3>Select Product</h3>
+                                    <div class="ez3d-model-switcher">
+                                        <button id="btn-shirt" class="ez3d-btn ez3d-btn-primary"
+                                            style="width:100%;">T-Shirt</button>
+                                        <button id="btn-cap" class="ez3d-btn ez3d-btn-secondary ez3d-mt-2"
+                                            style="width:100%;">Baseball Cap</button>
+                                    </div>
+                                    <h3 class="ez3d-mt-4">Manage Designs</h3>
+                                    <button id="btn-clear-decals" class="ez3d-btn ez3d-btn-secondary"
+                                        style="width:100%;">Clear All</button>
+                                </div>
+                            </div>
+
+                            <!-- Right Panel: Customization Controls -->
+                             <div class="ez3d-right-panel customizer-controls">
+                                 <div class="ez3d-control-group ez3d-mt-4">
+                                     <h3>Custom Design</h3>
+                                     
+                                     <label class="ez3d-helper ez3d-mt-2">Design Size</label>
+                                     <input type="range" id="decal-size" min="0.5" max="2.0" step="0.1" value="1.0"
+                                         class="ez3d-slider">
+
+                                     <label class="ez3d-helper">Upload Design (PNG/JPG)</label>
+                                     <input type="file" id="decal-image" accept="image/png, image/jpeg"
+                                         class="ez3d-input">
+
+                                     <p class="ez3d-helper" style="text-align:center; color:#4d44e3; margin-top:1rem;">
+                                         Click the product to place your design!</p>
+                                 </div>
+
+                                 <div style="margin-top:auto; display:flex; flex-direction:column; gap:0.5rem;" id="variants-controls">
+                                     <button id="btn-generate-variants" class="ez3d-btn ez3d-btn-secondary">Generate Variants</button>
+                                     <button id="btn-confirm-selection" class="ez3d-btn ez3d-btn-primary" style="display:none;">Confirm Selection</button>
+                                     <button id="btn-back-editor" class="ez3d-btn ez3d-btn-secondary" style="display:none;">Back to Editor</button>
+                                     <a href="#" class="ez3d-btn ez3d-btn-accent">Export Design</a>
+                                 </div>
+                             </div>
+                        </div>
+                    </div>
+            </section>
+
+
+            <!-- ═══════════════════════ MEET EASYVARIANTS ═══════════════════════ -->
+            <div class="gradient-sep mb-4"></div>
+
+            <section id="meet"
+                class="mb-6 reveal bg-white py-6 md:py-8 shadow-sm border-y border-outline-variant/10 w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]">
+                <div class="max-w-7xl mx-auto px-6 md:px-8">
+                    <div class="flex items-end justify-between mb-12">
+                        <div class="max-w-xl">
+                            <span
+                                class="font-label text-xs font-bold uppercase tracking-[0.2em] text-primary">Explore</span>
+                            <h2
+                                class="text-4xl md:text-5xl font-headline font-bold tracking-tight mt-2 text-on-surface">
+                                Meet EasyVariants.</h2>
+                            <p class="text-on-surface-variant text-lg mt-4 leading-relaxed">In the fast-paced world of
+                                consumer products, innovation is constant. Customize everything from colors and fresh
+                                logos
+                                to unique wordmarks and custom text without the overhead.</p>
+                        </div>
+                    </div>
+
+                    <div class="max-w-4xl mx-auto">
+                        <div class="relative overflow-hidden group">
+                            <div class="video-showcase aspect-video relative">
+                                <video id="light-meet-vid" src="/assets/sweatshirt_v-Pl7MhItt.mp4" autoplay loop muted playsinline
+                                    preload="auto" class="w-full h-full object-cover rounded-[1.5rem]"
+                                    style="will-change: transform; transform: translateZ(0);"></video>
+                            </div>
+                        </div>
+                    </div>
+            </section>
+
+
+            <!-- ═══════════════════════ THE PROBLEM ═══════════════════════ -->
+            <div class="gradient-sep mb-8"></div>
+
+            <section id="problem" class="mb-12 reveal py-20 md:py-28 bg-[#f8f8f8] w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]">
+                <div class="max-w-7xl mx-auto px-6 md:px-8">
+                    <div class="flex flex-col md:flex-row items-start md:items-center gap-12 md:gap-20">
+                        <!-- Left: Text Content & Navigation -->
+                        <div class="md:w-1/2 max-w-lg">
+                            <div class="flex items-center gap-3 mb-8">
+                                <div class="w-8 h-[2px] bg-error"></div>
+                                <span class="font-label text-xs font-bold uppercase tracking-[0.2em] text-error">The Problem</span>
+                            </div>
+                            <h2 class="text-4xl md:text-[3.2rem] font-headline font-bold tracking-tight leading-[1.1] text-on-surface">
+                                The Design<br>Bottleneck.
+                            </h2>
+                            <p class="text-on-surface-variant text-lg mt-6 leading-relaxed">
+                                Manual variant creation isn't just time-consuming — it's a bottleneck that drains your team's creativity and slows your market speed.
+                            </p>
+                            
+                            <!-- Navigation Arrows -->
+                            <div class="flex gap-4 mt-10">
+                                <button id="problem-prev" class="w-12 h-12 rounded-full border border-outline-variant/30 flex items-center justify-center hover:bg-surface-container-highest transition-all active:scale-90">
+                                    <span class="material-symbols-outlined text-xl">arrow_back</span>
+                                </button>
+                                <button id="problem-next" class="w-12 h-12 rounded-full border border-outline-variant/30 flex items-center justify-center hover:bg-surface-container-highest transition-all active:scale-90">
+                                    <span class="material-symbols-outlined text-xl">arrow_forward</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Right: Auto-Rotating Card Carousel -->
+                        <div class="md:w-1/2 flex justify-center md:justify-end">
+                            <div class="problem-card-carousel relative w-full max-w-md" style="min-height: 300px;">
+
+                                <!-- Card 1: Repetitive Work -->
+                                <div class="problem-card active bg-white rounded-[1.5rem] p-8 md:p-10 shadow-[0_4px_40px_rgba(0,0,0,0.06)]" data-card="0">
+                                    <div class="w-12 h-12 rounded-xl bg-red-500/10 flex items-center justify-center mb-6">
+                                        <span class="material-symbols-outlined text-2xl text-red-500">cycle</span>
+                                    </div>
+                                    <h3 class="text-xl font-headline font-bold mb-3 text-on-surface">Repetitive Work</h3>
+                                    <p class="text-on-surface-variant leading-relaxed text-[15px]">Duplicating designs for every new colorway or logo placement. Hours wasted on mechanical tasks that drain creative energy.</p>
+                                </div>
+
+                                <!-- Card 2: Consistency Challenges -->
+                                <div class="problem-card bg-white rounded-[1.5rem] p-8 md:p-10 shadow-[0_4px_40px_rgba(0,0,0,0.06)]" data-card="1">
+                                    <div class="w-12 h-12 rounded-xl bg-red-500/10 flex items-center justify-center mb-6">
+                                        <span class="material-symbols-outlined text-2xl text-red-500">rule</span>
+                                    </div>
+                                    <h3 class="text-xl font-headline font-bold mb-3 text-on-surface">Consistency Challenges</h3>
+                                    <p class="text-on-surface-variant leading-relaxed text-[15px]">Maintaining a unified brand look across thousands of manually created variants. Even small errors can dilute brand identity.</p>
+                                </div>
+
+                                <!-- Card 3: Slow Time-to-Market -->
+                                <div class="problem-card bg-white rounded-[1.5rem] p-8 md:p-10 shadow-[0_4px_40px_rgba(0,0,0,0.06)]" data-card="2">
+                                    <div class="w-12 h-12 rounded-xl bg-red-500/10 flex items-center justify-center mb-6">
+                                        <span class="material-symbols-outlined text-2xl text-red-500">hourglass_empty</span>
+                                    </div>
+                                    <h3 class="text-xl font-headline font-bold mb-3 text-on-surface">Slow Time-to-Market</h3>
+                                    <p class="text-on-surface-variant leading-relaxed text-[15px]">Manual work repeatedly delays new collection launches when speed matters most in a hyper-competitive landscape.</p>
+                                </div>
+
+                                <!-- Card 4: Limited Personalization -->
+                                <div class="problem-card bg-white rounded-[1.5rem] p-8 md:p-10 shadow-[0_4px_40px_rgba(0,0,0,0.06)]" data-card="3">
+                                    <div class="w-12 h-12 rounded-xl bg-red-500/10 flex items-center justify-center mb-6">
+                                        <span class="material-symbols-outlined text-2xl text-red-500">block</span>
+                                    </div>
+                                    <h3 class="text-xl font-headline font-bold mb-3 text-on-surface">Limited Personalization</h3>
+                                    <p class="text-on-surface-variant leading-relaxed text-[15px]">Too costly and slow for the deep personalization consumers crave. Manual processes simply cannot scale to modern demands.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ═══════════════════════ THE EASYVARIANTS ADVANTAGE ═══════════════════════ -->
+            <div class="gradient-sep mb-4"></div>
+
+            <section id="advantage" class="mb-4 reveal py-20 md:py-28 bg-[#f8f8f8] w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]">
+                <div class="max-w-7xl mx-auto px-6 md:px-8">
+                    <div class="flex flex-col md:flex-row items-start md:items-center gap-12 md:gap-20">
+                        <!-- Left: Text Content -->
+                        <div class="md:w-1/2 max-w-lg">
+                            <div class="flex items-center gap-3 mb-8">
+                                <div class="w-8 h-[2px] bg-on-surface"></div>
+                                <span class="font-label text-xs font-bold uppercase tracking-[0.2em] text-on-surface">The EasyVariants Advantage</span>
+                            </div>
+                            <h2 class="text-4xl md:text-[3.2rem] font-headline font-bold tracking-tight leading-[1.1] text-on-surface">
+                                10X Speed,<br>Guarantee Brand<br>Consistency.
+                            </h2>
+                            <p class="text-on-surface-variant text-lg mt-6 leading-relaxed">
+                                Generate hundreds, even thousands, of error-free design variants in minutes — not hours or days. Fuel your innovation.
+                            </p>
+                        </div>
+
+                        <!-- Right: Auto-Rotating Card Carousel -->
+                        <div class="md:w-1/2 flex justify-center md:justify-end">
+                            <div class="adv-card-carousel relative w-full max-w-md" style="min-height: 280px;">
+
+                                <!-- Card 1: Boost Output 10X -->
+                                <div class="adv-card active bg-white rounded-[1.5rem] p-8 md:p-10 shadow-[0_4px_40px_rgba(0,0,0,0.06)]" data-card="0">
+                                    <div class="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center mb-6">
+                                        <span class="material-symbols-outlined text-2xl text-blue-500">rocket_launch</span>
+                                    </div>
+                                    <h3 class="text-xl font-headline font-bold mb-3 text-on-surface">Boost Output 10X</h3>
+                                    <p class="text-on-surface-variant leading-relaxed text-[15px]">Free your designers from repetitive drudgery, allowing them to focus on pure innovation.</p>
+                                </div>
+
+                                <!-- Card 2: Guaranteed Consistency -->
+                                <div class="adv-card bg-white rounded-[1.5rem] p-8 md:p-10 shadow-[0_4px_40px_rgba(0,0,0,0.06)]" data-card="1">
+                                    <div class="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center mb-6">
+                                        <span class="material-symbols-outlined text-2xl text-blue-500">verified</span>
+                                    </div>
+                                    <h3 class="text-xl font-headline font-bold mb-3 text-on-surface">Guaranteed Consistency</h3>
+                                    <p class="text-on-surface-variant leading-relaxed text-[15px]">Eliminate human error and ensure every variant perfectly aligns with your brand standards.</p>
+                                </div>
+
+                                <!-- Card 3: Faster Time-to-Market -->
+                                <div class="adv-card bg-white rounded-[1.5rem] p-8 md:p-10 shadow-[0_4px_40px_rgba(0,0,0,0.06)]" data-card="2">
+                                    <div class="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center mb-6">
+                                        <span class="material-symbols-outlined text-2xl text-blue-500">trending_up</span>
+                                    </div>
+                                    <h3 class="text-xl font-headline font-bold mb-3 text-on-surface">Faster Time-to-Market</h3>
+                                    <p class="text-on-surface-variant leading-relaxed text-[15px]">Rapidly customize and deploy new collections, gaining a critical competitive edge.</p>
+                                </div>
+
+                                <!-- Card 4: Scalable Personalization -->
+                                <div class="adv-card bg-white rounded-[1.5rem] p-8 md:p-10 shadow-[0_4px_40px_rgba(0,0,0,0.06)]" data-card="3">
+                                    <div class="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center mb-6">
+                                        <span class="material-symbols-outlined text-2xl text-blue-500">tune</span>
+                                    </div>
+                                    <h3 class="text-xl font-headline font-bold mb-3 text-on-surface">Scalable Personalization</h3>
+                                    <p class="text-on-surface-variant leading-relaxed text-[15px]">Offer extensive personalization without fear of an unmanageable design workload.</p>
+                                </div>
+
+                                <!-- Dot Indicators -->
+                                <div class="flex gap-2 mt-6 justify-center md:justify-start">
+                                    <div class="adv-card-dot active" data-dot="0"></div>
+                                    <div class="adv-card-dot" data-dot="1"></div>
+                                    <div class="adv-card-dot" data-dot="2"></div>
+                                    <div class="adv-card-dot" data-dot="3"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ═══════════════════════ SOLUTION (BENTO GRID) ═══════════════════════ -->
+            <div class="gradient-sep mb-16"></div>
+
+            <section id="solution" class="mb-32 reveal">
+                <div class="flex items-end justify-between mb-12">
+                    <div class="max-w-xl">
+                        <span class="font-label text-xs font-bold uppercase tracking-[0.2em] text-primary">Our
+                            Solution</span>
+                        <h2 class="text-4xl md:text-5xl font-headline font-bold tracking-tight mt-2">Smart Automation
+                            System.</h2>
+                    </div>
+                    <div class="hidden md:block">
+                        <div
+                            class="bg-surface-container-lowest rounded-2xl p-5 border border-outline-variant/10 shadow-sm">
+                            <div class="text-xs text-on-surface-variant font-semibold uppercase tracking-widest mb-1">
+                                Design Variations Generated</div>
+                            <div
+                                class="text-3xl font-extrabold font-headline bg-gradient-to-r from-primary to-primary-container bg-clip-text text-transparent">
+                                10,000+</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+                    <!-- Automation — Large -->
+                    <div
+                        class="md:col-span-8 card-premium rounded-[2rem] p-6 md:p-12 relative overflow-hidden group hover-lift reveal reveal-left">
+                        <div class="relative z-10 max-w-sm">
+                            <div
+                                class="w-12 h-12 rounded-xl bg-primary flex items-center justify-center text-on-primary shadow-lg shadow-primary/20 mb-6">
+                                <span class="material-symbols-outlined">tune</span>
+                            </div>
+                            <h3 class="text-2xl font-headline font-bold mb-4">Variable Control</h3>
+                            <p class="text-on-surface-variant leading-relaxed">Define text, colors, and images once —
+                                reuse everywhere instantly. Smart templates with dynamic layers that scale infinitely.
+                            </p>
+                        </div>
+                        <div
+                            class="absolute right-0 bottom-0 w-1/2 h-full opacity-[0.06] group-hover:opacity-[0.12] transition-opacity">
+                            <span class="material-symbols-outlined text-[300px] leading-none"
+                                style="font-variation-settings: 'wght' 100;">tune</span>
+                        </div>
+                    </div>
+
+                    <!-- Intelligent Generation -->
+                    <div
+                        class="md:col-span-4 card-premium card-signature rounded-[2rem] p-6 md:p-12 flex flex-col justify-between hover-lift reveal reveal-right">
+                        <div
+                            class="w-12 h-12 rounded-xl bg-primary flex items-center justify-center text-on-primary shadow-lg shadow-primary/20">
+                            <span class="material-symbols-outlined">auto_awesome</span>
+                        </div>
+                        <div class="mt-8">
+                            <h3 class="text-2xl font-headline font-bold mb-4">Intelligent Generation</h3>
+                            <p class="text-on-surface-variant text-sm">Automatically create hundreds of design
+                                variations in seconds with AI-powered layout engine.</p>
+                        </div>
+                    </div>
+                    <!-- Smart Generation — Small -->
+                    <div
+                        class="md:col-span-4 card-premium rounded-[2rem] p-6 md:p-12 relative overflow-hidden group hover-lift reveal reveal-left">
+                        <div class="relative z-10">
+                            <h3 class="text-2xl font-headline font-bold mb-4">Layer Management</h3>
+                            <p class="opacity-80 text-sm">Organize static and dynamic elements with precision control.
+                                Full layer hierarchy at your fingertips.</p>
+                        </div>
+                        <div class="mt-8 flex gap-2">
+                            <div class="w-8 h-8 rounded-lg bg-white/20"></div>
+                            <div class="w-8 h-8 rounded-lg bg-white/10"></div>
+                            <div class="w-8 h-8 rounded-lg bg-white/5"></div>
+                        </div>
+                    </div>
+
+                    <!-- Export Anywhere -->
+                    <div
+                        class="md:col-span-8 card-premium rounded-[2rem] p-6 md:p-12 flex flex-col md:flex-row gap-8 items-center hover-lift reveal reveal-right">
+                        <div class="md:w-1/2">
+                            <h3 class="text-2xl font-headline font-bold mb-4">Export Anywhere</h3>
+                            <p class="text-on-surface-variant leading-relaxed">Download assets in multiple formats,
+                                ready for any platform. Production-ready outputs in a single click.</p>
+                        </div>
+                        <div class="md:w-1/2 grid grid-cols-3 gap-4">
+                            <div
+                                class="aspect-square rounded-2xl bg-surface-container-lowest shadow-sm flex items-center justify-center">
+                                <span class="material-symbols-outlined text-primary text-3xl">image</span>
+                            </div>
+                            <div
+                                class="aspect-square rounded-2xl bg-surface-container-lowest shadow-sm flex items-center justify-center">
+                                <span class="material-symbols-outlined text-primary text-3xl">picture_as_pdf</span>
+                            </div>
+                            <div
+                                class="aspect-square rounded-2xl bg-surface-container-lowest shadow-sm flex items-center justify-center">
+                                <span class="material-symbols-outlined text-primary text-3xl">folder_zip</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ═══════════════════════ HOW IT WORKS ═══════════════════════ -->
+            <div class="gradient-sep mb-2"></div>
+
+            <section id="how-it-works"
+                class="py-24 mb-20 reveal bg-white shadow-sm border-y border-outline-variant/10 w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]">
+                <div class="max-w-7xl mx-auto px-6 md:px-8">
+                    <div class="text-center mb-20">
+                        <span
+                            class="font-label text-xs font-bold uppercase tracking-[0.2em] text-primary">Workflow</span>
+                        <h2 class="text-4xl md:text-5xl font-headline font-bold tracking-tight mt-2">Automate in 4
+                            Steps.
+                        </h2>
+                        <p class="text-on-surface-variant text-lg mt-4 max-w-2xl mx-auto">Streamlined workflow that
+                            turns
+                            raw inputs into hundreds of production-ready variants.</p>
+                    </div>
+
+                    <div class="max-w-4xl mx-auto relative pt-4 pb-4">
+                        <!-- Enhanced Vertical Line Container -->
+                        <div class="absolute left-8 md:left-1/2 top-8 bottom-8 w-[2px] md:w-[3px] bg-gradient-to-b from-primary/10 via-primary-container/10 to-tertiary/10 -translate-x-1/2 rounded-full"
+                            id="step-progress-container">
+                            <!-- Animated Fill Line -->
+                            <div class="absolute top-0 left-0 w-full bg-gradient-to-b from-primary via-primary-container to-tertiary rounded-full shadow-[0_0_15px_rgba(53,37,205,0.4)] transition-all ease-out"
+                                id="step-progress-fill" style="height: 0%;"></div>
+                        </div>
+
+                        <div class="space-y-20 md:space-y-32">
+                            <!-- Step 1 -->
+                            <div
+                                class="flex flex-col md:flex-row items-center md:items-center gap-8 md:gap-12 group reveal relative">
+                                <div class="md:w-[45%] text-left md:text-right pl-16 md:pl-0">
+                                    <h3
+                                        class="text-2xl font-headline font-bold mb-3 text-tertiary group-hover:text-tertiary/80 transition-colors">
+                                        Define Variables</h3>
+                                    <p class="text-on-surface-variant leading-relaxed text-[15px]">Set up your smart
+                                        templates with
+                                        dynamic layers and data points seamlessly embedded into your workflow.</p>
+                                </div>
+                                <div
+                                    class="absolute left-8 md:relative md:left-0 md:translate-x-0 -translate-x-1/2 flex justify-center w-16 md:w-auto">
+                                    <div
+                                        class="w-12 h-12 md:w-20 md:h-20 rounded-full bg-white border-[3px] md:border-[4px] border-tertiary flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:shadow-[0_0_30px_rgba(255,182,149,0.4)] transition-all duration-500 shadow-xl relative z-10">
+                                        <span
+                                            class="font-headline font-extrabold text-xl md:text-3xl text-tertiary">1</span>
+                                    </div>
+                                </div>
+                                <div id="step-card-1"
+                                    class="step-card w-full md:w-[45%] card-premium rounded-[2.5rem] p-6 md:p-8 ml-16 md:ml-0 aspect-[16/10] md:aspect-video flex flex-col items-center justify-center text-center overflow-hidden transition-all duration-500 border border-transparent">
+                                    <span
+                                        class="material-symbols-outlined text-[64px] text-tertiary/30 group-hover:text-tertiary/70 mb-4 transition-colors duration-500">data_object</span>
+                                    <span
+                                        class="text-xs font-bold tracking-[0.2em] uppercase text-on-surface-variant/50 group-hover:text-tertiary/60 transition-colors">Data
+                                        Integration</span>
+                                </div>
+                            </div>
+
+                            <!-- Step 2 -->
+                            <div
+                                class="flex flex-col md:flex-row items-center md:items-center gap-8 md:gap-12 group reveal relative">
+                                <div id="step-card-2"
+                                    class="step-card w-full md:w-[45%] card-premium rounded-[2.5rem] p-6 md:p-8 ml-16 md:ml-0 aspect-[16/10] md:aspect-video flex flex-col items-center justify-center text-center overflow-hidden transition-all duration-500 order-3 md:order-1 border border-transparent">
+                                    <span
+                                        class="material-symbols-outlined text-[64px] text-primary-container/30 group-hover:text-primary-container/70 mb-4 transition-colors duration-500">rule_settings</span>
+                                    <span
+                                        class="text-xs font-bold tracking-[0.2em] uppercase text-on-surface-variant/50 group-hover:text-primary-container/60 transition-colors">Design</span>
+                                </div>
+                                <div
+                                    class="absolute left-8 md:relative md:left-0 md:translate-x-0 -translate-x-1/2 flex justify-center w-16 md:w-auto order-1 md:order-2">
+                                    <div
+                                        class="w-12 h-12 md:w-20 md:h-20 rounded-full bg-white border-[3px] md:border-[4px] border-primary-container flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:shadow-[0_0_30px_rgba(79,70,229,0.4)] transition-all duration-500 shadow-xl relative z-10">
+                                        <span
+                                            class="font-headline font-extrabold text-xl md:text-3xl text-primary-container">2</span>
+                                    </div>
+                                </div>
+                                <div class="w-full md:w-[45%] order-2 md:order-3 text-left pl-16 md:pl-0">
+                                    <h3
+                                        class="text-2xl font-headline font-bold mb-3 text-primary-container group-hover:text-primary-container/80 transition-colors">
+                                        Maintain Consistency</h3>
+                                    <p class="text-on-surface-variant leading-relaxed text-[15px]">Predefine Logo
+                                        Placements to ensure all variations match the brand specs and guidelines
+                                        perfectly, overcoming manual drifts.</p>
+                                </div>
+                            </div>
+
+                            <!-- Step 3 -->
+                            <div
+                                class="flex flex-col md:flex-row items-center md:items-center gap-8 md:gap-12 group reveal relative">
+                                <div class="w-full md:w-[45%] text-left md:text-right pl-16 md:pl-0">
+                                    <h3
+                                        class="text-2xl font-headline font-bold mb-3 text-tertiary group-hover:text-tertiary/80 transition-colors">
+                                        Automate Variations</h3>
+                                    <p class="text-on-surface-variant leading-relaxed text-[15px]">Export hundreds to
+                                        thousands of
+                                        high-fidelity assets in mere seconds directly formatted for production.</p>
+                                </div>
+                                <div
+                                    class="absolute left-8 md:relative md:left-0 md:translate-x-0 -translate-x-1/2 flex justify-center w-16 md:w-auto">
+                                    <div
+                                        class="w-12 h-12 md:w-20 md:h-20 rounded-full bg-white border-[3px] md:border-[4px] border-tertiary flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:shadow-[0_0_30px_rgba(99,102,241,0.4)] transition-all duration-500 shadow-xl relative z-10">
+                                        <span
+                                            class="font-headline font-extrabold text-xl md:text-3xl text-tertiary">3</span>
+                                    </div>
+                                </div>
+                                <div id="step-card-3"
+                                    class="step-card w-full md:w-[45%] card-premium rounded-[2.5rem] p-6 md:p-8 ml-16 md:ml-0 aspect-[16/10] md:aspect-video flex flex-col items-center justify-center text-center overflow-hidden transition-all duration-500 border border-transparent">
+                                    <span
+                                        class="material-symbols-outlined text-[64px] text-tertiary/30 group-hover:text-tertiary/70 mb-4 transition-colors duration-500">auto_awesome_motion</span>
+                                    <span
+                                        class="text-xs font-bold tracking-[0.2em] uppercase text-on-surface-variant/50 group-hover:text-tertiary/60 transition-colors">Batch
+                                        Export</span>
+                                </div>
+                            </div>
+
+                            <!-- Step 4 -->
+                            <div
+                                class="flex flex-col md:flex-row items-center md:items-center gap-8 md:gap-12 group reveal relative">
+                                <div id="step-card-4"
+                                    class="step-card w-full md:w-[45%] card-premium rounded-[2.5rem] p-6 md:p-8 ml-16 md:ml-0 aspect-[16/10] md:aspect-video flex flex-col items-center justify-center text-center overflow-hidden transition-all duration-500 order-3 md:order-1 border border-transparent">
+                                    <span
+                                        class="material-symbols-outlined text-[64px] text-primary/30 group-hover:text-primary/70 mb-4 transition-colors duration-500">cloud_download</span>
+                                    <span
+                                        class="text-xs font-bold tracking-[0.2em] uppercase text-on-surface-variant/50 group-hover:text-primary/60 transition-colors">Delivery</span>
+                                </div>
+                                <div
+                                    class="absolute left-8 md:relative md:left-0 md:translate-x-0 -translate-x-1/2 flex justify-center w-16 md:w-auto order-1 md:order-2">
+                                    <div
+                                        class="w-12 h-12 md:w-20 md:h-20 rounded-full bg-white border-[3px] md:border-[4px] border-primary flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:shadow-[0_0_30px_rgba(53,37,205,0.4)] transition-all duration-500 shadow-xl relative z-10">
+                                        <span
+                                            class="font-headline font-extrabold text-xl md:text-3xl text-primary">4</span>
+                                    </div>
+                                </div>
+                                <div class="w-full md:w-[45%] order-2 md:order-3 text-left pl-16 md:pl-0">
+                                    <h3
+                                        class="text-2xl font-headline font-bold mb-3 text-primary group-hover:text-primary/80 transition-colors">
+                                        Export Your Design</h3>
+                                    <p class="text-on-surface-variant leading-relaxed text-[15px]">Download your
+                                        pixel-perfect assets directly or integrate via API straight to your production
+                                        workflow.</p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <style>
+                        /* Dynamic glowing styles applied via JS */
+                        .step-card.glow-active-1 {
+                            box-shadow: 0 0 40px rgba(53, 37, 205, 0.3) !important;
+                            border-color: rgba(53, 37, 205, 0.5) !important;
+                            transform: translateY(-8px) !important;
+                        }
+
+                        .step-card.glow-active-1 span.material-symbols-outlined {
+                            color: rgba(53, 37, 205, 0.7) !important;
+                            text-shadow: 0 0 20px rgba(53, 37, 205, 0.4);
+                        }
+
+                        .step-card.glow-active-1 span.text-xs {
+                            color: rgba(53, 37, 205, 0.6) !important;
+                        }
+
+                        .step-card.glow-active-2 {
+                            box-shadow: 0 0 40px rgba(79, 70, 229, 0.3) !important;
+                            border-color: rgba(79, 70, 229, 0.5) !important;
+                            transform: translateY(-8px) !important;
+                        }
+
+                        .step-card.glow-active-2 span.material-symbols-outlined {
+                            color: rgba(79, 70, 229, 0.7) !important;
+                            text-shadow: 0 0 20px rgba(79, 70, 229, 0.4);
+                        }
+
+                        .step-card.glow-active-2 span.text-xs {
+                            color: rgba(79, 70, 229, 0.6) !important;
+                        }
+
+                        .step-card.glow-active-3 {
+                            box-shadow: 0 0 40px rgba(99, 102, 241, 0.3) !important;
+                            border-color: rgba(99, 102, 241, 0.5) !important;
+                            transform: translateY(-8px) !important;
+                        }
+
+                        .step-card.glow-active-3 span.material-symbols-outlined {
+                            color: rgba(99, 102, 241, 0.7) !important;
+                            text-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+                        }
+
+                        .step-card.glow-active-3 span.text-xs {
+                            color: rgba(99, 102, 241, 0.6) !important;
+                        }
+
+                        .step-card.glow-active-4 {
+                            box-shadow: 0 0 40px rgba(53, 37, 205, 0.3) !important;
+                            border-color: rgba(53, 37, 205, 0.5) !important;
+                            transform: translateY(-8px) !important;
+                        }
+
+                        .step-card.glow-active-4 span.material-symbols-outlined {
+                            color: rgba(53, 37, 205, 0.7) !important;
+                            text-shadow: 0 0 20px rgba(53, 37, 205, 0.4);
+                        }
+
+                        .step-card.glow-active-4 span.text-xs {
+                            color: rgba(53, 37, 205, 0.6) !important;
+                        }
+                    </style>
+
+                    <script>
+                        document.addEventListener('DOMContentLoaded', () => {
+                            const container = document.getElementById('how-it-works');
+                            const fillLine = document.getElementById('step-progress-fill');
+                            const stepCards = [
+                                document.getElementById('step-card-1'),
+                                document.getElementById('step-card-2'),
+                                document.getElementById('step-card-3'),
+                                document.getElementById('step-card-4')
+                            ];
+
+                            // Optimize scroll using requestAnimationFrame
+                            let ticking = false;
+
+                            window.addEventListener('scroll', () => {
+                                if (!ticking) {
+                                    window.requestAnimationFrame(() => {
+                                        const rect = container.getBoundingClientRect();
+                                        const windowHeight = window.innerHeight;
+
+                                        // Start the animation when the top of the container reaches the middle of the screen
+                                        const startPoint = windowHeight / 2;
+
+                                        // Calculate progress (0 to 1) for the line
+                                        const scrolled = startPoint - rect.top;
+                                        const totalScrollable = rect.height;
+                                        let progress = scrolled / totalScrollable;
+
+                                        // Clamp between 0 and 1
+                                        progress = Math.max(0, Math.min(1, progress));
+
+                                        fillLine.style.height = `${progress * 100}%`;
+
+                                        // Make cards glow if the scroll 'startPoint' has reached them
+                                        stepCards.forEach((card, index) => {
+                                            if (card) {
+                                                const cardRect = card.getBoundingClientRect();
+                                                // The line passes through a card when startPoint crosses its top quarter
+                                                if (startPoint > cardRect.top + (cardRect.height * 0.25)) {
+                                                    card.classList.add(`glow-active-${index + 1}`);
+                                                } else {
+                                                    card.classList.remove(`glow-active-${index + 1}`);
+                                                }
+                                            }
+                                        });
+
+                                        ticking = false;
+                                    });
+                                    ticking = true;
+                                }
+                            }, { passive: true });
+                        });
+                    </script>
+            </section>
+
+            <!-- ═══════════════════════ DEMO VIDEOS ═══════════════════════ -->
+            <section id="demos" class="mb-32 reveal">
+                <div class="text-center mb-16">
+                    <span class="font-label text-xs font-bold uppercase tracking-[0.2em] text-primary">Seeing is
+                        Believing</span>
+                    <h2 class="text-4xl md:text-5xl font-headline font-bold tracking-tight mt-2">Demo Videos.</h2>
+                    <p class="text-on-surface-variant text-lg mt-4 max-w-2xl mx-auto">Explore our specialized design
+                        automation tools through these interactive, high-production demos.</p>
+                </div>
+
+                <div class="relative max-w-6xl mx-auto">
+                    <div id="light-slideshow"
+                        class="relative w-full h-[550px] md:h-auto md:aspect-video rounded-[2rem] overflow-hidden bg-surface-container-low border border-outline-variant/10 shadow-[0_40px_100px_rgba(0,0,0,0.06)]">
+                        <!-- Slides injected by JS -->
+                    </div>
+
+                    <!-- Nav Arrows -->
+                    <button id="light-prev"
+                        class="absolute top-1/2 left-4 md:-left-6 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 rounded-full bg-surface-container-lowest shadow-xl border border-outline-variant/10 flex items-center justify-center hover:bg-primary hover:text-white transition-all z-50 text-on-surface">
+                        <span class="material-symbols-outlined text-[20px] md:text-[24px]">chevron_left</span>
+                    </button>
+                    <button id="light-next"
+                        class="absolute top-1/2 right-4 md:-right-6 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 rounded-full bg-surface-container-lowest shadow-xl border border-outline-variant/10 flex items-center justify-center hover:bg-primary hover:text-white transition-all z-50 text-on-surface">
+                        <span class="material-symbols-outlined text-[20px] md:text-[24px]">chevron_right</span>
+                    </button>
+
+                    <!-- Dots -->
+                    <div id="light-dots" class="flex justify-center gap-3 mt-8">
+                        <!-- Dots injected by JS -->
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- ═══════════════════════ FINAL CTA ═══════════════════════ -->
+            <div class="gradient-sep mb-16"></div>
+
+            <section class="mb-16 reveal">
+                <div
+                    class="relative rounded-[2.5rem] overflow-hidden p-16 md:p-24 text-center cta-gradient shadow-2xl shadow-primary/15 group">
+                    <div
+                        class="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+                    </div>
+                    <div class="relative z-10">
+                        <h2
+                            class="text-4xl md:text-5xl font-extrabold font-headline text-white tracking-tighter mb-6 group-hover:scale-105 transition-transform duration-700">
+                            Ready to Design Smarter?</h2>
+                        <p class="text-white/80 text-xl mb-12 max-w-2xl mx-auto font-light leading-relaxed">
+                            Eliminate repetitive tasks, scale your designs, and fuel innovation across your product
+                            lines. Transform your design workflow today.
+                        </p>
+                        <a href="contactus.html"
+                            class="inline-flex items-center justify-center bg-white text-primary font-extrabold px-12 py-5 rounded-full shadow-[0_4px_20px_rgba(255,255,255,0.25)] hover:shadow-[0_8px_40px_rgba(255,255,255,0.4)] transition-all hover:scale-105 hover:-translate-y-1">
+                            Request a Demo Today
+                        </a>
+                        <p class="mt-8 text-white/50 text-xs font-semibold uppercase tracking-widest">Let's automate
+                            your product variants.</p>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- ═══════════════════════ FOOTER ═══════════════════════ -->
+    <footer
+        class="footer-premium bg-surface-container-[rgba(255,255,255,0.6)] w-full py-20 px-8 border-t border-outline-variant/10 mt-10">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+                <!-- Brand Col -->
+                <div class="flex flex-col gap-6">
+                    <img src="/assets/logo-Bo98x2xn.png" alt="EasyVariants" class="h-32 md:h-[136px] w-auto object-contain self-start"
+                        style="margin: -35px 0;" />
+                    <p class="text-on-surface text-[15px] leading-relaxed font-semibold">
+                        The ultimate design automation platform. Scale your product variants without limits and
+                        eliminate repetitive tasks from your workflow.
+                    </p>
+                    <div class="flex items-center gap-4 mt-2">
+                        <a href="#"
+                            class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface hover:bg-primary hover:text-white transition-all shadow-sm border border-outline-variant/20"><span
+                                class="material-symbols-outlined text-[20px]">share</span></a>
+                        <a href="#"
+                            class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface hover:bg-primary hover:text-white transition-all shadow-sm border border-outline-variant/20"><span
+                                class="material-symbols-outlined text-[20px]">forum</span></a>
+                        <a href="mailto:hello@easyvariants.com"
+                            class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface hover:bg-primary hover:text-white transition-all shadow-sm border border-outline-variant/20"><span
+                                class="material-symbols-outlined text-[20px]">mail</span></a>
+                    </div>
+                </div>
+
+                <!-- Product Col -->
+                <div class="flex flex-col gap-4">
+                    <h4 class="font-headline font-extrabold text-lg text-on-surface tracking-tight mb-2">Product</h4>
+                    <a href="#smooth"
+                        class="text-on-surface font-semibold hover:text-primary transition-colors">Platform Features</a>
+                    <a href="#how-it-works"
+                        class="text-on-surface font-semibold hover:text-primary transition-colors">How it Works</a>
+                    <a href="#demos"
+                        class="text-on-surface font-semibold hover:text-primary transition-colors">Interactive Demos</a>
+                    <a href="#" class="text-on-surface font-semibold hover:text-primary transition-colors">Pricing
+                        Options</a>
+                    <a href="#" class="text-on-surface font-semibold hover:text-primary transition-colors">API
+                        Documentation</a>
+                </div>
+
+                <!-- Company Col -->
+                <div class="flex flex-col gap-4">
+                    <h4 class="font-headline font-extrabold text-lg text-on-surface tracking-tight mb-2">Company</h4>
+                    <a href="#" class="text-on-surface font-semibold hover:text-primary transition-colors">About Us</a>
+                    <a href="#" class="text-on-surface font-semibold hover:text-primary transition-colors">Careers &
+                        Culture</a>
+                    <a href="#" class="text-on-surface font-semibold hover:text-primary transition-colors">Blog &
+                        News</a>
+                    <a href="contactus.html"
+                        class="text-on-surface font-semibold hover:text-primary transition-colors">Contact Support</a>
+                    <a href="#"
+                        class="text-on-surface font-semibold hover:text-primary transition-colors">Partnerships</a>
+                </div>
+
+                <!-- Legal Col -->
+                <div class="flex flex-col gap-4">
+                    <h4 class="font-headline font-extrabold text-lg text-on-surface tracking-tight mb-2">Legal & Privacy
+                    </h4>
+                    <a href="#" class="text-on-surface font-semibold hover:text-primary transition-colors">Terms of
+                        Service</a>
+                    <a href="#" class="text-on-surface font-semibold hover:text-primary transition-colors">Privacy
+                        Policy</a>
+                    <a href="#" class="text-on-surface font-semibold hover:text-primary transition-colors">Cookie
+                        Policy</a>
+                    <a href="#" class="text-on-surface font-semibold hover:text-primary transition-colors">Security
+                        Overview</a>
+                </div>
+            </div>
+
+            <div class="gradient-sep mb-8"></div>
+
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
+                <p class="text-[12px] tracking-[0.1em] uppercase font-bold text-on-surface">© 2025 EasyVariants. All
+                    Rights Reserved.</p>
+                <p class="text-[11px] tracking-wide font-medium text-on-surface/80">
+                    Adobe Illustrator® is a trademark of Adobe Inc. EasyVariants is not affiliated.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ═══════════════════════ JAVASCRIPT ═══════════════════════ -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            /* ═══ NAVBAR SCROLL LOGIC ═══ */
+            const navbar = document.querySelector(".navbar");
+            const handleNavbar = () => {
+                if (window.scrollY > 20) {
+                    navbar.classList.add("scrolled");
+                } else {
+                    navbar.classList.remove("scrolled");
+                }
+            };
+            window.addEventListener("scroll", handleNavbar);
+            handleNavbar();
+
+            /* ═══ SCROLL REVEAL ═══ */
+            const revealEls = document.querySelectorAll(".reveal");
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("visible");
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: "0px 0px -60px 0px" });
+            revealEls.forEach(el => revealObserver.observe(el));
+
+            /* ═══ MEET SECTION VIDEO CAROUSEL ═══ */
+            const lightMeetVid = document.getElementById('light-meet-vid');
+            const lightMeetDots = document.querySelectorAll('.light-m-dot');
+            const lightMeetBadge = document.getElementById('light-meet-badge');
+            const lightMeetPP = document.getElementById('light-meet-pp');
+            const lightPPIcon = document.getElementById('light-pp-icon');
+
+            if (lightMeetVid && lightMeetDots.length > 0) {
+                const meetData = [
+                    { src: 'sweatshirt_v.mp4', badge: 'Sweatshirt Patterns' },
+                    { src: 'cap_v.mp4', badge: 'Cap Variations' },
+                    { src: 'color_v.mp4', badge: 'Color Transition Generator' }
+                ];
+                let meetIdx = 0;
+                let meetPaused = false;
+
+                const setMeetSlide = (idx) => {
+                    lightMeetVid.style.opacity = '0';
+                    setTimeout(() => {
+                        lightMeetVid.src = meetData[idx].src;
+                        lightMeetBadge.textContent = meetData[idx].badge;
+                        lightMeetVid.play();
+                        lightMeetVid.style.opacity = '1';
+                        lightMeetDots.forEach((d, i) => {
+                            d.className = i === idx
+                                ? 'light-m-dot w-3 h-3 rounded-full bg-primary shadow-md cursor-pointer transition-all'
+                                : 'light-m-dot w-3 h-3 rounded-full bg-outline-variant cursor-pointer hover:bg-primary/50 transition-all';
+                        });
+                        meetIdx = idx;
+                        lightPPIcon.textContent = 'pause';
+                        meetPaused = false;
+                    }, 300);
+                };
+
+                lightMeetDots.forEach((dot, i) => {
+                    dot.addEventListener('click', () => setMeetSlide(i));
+                });
+
+                if (lightMeetPP) {
+                    lightMeetPP.addEventListener('click', () => {
+                        if (lightMeetVid.paused) {
+                            lightMeetVid.play();
+                            lightPPIcon.textContent = 'pause';
+                            meetPaused = false;
+                        } else {
+                            lightMeetVid.pause();
+                            lightPPIcon.textContent = 'play_arrow';
+                            meetPaused = true;
+                        }
+                    });
+                }
+
+                setInterval(() => {
+                    if (!meetPaused) {
+                        setMeetSlide((meetIdx + 1) % meetData.length);
+                    }
+                }, 6000);
+            }
+
+            /* ═══ DEMO SLIDESHOW ═══ */
+            const demoData = [
+                { title: "Explainer Masterclass", desc: "Discover the core orchestration of design variants.", link: "https://easyvariants.com/explainer_variants.html", embed: "https://easyvariants.com/explainer_variants.html", icon: "play_circle" },
+                { title: "Apparel Suite: Caps", desc: "Instant colorway generation for headwear collections.", link: "https://easyvariants.com/cap_variants.html", embed: "https://easyvariants.com/cap_variants.html", icon: "checkroom" },
+                { title: "Apparel Suite: Sweatshirts", desc: "Multi-layer automation for hoodies and leisurewear.", link: "https://easyvariants.com/sweatshirt_variants.html", embed: "https://easyvariants.com/sweatshirt_variants.html", icon: "styler" },
+                { title: "Footwear Variants: Shoes", desc: "Dynamic texture and color remapping for footwear.", link: "https://easyvariants.com/shoe_variants.html", embed: "https://easyvariants.com/shoe_variants.html", icon: "steps" },
+                { title: "Color Science: Gradients", desc: "Automating complex brand color transitions.", link: "https://easyvariants.com/color_transition_generator.html", embed: "https://easyvariants.com/color_transition_generator.html", icon: "palette" }
+            ];
+
+            const lightSlideshow = document.getElementById('light-slideshow');
+            const lightDots = document.getElementById('light-dots');
+            const lightPrev = document.getElementById('light-prev');
+            const lightNext = document.getElementById('light-next');
+
+            if (lightSlideshow) {
+                let currentSlide = 0;
+
+                const slides = demoData.map((data, index) => {
+                    const slide = document.createElement('div');
+                    slide.className = 'demo-slide';
+                    slide.style.position = 'absolute';
+                    slide.style.inset = '0';
+                    slide.style.willChange = 'transform, opacity';
+                    slide.style.transition = 'opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1)';
+                    slide.style.cursor = 'pointer';
+                    slide.innerHTML = `
+                    <iframe width="100%" height="100%" src="${data.embed}" frameborder="0"
+                        style="position: absolute; top: var(--demo-iframe-top); left: 0; width: 100%; height: var(--demo-iframe-height); z-index: 1; border: none; pointer-events: none; transform: scale(1.02); transition: all 0.5s ease;"></iframe>
+                    <div class="demo-overlay" style="position: absolute; inset: 0; z-index: 5; cursor: pointer;"></div>
+                    <div class="demo-play-btn" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 8; pointer-events: none;">
+                        <div style="width: 72px; height: 72px; border-radius: 50%; background: rgba(53,37,205,0.12); border: 1px solid rgba(53,37,205,0.3); display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px);">
+                            <span class="material-symbols-outlined" style="color: #3525cd; font-size: 36px; margin-left: 3px;">play_arrow</span>
+                        </div>
+                    </div>
+                    <div class="demo-text-overlay" style="position: absolute; bottom: 0; left: 0; width: 100%; padding: var(--demo-padding); background: linear-gradient(to top, rgba(249,249,251,0.97) 0%, rgba(249,249,251,0.8) 50%, transparent 100%); z-index: 10; pointer-events: none;">
+                        <div style="display: inline-flex; align-items: center; gap: 6px; margin-bottom: 8px; background: rgba(53,37,205,0.1); border: 1px solid rgba(53,37,205,0.2); padding: 3px 10px; border-radius: 50px; color: #3525cd; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;">
+                            <span class="material-symbols-outlined" style="font-size: 13px;">${data.icon}</span> ${data.title}
+                        </div>
+                        <p style="color: #464555; font-size: 16px; line-height: 1.5; font-weight: 400; margin: 0;">${data.desc}</p>
+                    </div>
+                `;
+
+                    slide.querySelector('.demo-overlay').addEventListener('click', () => {
+                        slides.forEach(s => s.classList.remove('is-playing'));
+                        slide.classList.add('is-playing');
+                    });
+                    lightSlideshow.appendChild(slide);
+
+                    // Dot
+                    const dot = document.createElement('button');
+                    dot.className = 'w-2.5 h-2.5 rounded-full transition-all cursor-pointer';
+                    dot.addEventListener('click', () => goToSlide(index));
+                    lightDots.appendChild(dot);
+
+                    return slide;
+                });
+
+                const updateSlides = () => {
+                    slides.forEach((slide, idx) => {
+                        const isActive = idx === currentSlide;
+                        slide.style.opacity = isActive ? '1' : '0';
+                        slide.style.transform = isActive ? 'scale(1) translateY(0)' : 'scale(0.97) translateY(10px)';
+                        slide.style.pointerEvents = isActive ? 'auto' : 'none';
+                        slide.style.zIndex = isActive ? '20' : '1';
+                    });
+                    [...lightDots.children].forEach((dot, idx) => {
+                        dot.style.background = idx === currentSlide ? '#3525cd' : '#c7c4d8';
+                        dot.style.transform = idx === currentSlide ? 'scale(1.4)' : 'scale(1)';
+                        dot.style.boxShadow = idx === currentSlide ? '0 0 8px rgba(53,37,205,0.4)' : 'none';
+                    });
+                };
+
+                const goToSlide = (i) => { currentSlide = i; updateSlides(); };
+
+                lightPrev.addEventListener('click', () => {
+                    slides.forEach(s => s.classList.remove('is-playing'));
+                    currentSlide = (currentSlide === 0) ? slides.length - 1 : currentSlide - 1;
+                    updateSlides();
+                });
+                lightNext.addEventListener('click', () => {
+                    slides.forEach(s => s.classList.remove('is-playing'));
+                    currentSlide = (currentSlide === slides.length - 1) ? 0 : currentSlide + 1;
+                    updateSlides();
+                });
+
+                let autoSlide = setInterval(() => {
+                    if (document.visibilityState === 'visible') {
+                        currentSlide = (currentSlide === slides.length - 1) ? 0 : currentSlide + 1;
+                        updateSlides();
+                    }
+                }, 5000);
+
+                lightSlideshow.addEventListener('mouseenter', () => clearInterval(autoSlide));
+                lightSlideshow.addEventListener('mouseleave', () => {
+                    autoSlide = setInterval(() => {
+                        currentSlide = (currentSlide === slides.length - 1) ? 0 : currentSlide + 1;
+                        updateSlides();
+                    }, 5000);
+                });
+
+                setTimeout(updateSlides, 100);
+            }
+
+            /* ═══ ADVANTAGE SECTION ANIMATIONS (COUNT UP LOOP) ═══ */
+            const animateCount = (el, target, suffix = '', duration = 1500) => {
+                let start = 1;
+                el.textContent = start + suffix;
+                const increment = (target - 1) / (duration / 16);
+                const timer = setInterval(() => {
+                    start += increment;
+                    if (start >= target) {
+                        el.textContent = target + suffix;
+                        clearInterval(timer);
+                    } else {
+                        el.textContent = Math.floor(start) + suffix;
+                    }
+                }, 16);
+            };
+
+            /* ═══ PROBLEM CARD CAROUSEL ═══ */
+            const problemCards = document.querySelectorAll('.problem-card');
+            const problemPrev = document.getElementById('problem-prev');
+            const problemNext = document.getElementById('problem-next');
+            let currentProblemCard = 0;
+            let problemInterval;
+            let isProblemTransitioning = false;
+
+            const updateProblemCards = (nextIndex) => {
+                const prevIndex = currentProblemCard;
+                if (isProblemTransitioning || nextIndex === prevIndex) return;
+                isProblemTransitioning = true;
+
+                const prevCard = problemCards[prevIndex];
+                const nextCard = problemCards[nextIndex];
+
+                // Previous card exits
+                prevCard.classList.remove('active');
+                prevCard.classList.add('exit');
+
+                // Next card enters
+                nextCard.classList.add('active');
+
+                currentProblemCard = nextIndex;
+
+                // Cleanup after transition
+                setTimeout(() => {
+                    prevCard.classList.remove('exit');
+                    isProblemTransitioning = false;
+                }, 2000);
+            };
+
+            const startProblemCycle = () => {
+                if (problemInterval) clearInterval(problemInterval);
+                problemInterval = setInterval(() => {
+                    updateProblemCards((currentProblemCard + 1) % problemCards.length);
+                }, 2000); // 2 seconds per card
+            };
+
+            if (problemPrev && problemNext) {
+                problemPrev.addEventListener('click', () => {
+                    let next = (currentProblemCard - 1 + problemCards.length) % problemCards.length;
+                    updateProblemCards(next);
+                    startProblemCycle();
+                });
+                problemNext.addEventListener('click', () => {
+                    let next = (currentProblemCard + 1) % problemCards.length;
+                    updateProblemCards(next);
+                    startProblemCycle();
+                });
+            }
+
+            // Start Problem carousel when in view
+            const problemSection = document.getElementById('problem');
+            if (problemSection) {
+                const probObserver = new IntersectionObserver((entries) => {
+                    if (entries[0].isIntersecting) {
+                        startProblemCycle();
+                        probObserver.unobserve(problemSection);
+                    }
+                }, { threshold: 0.2 });
+                probObserver.observe(problemSection);
+            }
+
+            /* ═══ ADVANTAGE CARD CAROUSEL ═══ */
+            const advCards = document.querySelectorAll('.adv-card');
+            const advCardDots = document.querySelectorAll('.adv-card-dot');
+            let currentAdvCard = 0;
+            let advCardInterval;
+            let isAdvCardTransitioning = false;
+
+            const updateAdvCards = (nextIndex) => {
+                const prevIndex = currentAdvCard;
+                if (isAdvCardTransitioning || nextIndex === prevIndex) return;
+                isAdvCardTransitioning = true;
+
+                const prevCard = advCards[prevIndex];
+                const nextCard = advCards[nextIndex];
+
+                // Previous card exits
+                prevCard.classList.remove('active');
+                prevCard.classList.add('exit');
+
+                // Next card enters
+                nextCard.classList.add('active');
+
+                // Update dots
+                advCardDots.forEach((d, i) => {
+                    if (i === nextIndex) d.classList.add('active');
+                    else d.classList.remove('active');
+                });
+
+                currentAdvCard = nextIndex;
+
+                // Cleanup after transition
+                setTimeout(() => {
+                    prevCard.classList.remove('exit');
+                    isAdvCardTransitioning = false;
+                }, 500);
+            };
+
+            const startAdvCardCycle = () => {
+                if (advCardInterval) clearInterval(advCardInterval);
+                advCardInterval = setInterval(() => {
+                    updateAdvCards((currentAdvCard + 1) % advCards.length);
+                }, 2000); // 2 seconds per card (updated)
+            };
+
+            // Dot click navigation
+            advCardDots.forEach((dot, idx) => {
+                dot.addEventListener('click', () => {
+                    updateAdvCards(idx);
+                    startAdvCardCycle(); // Reset timer on manual click
+                });
+            });
+
+            // Start Advantage carousel when in view
+            const advSection = document.getElementById('advantage');
+            if (advSection) {
+                const advObserver = new IntersectionObserver((entries) => {
+                    if (entries[0].isIntersecting) {
+                        startAdvCardCycle();
+                        advObserver.unobserve(advSection);
+                    }
+                }, { threshold: 0.2 });
+                advObserver.observe(advSection);
+            }
+
+        });
+    </script>
+
+    <!-- 3D Customizer Engine -->
+
+</body>
+
+</html>

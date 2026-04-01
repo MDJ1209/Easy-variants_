@@ -1,0 +1,30 @@
+{
+  "name": "easy-variants_",
+  "version": "1.0.0",
+  "description": "",
+  "main": "customizer.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "echo \"No tests configured\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MDJ1209/Easy-variants_.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/MDJ1209/Easy-variants_/issues"
+  },
+  "homepage": "https://github.com/MDJ1209/Easy-variants_#readme",
+  "dependencies": {
+    "three": "^0.183.2"
+  },
+  "devDependencies": {
+    "vite": "^8.0.3"
+  }
+}
