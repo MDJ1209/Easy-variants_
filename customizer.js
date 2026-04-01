@@ -305,30 +305,36 @@ function setupUI() {
 
     // Updates from Inputs
     const textInput = document.getElementById('decal-text');
-    textInput.addEventListener('input', () => {
-        customImageTexture = null;
-        updateDecalPreview();
-    });
+    if (textInput) {
+        textInput.addEventListener('input', () => {
+            customImageTexture = null;
+            updateDecalPreview();
+        });
+    }
 
     const sizeInput = document.getElementById('decal-size');
-    sizeInput.addEventListener('input', () => {
-        // Handled directly during placement
-    });
+    if (sizeInput) {
+        sizeInput.addEventListener('input', () => {
+            // Handled directly during placement
+        });
+    }
 
     const imageInput = document.getElementById('decal-image');
-    imageInput.addEventListener('change', (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function (event) {
-                textureLoader.load(event.target.result, function (texture) {
-                    customImageTexture = texture;
-                    updateDecalPreview();
-                });
-            };
-            reader.readAsDataURL(file);
-        }
-    });
+    if (imageInput) {
+        imageInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    textureLoader.load(event.target.result, function (texture) {
+                        customImageTexture = texture;
+                        updateDecalPreview();
+                    });
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
 }
 
 const variantColors = ['#1e3a8a', '#ef4444', '#22c55e', '#111827', '#f3f4f6']; // Navy, Red, Green, Black, White
@@ -427,7 +433,8 @@ function selectVariant(index) {
 }
 
 function updateDecalPreview() {
-    const text = document.getElementById('decal-text').value || 'Text';
+    const textEl = document.getElementById('decal-text');
+    const text = textEl ? textEl.value || 'Text' : 'Text';
     const activeSwatch = document.querySelector('#text-colors .ez3d-swatch.active');
     const color = activeSwatch ? activeSwatch.getAttribute('data-color') : '#ffffff';
 
@@ -690,28 +697,28 @@ function onWindowResize() {
 function animate() {
     animFrameId = requestAnimationFrame(animate);
 
-    // Skip heavy GPU work when section is scrolled out of view
+    // Skip GPU work when section is scrolled out of view
     if (!isVisible) return;
 
     controls.update();
 
-    // Only render when something has changed (controls, interaction, etc.)
-    if (needsRender || controls.enableDamping) {
+    // Only render when something changed (orbit, interaction, model load)
+    if (needsRender) {
         renderer.render(scene, camera);
         needsRender = false;
     }
 }
 
-// Pause/resume rendering based on section visibility
+// Smart visibility: default to TRUE so first render always works
+isVisible = true;
+
 const customizerSection = document.getElementById('customizer');
 if (customizerSection) {
     const visibilityObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             isVisible = entry.isIntersecting;
-            if (isVisible) {
-                needsRender = true;
-            }
+            if (isVisible) needsRender = true;
         });
-    }, { rootMargin: '200px 0px' });
+    }, { rootMargin: '300px 0px' });
     visibilityObserver.observe(customizerSection);
 }
